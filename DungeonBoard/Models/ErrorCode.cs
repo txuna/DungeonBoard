@@ -9,5 +9,6 @@
         /* Account 101 ~ 200 */
         NoneExistEmail = 101, 
         InvalidPassword = 102,
+        AlreadyExistEmail = 103,
     }
 }
