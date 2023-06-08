@@ -14,5 +14,6 @@
         AlreadyExistEmail = 103,
         NoneExistUserIdInRedis = 104,
         InvalidAuthToken = 105,
+        MissmatchPassword = 106,
     }
 }

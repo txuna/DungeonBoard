@@ -15,6 +15,11 @@ namespace DungeonBoard.ReqResModels.Account
         [MinLength(1, ErrorMessage = "PASSWORD CANNOT BE EMPTY")]
         [StringLength(30, ErrorMessage = "PASSWORD IS TOO LONG")]
         public string Password { get; set; }
+
+        [Required]
+        [MinLength(1, ErrorMessage = "PASSWORD CANNOT BE EMPTY")]
+        [StringLength(30, ErrorMessage = "PASSWORD IS TOO LONG")]
+        public string ConfirmPassword { get; set; }
     }
 
     public class RegisterResponse

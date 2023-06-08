@@ -18,6 +18,14 @@ public class RegisterController : Controller
     [HttpPost]
     async public Task<RegisterResponse> Register(RegisterRequest registerRequest)
     {
+        if(registerRequest.Password != registerRequest.ConfirmPassword)
+        {
+            return new RegisterResponse
+            {
+                Result = ErrorCode.MissmatchPassword
+            };
+        }
+
         ErrorCode Result = await _accountDB.RegisterAccount(registerRequest.Email, registerRequest.Password);
         if(Result != ErrorCode.None)
         {
