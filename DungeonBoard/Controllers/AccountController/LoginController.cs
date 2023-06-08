@@ -1,4 +1,5 @@
 ﻿using DungeonBoard.Models;
+using DungeonBoard.Models.Account;
 using DungeonBoard.ReqResModels.Account;
 using DungeonBoard.Services;
 using DungeonBoard.Utilities;
@@ -10,9 +11,11 @@ namespace DungeonBoard.Controllers.AccountController;
 public class LoginController : Controller
 {
     IAccountDB _accountDB;
-    public LoginController(IAccountDB accountDB)
+    IMemoryDB _memoryDB;
+    public LoginController(IAccountDB accountDB, IMemoryDB memoryDB)
     {
         _accountDB = accountDB;
+        _memoryDB = memoryDB;
     }
 
     [Route("/Login")]
@@ -29,8 +32,7 @@ public class LoginController : Controller
             };
         }
 
-        string userPasswordHash = Security.MakeHashingPassWord(user.Salt, loginRequest.Password);
-        if(userPasswordHash != user.Password)
+        if(CheckPassword(user, loginRequest.Password) == false)
         {
             return new LoginResponse
             {
@@ -41,10 +43,36 @@ public class LoginController : Controller
 
         var authToken = Security.CreateAuthToken();
 
+        Result = await StoreUserInfoInMemory(user, authToken);
+        if(Result != ErrorCode.None)
+        {
+            return new LoginResponse
+            {
+                Result = Result,
+                AuthToken = ""
+            };
+        }
+
         return new LoginResponse
         {
             Result = Models.ErrorCode.None,
             AuthToken = authToken
         };
+    }
+
+    bool CheckPassword(User user, string requestPassword)
+    {
+        string requestHashPassword = Security.MakeHashingPassWord(user.Salt, requestPassword);
+        if(requestHashPassword != user.Password)
+        {
+            return false;
+        }
+        return true;
+    }
+
+    async Task<ErrorCode> StoreUserInfoInMemory(User user, string authToken)
+    {
+        ErrorCode Result = await _memoryDB.StoreRedisUser(user.Userid, authToken, user.Email);
+        return Result;
     }
 }

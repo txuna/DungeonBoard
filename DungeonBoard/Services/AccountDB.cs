@@ -37,7 +37,7 @@ namespace DungeonBoard.Services
                 var saltValue = Security.SaltString();
                 var hashingPassword = Security.MakeHashingPassWord(saltValue, password);
 
-                var count = await _queryFactory.Query("users").InsertAsync(new
+                var count = await _queryFactory.Query("accounts").InsertAsync(new
                 {
                     Email = email,
                     Salt = saltValue,
@@ -48,11 +48,17 @@ namespace DungeonBoard.Services
                 {
                     return ErrorCode.AlreadyExistEmail;
                 }
+
                 return ErrorCode.None;
             }
-            catch(Exception ex)
+            catch(MySqlException ex)
             {
                 Console.WriteLine(ex.Message);
+
+                if(ex.Number == 1062)
+                {
+                    return ErrorCode.AlreadyExistEmail;
+                }
                 return ErrorCode.CannotConnectServer;
             }
         }
@@ -61,7 +67,7 @@ namespace DungeonBoard.Services
         {
             try
             {
-                var user = await _queryFactory.Query("users").Where("email", email).FirstOrDefaultAsync<User>();
+                var user = await _queryFactory.Query("accounts").Where("email", email).FirstOrDefaultAsync<User>();
                 if (user == null)
                 {
                     return (ErrorCode.NoneExistEmail, null);
