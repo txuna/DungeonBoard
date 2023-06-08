@@ -8,7 +8,7 @@ namespace DungeonBoard.Services
 {
     public interface IMemoryDB
     {
-        Task<ErrorCode> StoreRedisUser(int userId, string authToken, string email);
+        Task<ErrorCode> StoreRedisUser(int userId, string authToken, string email, UserState state);
         Task<(ErrorCode, RedisUser?)> LoadRedisUser(int userId);
     }
     public class MemoryDB : IMemoryDB
@@ -22,7 +22,7 @@ namespace DungeonBoard.Services
             _redisConn = new RedisConnection(config);
         }
 
-        async public Task<ErrorCode> StoreRedisUser(int userId, string authToken, string email)
+        async public Task<ErrorCode> StoreRedisUser(int userId, string authToken, string email, UserState state)
         {
             try
             {
@@ -32,7 +32,8 @@ namespace DungeonBoard.Services
                 {
                     UserId = userId,
                     AuthToken = authToken,
-                    Email = email
+                    Email = email,
+                    State = state,
                 };
 
                 var redis = new RedisString<RedisUser>(_redisConn, userId+redisUserKey, expiration);
