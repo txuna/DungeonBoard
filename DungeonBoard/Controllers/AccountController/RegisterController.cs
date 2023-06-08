@@ -32,14 +32,4 @@ public class RegisterController : Controller
             Result = Models.ErrorCode.None
         };
     }
-
-    [Route("/Test")]
-    [HttpPost]
-    public RegisterResponse ARegister(Test testRequest)
-    {
-        return new RegisterResponse
-        {
-            Result = Models.ErrorCode.None
-        };
-    }
 }
