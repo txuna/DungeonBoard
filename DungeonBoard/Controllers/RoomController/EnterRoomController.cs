@@ -30,9 +30,7 @@ public class EnterRoomController : Controller
         }
 
         // 해당 방의 상태 확인 PLAYING인지 READY인지 확인
-        
-        ErrorCode Result = await EnterRoomInMemory(enterRoomRequest.UserId, enterRoomRequest.RoomId);
-
+        ErrorCode Result = await ChangeUserState(redisUser, UserState.Playing);
         if(Result != ErrorCode.None)
         {
             return new EnterRoomResponse
@@ -41,8 +39,23 @@ public class EnterRoomController : Controller
             };
         }
 
-        // 실패시 방 입장 취소하기 -롤백
-        Result = await ChangeUserState(redisUser, UserState.Playing);
+        Result = await EnterRoomInMemory(enterRoomRequest.UserId, enterRoomRequest.RoomId);
+
+        if(Result != ErrorCode.None)
+        {
+            var Error = await ChangeUserState(redisUser, UserState.Playing);
+            if(Error != ErrorCode.None)
+            {
+                return new EnterRoomResponse
+                {
+                    Result = Error
+                };
+            }
+            return new EnterRoomResponse
+            {
+                Result = Result
+            };
+        }
 
         return new EnterRoomResponse
         {

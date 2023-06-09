@@ -36,7 +36,7 @@ public class CreateRoomController : Controller
         //{
         //    return new CreateRoomResponse
         //    {
-        //        Result = Models.ErrorCode.InvalidBossId
+        //        Result = ErrorCode.InvalidBossId
         //    };
         //}
 
@@ -44,14 +44,13 @@ public class CreateRoomController : Controller
         {
             return new CreateRoomResponse
             {
-                Result = Models.ErrorCode.InvalidHeadCount
+                Result = ErrorCode.InvalidHeadCount
             };
         }
 
-        //방을 생성한다.
-        var (Result, roomId) = await CreateRoomInMemory(createRoomRequest);
-
-        if(Result != ErrorCode.None)
+        int roomId;
+        var Result = await ChangeUserState(redisUser, UserState.Playing);
+        if (Result != ErrorCode.None)
         {
             return new CreateRoomResponse
             {
@@ -59,8 +58,22 @@ public class CreateRoomController : Controller
             };
         }
 
-        // 실패시 방삭제하기 
-        Result = await ChangeUserState(redisUser, UserState.Playing);
+        (Result, roomId) = await CreateRoomInMemory(createRoomRequest);
+        if(Result != ErrorCode.None)
+        {
+            var Error = await ChangeUserState(redisUser, UserState.Lobby);
+            if(Error != ErrorCode.None)
+            {
+                return new CreateRoomResponse
+                {
+                    Result = Error,
+                };
+            }
+            return new CreateRoomResponse
+            {
+                Result = Result,
+            };
+        }
 
         return new CreateRoomResponse
         {

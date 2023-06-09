@@ -15,6 +15,7 @@
         NoneExistUserIdInRedis = 104,
         InvalidAuthToken = 105,
         MissmatchPassword = 106,
+        NoneExistUserId = 107,
 
         /* ROOM  201 ~ 300 */
         AlreadyInRoom = 201,

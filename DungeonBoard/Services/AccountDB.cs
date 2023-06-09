@@ -13,8 +13,9 @@ namespace DungeonBoard.Services
 {
     public interface IAccountDB
     {
-        Task<ErrorCode> RegisterAccount(string email, string password);
+        Task<(ErrorCode, int)> RegisterAccount(string email, string password);
         Task<(ErrorCode, User?)> VerifyAccount(string email, string password);
+        Task<ErrorCode> DeleteAccount(int userId);
     }
 
     public class AccountDB : IAccountDB
@@ -30,26 +31,40 @@ namespace DungeonBoard.Services
             Open();
         }
 
-        async public Task<ErrorCode> RegisterAccount(string email, string password)
+        async public Task<ErrorCode> DeleteAccount(int userId)
+        {
+            try
+            {
+                int effectedRow = await _queryFactory.Query("accounts").Where("userId", userId).DeleteAsync();
+                if(effectedRow == 0)
+                {
+                    return ErrorCode.NoneExistUserId;
+                }
+
+                return ErrorCode.None;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return ErrorCode.CannotConnectServer;
+            }
+        }
+
+        async public Task<(ErrorCode, int)> RegisterAccount(string email, string password)
         {
             try
             {
                 var saltValue = Security.SaltString();
                 var hashingPassword = Security.MakeHashingPassWord(saltValue, password);
 
-                var count = await _queryFactory.Query("accounts").InsertAsync(new
+                var userId = await _queryFactory.Query("accounts").InsertGetIdAsync<int>(new
                 {
                     Email = email,
                     Salt = saltValue,
                     Password = hashingPassword
                 });
 
-                if(count != 1)
-                {
-                    return ErrorCode.AlreadyExistEmail;
-                }
-
-                return ErrorCode.None;
+                return (ErrorCode.None, userId);
             }
             catch(MySqlException ex)
             {
@@ -57,9 +72,9 @@ namespace DungeonBoard.Services
 
                 if(ex.Number == 1062)
                 {
-                    return ErrorCode.AlreadyExistEmail;
+                    return (ErrorCode.AlreadyExistEmail, -1);
                 }
-                return ErrorCode.CannotConnectServer;
+                return (ErrorCode.CannotConnectServer, -1);
             }
         }
 

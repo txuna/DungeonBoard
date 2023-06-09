@@ -16,6 +16,7 @@ IConfiguration configuration = builder.Configuration;
 
 builder.Services.Configure<DbConfig>(configuration.GetSection(nameof(DbConfig)));
 builder.Services.AddTransient<IAccountDB, AccountDB>();
+builder.Services.AddTransient<IPlayerDB, PlayerDB>();   
 
 builder.Services.AddSingleton<IMemoryDB,  MemoryDB>();
 builder.Services.AddSingleton<IMasterDB, MasterDB>();

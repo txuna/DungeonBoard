@@ -18,6 +18,8 @@ namespace DungeonBoard.Services
         Task<ErrorCode> EnterRoom(int userId, int roomId);
         Task<(ErrorCode, RedisRoom[]?)> LoadAllRoom();
         Task<(ErrorCode, RedisRoom?)> LoadRoomFromId(int roomId);
+        //Task<ErrorCode> DeleteRoomFromRoomId(int roomId);
+        //Task<ErrorCode> DeleteRoomFromUserId(int userId);
     }
     public class MemoryDB : IMemoryDB
     {
@@ -238,6 +240,14 @@ return roomId
                 return (ErrorCode.CannotConnectServer, -1);
             }
         }
- 
+        //async public Task<ErrorCode> DeleteRoomFromRoomId(int roomId)
+        //{
+
+        //}
+
+        //async public Task<ErrorCode> DeleteRoomFromUserId(int userId)
+        //{
+
+        //}
     }
 }
