@@ -24,11 +24,11 @@ public class CreateRoomController : Controller
     {
         //해당 유저가 이미 플레이중인지 확인한다. 
         RedisUser redisUser = (RedisUser)HttpContext.Items["Redis-User"];
-        if(redisUser.State == Models.UserState.Playing)
+        if(redisUser.State == UserState.Playing)
         {
             return new CreateRoomResponse
             {
-                Result = Models.ErrorCode.AlreadyInRoom
+                Result = ErrorCode.AlreadyInRoom
             };
         }
         

@@ -1,4 +1,5 @@
-﻿using DungeonBoard.ReqResModels.Room;
+﻿using DungeonBoard.Models.Room;
+using DungeonBoard.ReqResModels.Room;
 using DungeonBoard.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,13 +14,16 @@ public class LoadRoomsController : Controller
         _memoryDB = memoryDB;
     }
 
-    [Route("/Room/Load")]
+    [Route("/Room/LoadAll")]
     [HttpPost]
-    async public Task<LoadRoomResponse> LoadRooms(LoadRoomRequest loadRoomRequest)
+    async public Task<LoadRoomsResponse> LoadRooms(LoadRoomsRequest loadRoomRequest)
     {
-        return new LoadRoomResponse
+        var (Result, redisRoom) = await _memoryDB.LoadAllRoom();
+
+        return new LoadRoomsResponse
         {
-            Result = Models.ErrorCode.None
+            Result = Result, 
+            redisRoom = redisRoom
         };
     }
 }

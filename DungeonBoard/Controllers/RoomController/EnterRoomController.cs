@@ -28,6 +28,8 @@ public class EnterRoomController : Controller
                 Result = ErrorCode.AlreadyInRoom
             };
         }
+
+        // 해당 방의 상태 확인 PLAYING인지 READY인지 확인
         
         ErrorCode Result = await EnterRoomInMemory(enterRoomRequest.UserId, enterRoomRequest.RoomId);
 

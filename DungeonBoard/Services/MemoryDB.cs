@@ -105,14 +105,17 @@ namespace DungeonBoard.Services
         {
             try
             {
-                var redis = new RedisString<RedisRoom>(_redisConn, Convert.ToString(roomId) + _dbConfig.Value.RedisRoomKey, null);
-                var redisRoom = await redis.GetAsync();
-                if(redisRoom.HasValue == false)
+                var redis = new RedisSet<RedisRoom>(_redisConn, "ROOMS", null);
+                var redisRoom = await redis.MembersAsync();
+                foreach(var room in redisRoom)
                 {
-                    return (ErrorCode.NoneExistRoom, null);
+                    if(room.RoomId == roomId)
+                    {
+                        return (ErrorCode.None, room);
+                    }
                 }
 
-                return (ErrorCode.None,  redisRoom.Value);
+                return (ErrorCode.NoneExistRoom, null);
             }
             catch(Exception ex )
             {
@@ -125,7 +128,9 @@ namespace DungeonBoard.Services
         {
             try
             {
-
+                var redis = new RedisSet<RedisRoom>(_redisConn, "ROOMS", null);
+                var redisRoom = await redis.MembersAsync();
+                return (ErrorCode.None,  redisRoom);
             }
             catch (Exception ex)
             {
@@ -140,24 +145,37 @@ namespace DungeonBoard.Services
             {
                 var script =
 @"
-local room = cjson.decode(redis.call('GET', KEYS[1]))
-if #room.Users < room.HeadCount then 
-    table.insert(room.Users, tonumber(ARGV[1]))
-    redis.call('SET', KEYS[1], cjson.encode(room))
-    return 1
-else
-    return 0
-end
+local rooms = redis.call('SMEMBERS', KEYS[1])
+for _, member in ipairs(rooms) do 
+    local obj = cjson.decode(member)
+    if tonumber(obj.RoomId) == tonumber(ARGV[1]) then 
+        if #obj.Users < obj.HeadCount then
+            redis.call('SREM', KEYS[1], member)
+            table.insert(obj.Users, tonumber(ARGV[2]))     
+            redis.call('SADD', KEYS[1], cjson.encode(obj))
+            return 0
+        else
+            return 1
+        end
+    end
+end 
+return 2
 ";
-                var roomIdString = Convert.ToString(roomId) + _dbConfig.Value.RedisRoomKey;
-                var redis = new RedisLua(_redisConn, roomIdString);
-                var keys = new RedisKey[] { roomIdString };
-                var values = new RedisValue[] { userId };
+                var redis = new RedisLua(_redisConn, "ROOMS");
+                var keys = new RedisKey[] { "ROOMS" };
+                var values = new RedisValue[] { roomId, userId };
                 var result = await redis.ScriptEvaluateAsync<int>(script, keys, values);
 
-                if(result.Value != 1)
+                if(result.Value != 0)
                 {
-                    return ErrorCode.AlreadyFullRoom;
+                    if(result.Value == 1)
+                    {
+                        return ErrorCode.AlreadyFullRoom;
+                    }
+                    else if(result.Value == 2)
+                    {
+                        return ErrorCode.NoneExistRoom;
+                    }
                 }
                 return ErrorCode.None;
             }
@@ -184,9 +202,8 @@ end
                     State = RoomState.Ready
                 };
 
-                TimeSpan expiration = TimeSpan.FromHours(1);
-                var redis = new RedisString<RedisRoom>(_redisConn, Convert.ToString(roomId) + _dbConfig.Value.RedisRoomKey, expiration);
-                if(await redis.SetAsync(redisRoom, expiration) == false)
+                var redis = new RedisSet<RedisRoom>(_redisConn, "ROOMS", null);
+                if(await redis.AddAsync(redisRoom) == false)
                 {
                     return (ErrorCode.CannotConnectServer, -1);
                 }
