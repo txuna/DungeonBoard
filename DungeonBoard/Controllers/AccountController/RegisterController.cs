@@ -37,7 +37,7 @@ public class RegisterController : Controller
 
         return new RegisterResponse
         {
-            Result = Models.ErrorCode.None
+            Result = ErrorCode.None
         };
     }
 }

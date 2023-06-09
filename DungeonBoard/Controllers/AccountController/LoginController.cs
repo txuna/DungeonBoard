@@ -55,8 +55,9 @@ public class LoginController : Controller
 
         return new LoginResponse
         {
-            Result = Models.ErrorCode.None,
-            AuthToken = authToken
+            Result = ErrorCode.None,
+            AuthToken = authToken,
+            UserId = user.Userid
         };
     }
 

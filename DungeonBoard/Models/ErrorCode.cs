@@ -16,10 +16,11 @@
         InvalidAuthToken = 105,
         MissmatchPassword = 106,
 
-        /* ROOM */
-        AlreadyInRoom = 107,
-        NoneExistRoom = 108,
-        InvalidBossId = 109, 
-        InvalidHeadCount = 110,
+        /* ROOM  201 ~ 300 */
+        AlreadyInRoom = 201,
+        NoneExistRoom = 202,
+        InvalidBossId = 203, 
+        InvalidHeadCount = 204,
+        AlreadyFullRoom = 205,
     }
 }

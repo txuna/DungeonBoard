@@ -10,9 +10,9 @@ namespace DungeonBoard.ReqResModels.Room
         [Required]
         public string AuthToken { get; set; }
         [Required]
-        public string RoomTitle { get; set; }
+        public string Title { get; set; }
         [Required]
-        public int RoomHeadCount { get; set; }
+        public int HeadCount { get; set; }
         [Required]
         public int BossId { get; set; }
     }
@@ -20,5 +20,6 @@ namespace DungeonBoard.ReqResModels.Room
     public class CreateRoomResponse
     {
         public ErrorCode Result { get; set; }
+        public int RoomId { get; set; }
     }
 }

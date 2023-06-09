@@ -1,4 +1,5 @@
-﻿using DungeonBoard.Models.Account;
+﻿using DungeonBoard.Models;
+using DungeonBoard.Models.Account;
 using DungeonBoard.Models.Master;
 using DungeonBoard.ReqResModels.Room;
 using DungeonBoard.Services;
@@ -31,15 +32,15 @@ public class CreateRoomController : Controller
             };
         }
         
-        if(VerifyBossId(createRoomRequest.BossId) == false)
-        {
-            return new CreateRoomResponse
-            {
-                Result = Models.ErrorCode.InvalidBossId
-            };
-        }
+        //if(VerifyBossId(createRoomRequest.BossId) == false)
+        //{
+        //    return new CreateRoomResponse
+        //    {
+        //        Result = Models.ErrorCode.InvalidBossId
+        //    };
+        //}
 
-        if(VerifyHeadCount(createRoomRequest.RoomHeadCount) == false)
+        if(VerifyHeadCount(createRoomRequest.HeadCount) == false)
         {
             return new CreateRoomResponse
             {
@@ -47,12 +48,40 @@ public class CreateRoomController : Controller
             };
         }
 
-        //방을 생성한다. 
+        //방을 생성한다.
+        var (Result, roomId) = await CreateRoomInMemory(createRoomRequest);
+
+        if(Result != ErrorCode.None)
+        {
+            return new CreateRoomResponse
+            {
+                Result = Result,
+            };
+        }
+
+        Result = await ChangeUserState(redisUser, UserState.Playing);
 
         return new CreateRoomResponse
         {
-            Result = Models.ErrorCode.None
+            Result = Result, 
+            RoomId = roomId
         };
+    }
+
+    async Task<ErrorCode> ChangeUserState(RedisUser redisUser, UserState state)
+    {
+        redisUser.State = state;
+        return await _memoryDB.StoreRedisUser(redisUser.UserId, redisUser);
+    }
+
+    async Task<(ErrorCode, int)> CreateRoomInMemory(CreateRoomRequest createRoomRequest)
+    {
+        var (Result, roomId) = await _memoryDB.CreateRoom(createRoomRequest.Title,
+                                                          createRoomRequest.UserId,
+                                                          createRoomRequest.HeadCount,
+                                                          createRoomRequest.BossId);
+
+        return (Result, roomId);
     }
 
     bool VerifyBossId(int bossId)
