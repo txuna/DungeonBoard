@@ -72,7 +72,7 @@ public class LoginController : Controller
 
     async Task<ErrorCode> StoreUserInfoInMemory(User user, string authToken)
     {
-        ErrorCode Result = await _memoryDB.StoreRedisUser(user.Userid, authToken, user.Email);
+        ErrorCode Result = await _memoryDB.StoreRedisUser(user.Userid, authToken, user.Email, UserState.Lobby);
         return Result;
     }
 }

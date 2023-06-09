@@ -1,6 +1,9 @@
+using CloudStructures;
+using CloudStructures.Structures;
 using DungeonBoard.Middlewares;
 using DungeonBoard.Models;
 using DungeonBoard.Services;
+using Microsoft.AspNetCore.Components.Forms;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -30,5 +33,35 @@ app.UseVerifyUserMiddleware();
 app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
 #pragma warning restore ASP0014
 
+if(await LoadRoomIndex() == false)
+{
+    return;
+}
 
 app.Run();
+
+
+async Task<bool> LoadRoomIndex()
+{
+    var config = new RedisConfig("default", configuration.GetSection("DbConfig")["RedisDB"]);
+    var _redisConn = new RedisConnection(config);
+    int uniqueId = 1;
+
+    var redis = new RedisString<int>(_redisConn, configuration.GetSection("DbConfig")["RedisUniqueRoomKey"], null);
+    try
+    {
+        var roomIndex = await redis.GetAsync();
+        if (roomIndex.HasValue)
+        {
+            uniqueId = roomIndex.Value;
+        }
+
+        await redis.SetAsync(uniqueId);
+        return true;
+    }
+    catch(Exception ex)
+    {
+        Console.WriteLine(ex.Message);
+        return false;
+    }
+}

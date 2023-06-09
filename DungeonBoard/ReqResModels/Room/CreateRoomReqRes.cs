@@ -12,7 +12,7 @@ namespace DungeonBoard.ReqResModels.Room
         [Required]
         public string RoomTitle { get; set; }
         [Required]
-        public string RoomHeadCount { get; set; }
+        public int RoomHeadCount { get; set; }
         [Required]
         public int BossId { get; set; }
     }

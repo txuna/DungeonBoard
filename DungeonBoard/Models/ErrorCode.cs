@@ -15,5 +15,11 @@
         NoneExistUserIdInRedis = 104,
         InvalidAuthToken = 105,
         MissmatchPassword = 106,
+
+        /* ROOM */
+        AlreadyInRoom = 107,
+        NoneExistRoom = 108,
+        InvalidBossId = 109, 
+        InvalidHeadCount = 110,
     }
 }
