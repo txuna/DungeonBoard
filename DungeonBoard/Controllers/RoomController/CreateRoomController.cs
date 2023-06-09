@@ -59,6 +59,7 @@ public class CreateRoomController : Controller
             };
         }
 
+        // 실패시 방삭제하기 
         Result = await ChangeUserState(redisUser, UserState.Playing);
 
         return new CreateRoomResponse

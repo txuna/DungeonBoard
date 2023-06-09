@@ -39,6 +39,7 @@ public class EnterRoomController : Controller
             };
         }
 
+        // 실패시 방 입장 취소하기 -롤백
         Result = await ChangeUserState(redisUser, UserState.Playing);
 
         return new EnterRoomResponse

@@ -16,6 +16,8 @@ namespace DungeonBoard.Services
         Task<(ErrorCode, int)> CreateRoom(string roomTitle, int userId, int headCount, int bossId);
         Task<(ErrorCode, int)> LoadUniqueRoomId();
         Task<ErrorCode> EnterRoom(int userId, int roomId);
+        Task<(ErrorCode, RedisRoom[]?)> LoadAllRoom();
+        Task<(ErrorCode, RedisRoom?)> LoadRoomFromId(int roomId);
     }
     public class MemoryDB : IMemoryDB
     {
@@ -119,6 +121,19 @@ namespace DungeonBoard.Services
             }
         }
 
+        async public Task<(ErrorCode, RedisRoom[]?)> LoadAllRoom()
+        {
+            try
+            {
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return (ErrorCode.CannotConnectServer, null);
+            }
+        }
+
         async public Task<ErrorCode> EnterRoom(int userId, int roomId)
         {
             try
@@ -206,5 +221,6 @@ return roomId
                 return (ErrorCode.CannotConnectServer, -1);
             }
         }
+ 
     }
 }
