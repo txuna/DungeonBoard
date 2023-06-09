@@ -1,23 +1,21 @@
 ﻿using DungeonBoard.Models;
-using DungeonBoard.Models.Player;
-using DungeonBoard.Models.Room;
 using System.ComponentModel.DataAnnotations;
 
 namespace DungeonBoard.ReqResModels.Room
 {
-    public class LoadRoomFromIdRequest
+    public class DeleteRoomRequest
     {
         [Required]
         public int UserId { get; set; }
         [Required]
         public string AuthToken { get; set; }
+
         [Required]
         public int RoomId { get; set; }
     }
 
-    public class LoadRoomFromIdResponse
+    public class DeleteRoomResponse
     {
         public ErrorCode Result { get; set; }
-        public RedisRoom Room { get; set; }
     }
 }
