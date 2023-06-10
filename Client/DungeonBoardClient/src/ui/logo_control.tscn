@@ -1,0 +1,31 @@
+[gd_scene load_steps=2 format=3 uid="uid://diau4ti1wmj65"]
+
+[ext_resource type="FontFile" uid="uid://b27bcx0yhecxo" path="res://assets/fonts/HSBombaram2.1.ttf" id="1_xfv2o"]
+
+[node name="LogoControl" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 180.0
+offset_top = 32.0
+offset_right = 180.0
+offset_bottom = 32.0
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+theme_override_colors/font_color = Color(0.164706, 0.164706, 0.164706, 1)
+theme_override_fonts/font = ExtResource("1_xfv2o")
+theme_override_font_sizes/font_size = 128
+text = "Dungeon"
+
+[node name="Label2" type="Label" parent="."]
+layout_mode = 0
+offset_left = 229.0
+offset_top = 172.0
+offset_right = 934.0
+offset_bottom = 330.0
+theme_override_colors/font_color = Color(0.164706, 0.164706, 0.164706, 1)
+theme_override_fonts/font = ExtResource("1_xfv2o")
+theme_override_font_sizes/font_size = 128
+text = "Board RPG"

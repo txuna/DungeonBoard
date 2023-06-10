@@ -1,0 +1,60 @@
+[gd_scene load_steps=7 format=3 uid="uid://b2i20iodxv1b0"]
+
+[ext_resource type="PackedScene" uid="uid://dikpf6jcbibsb" path="res://src/ui/white_background_control.tscn" id="1_a1laf"]
+[ext_resource type="Script" path="res://src/login_control.gd" id="1_a75gl"]
+[ext_resource type="PackedScene" uid="uid://diau4ti1wmj65" path="res://src/ui/logo_control.tscn" id="2_0a6jg"]
+[ext_resource type="PackedScene" uid="uid://crukg4ytchq1h" path="res://src/ui/LineEditControl.tscn" id="3_gv26s"]
+[ext_resource type="PackedScene" uid="uid://bxthv8lq6x7sb" path="res://src/ui/button_control.tscn" id="4_365j8"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1p26p"]
+bg_color = Color(1, 1, 1, 0)
+
+[node name="LoginControl" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_a75gl")
+
+[node name="WhiteBackgroundControl" parent="." instance=ExtResource("1_a1laf")]
+layout_mode = 1
+grow_horizontal = 1
+grow_vertical = 1
+
+[node name="LogoControl" parent="WhiteBackgroundControl" instance=ExtResource("2_0a6jg")]
+offset_left = 148.0
+offset_top = 10.0
+offset_right = 148.0
+offset_bottom = 10.0
+
+[node name="EmailControl" parent="WhiteBackgroundControl" instance=ExtResource("3_gv26s")]
+offset_left = 234.0
+offset_top = 361.0
+offset_right = 274.0
+offset_bottom = 401.0
+
+[node name="PasswordControl" parent="WhiteBackgroundControl" instance=ExtResource("3_gv26s")]
+offset_left = 234.0
+offset_top = 496.0
+offset_right = 274.0
+offset_bottom = 536.0
+
+[node name="ButtonControl" parent="WhiteBackgroundControl" instance=ExtResource("4_365j8")]
+layout_mode = 1
+offset_left = 238.0
+offset_top = 634.0
+offset_right = 238.0
+offset_bottom = 634.0
+
+[node name="GoRegister" type="Button" parent="WhiteBackgroundControl"]
+layout_mode = 0
+offset_left = 973.0
+offset_top = 733.0
+offset_right = 1078.0
+offset_bottom = 767.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 24
+theme_override_styles/normal = SubResource("StyleBoxFlat_1p26p")
+text = "회원가입"

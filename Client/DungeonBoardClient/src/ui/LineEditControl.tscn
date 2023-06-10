@@ -1,0 +1,47 @@
+[gd_scene load_steps=5 format=3 uid="uid://crukg4ytchq1h"]
+
+[ext_resource type="FontFile" uid="uid://b27bcx0yhecxo" path="res://assets/fonts/HSBombaram2.1.ttf" id="1_1xy1n"]
+[ext_resource type="Script" path="res://src/ui/LineEditControl.gd" id="2_8rsmw"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ppyyb"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.129412, 0.129412, 0.129412, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lwwag"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+border_width_left = 8
+border_width_top = 8
+border_width_right = 8
+border_width_bottom = 8
+border_color = Color(0.129412, 0.129412, 0.129412, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("2_8rsmw")
+
+[node name="LineEdit" type="LineEdit" parent="."]
+offset_left = 4.0
+offset_top = 4.0
+offset_right = 844.0
+offset_bottom = 84.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_placeholder_color = Color(0.282353, 0.282353, 0.282353, 1)
+theme_override_fonts/font = ExtResource("1_1xy1n")
+theme_override_font_sizes/font_size = 48
+theme_override_styles/normal = SubResource("StyleBoxFlat_ppyyb")
+theme_override_styles/focus = SubResource("StyleBoxFlat_lwwag")
