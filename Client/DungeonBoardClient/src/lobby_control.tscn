@@ -1,7 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://jewupw1clmby"]
+[gd_scene load_steps=6 format=3 uid="uid://jewupw1clmby"]
 
 [ext_resource type="PackedScene" uid="uid://dikpf6jcbibsb" path="res://src/ui/white_background_control.tscn" id="1_mdjlr"]
+[ext_resource type="PackedScene" uid="uid://cuheq8ljdds3u" path="res://src/ui/RoomElement.tscn" id="2_me3wq"]
 [ext_resource type="PackedScene" uid="uid://bxthv8lq6x7sb" path="res://src/ui/button_control.tscn" id="2_tki1p"]
+[ext_resource type="FontFile" uid="uid://b27bcx0yhecxo" path="res://assets/fonts/HSBombaram2.1.ttf" id="4_jyfyj"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_52bvs"]
 bg_color = Color(0.933333, 0.933333, 0.933333, 1)
@@ -31,19 +33,59 @@ grow_vertical = 1
 [node name="Panel" type="Panel" parent="WhiteBackgroundControl"]
 layout_mode = 0
 offset_left = 21.0
-offset_top = 47.0
+offset_top = 145.0
 offset_right = 715.0
-offset_bottom = 750.0
+offset_bottom = 777.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_52bvs")
 
 [node name="ScrollContainer" type="ScrollContainer" parent="WhiteBackgroundControl/Panel"]
 layout_mode = 0
-offset_left = 11.0
-offset_top = 12.0
-offset_right = 680.0
-offset_bottom = 688.0
+offset_left = 18.0
+offset_top = 16.0
+offset_right = 683.0
+offset_bottom = 612.0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="WhiteBackgroundControl/Panel/ScrollContainer"]
+layout_mode = 2
+
+[node name="Control" parent="WhiteBackgroundControl/Panel/ScrollContainer/VBoxContainer" instance=ExtResource("2_me3wq")]
+custom_minimum_size = Vector2(650, 80)
+layout_mode = 2
+
+[node name="Control2" parent="WhiteBackgroundControl/Panel/ScrollContainer/VBoxContainer" instance=ExtResource("2_me3wq")]
+custom_minimum_size = Vector2(650, 80)
+layout_mode = 2
+
+[node name="Control3" parent="WhiteBackgroundControl/Panel/ScrollContainer/VBoxContainer" instance=ExtResource("2_me3wq")]
+custom_minimum_size = Vector2(650, 80)
+layout_mode = 2
+
+[node name="Control4" parent="WhiteBackgroundControl/Panel/ScrollContainer/VBoxContainer" instance=ExtResource("2_me3wq")]
+custom_minimum_size = Vector2(650, 80)
+layout_mode = 2
+
+[node name="Control5" parent="WhiteBackgroundControl/Panel/ScrollContainer/VBoxContainer" instance=ExtResource("2_me3wq")]
+custom_minimum_size = Vector2(650, 80)
+layout_mode = 2
+
+[node name="Control6" parent="WhiteBackgroundControl/Panel/ScrollContainer/VBoxContainer" instance=ExtResource("2_me3wq")]
+custom_minimum_size = Vector2(650, 80)
+layout_mode = 2
+
+[node name="Control7" parent="WhiteBackgroundControl/Panel/ScrollContainer/VBoxContainer" instance=ExtResource("2_me3wq")]
+custom_minimum_size = Vector2(650, 80)
+layout_mode = 2
+
+[node name="Control8" parent="WhiteBackgroundControl/Panel/ScrollContainer/VBoxContainer" instance=ExtResource("2_me3wq")]
+custom_minimum_size = Vector2(650, 80)
+layout_mode = 2
+
+[node name="Control9" parent="WhiteBackgroundControl/Panel/ScrollContainer/VBoxContainer" instance=ExtResource("2_me3wq")]
+custom_minimum_size = Vector2(650, 80)
+layout_mode = 2
+
+[node name="Control10" parent="WhiteBackgroundControl/Panel/ScrollContainer/VBoxContainer" instance=ExtResource("2_me3wq")]
+custom_minimum_size = Vector2(650, 80)
 layout_mode = 2
 
 [node name="ButtonControl" parent="WhiteBackgroundControl" instance=ExtResource("2_tki1p")]
@@ -53,3 +95,15 @@ offset_top = 48.0
 offset_right = 1245.0
 offset_bottom = 128.0
 text = "방 만들기"
+
+[node name="Label" type="Label" parent="WhiteBackgroundControl"]
+layout_mode = 0
+offset_top = 42.0
+offset_right = 715.0
+offset_bottom = 132.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("4_jyfyj")
+theme_override_font_sizes/font_size = 72
+text = "방 리스트"
+horizontal_alignment = 1
+vertical_alignment = 1
