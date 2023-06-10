@@ -27,14 +27,7 @@ corner_radius_top_right = 8
 corner_radius_bottom_right = 8
 corner_radius_bottom_left = 8
 
-[node name="Control" type="Control"]
-layout_mode = 3
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
-script = ExtResource("2_8rsmw")
-
-[node name="LineEdit" type="LineEdit" parent="."]
+[node name="LineEdit" type="LineEdit"]
 offset_left = 4.0
 offset_top = 4.0
 offset_right = 844.0
@@ -45,3 +38,4 @@ theme_override_fonts/font = ExtResource("1_1xy1n")
 theme_override_font_sizes/font_size = 48
 theme_override_styles/normal = SubResource("StyleBoxFlat_ppyyb")
 theme_override_styles/focus = SubResource("StyleBoxFlat_lwwag")
+script = ExtResource("2_8rsmw")

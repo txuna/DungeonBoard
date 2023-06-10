@@ -30,23 +30,25 @@ offset_right = 148.0
 offset_bottom = 10.0
 
 [node name="EmailControl" parent="WhiteBackgroundControl" instance=ExtResource("3_gv26s")]
+layout_mode = 0
 offset_left = 234.0
 offset_top = 361.0
-offset_right = 274.0
-offset_bottom = 401.0
+offset_right = 1082.0
+offset_bottom = 428.0
 
 [node name="PasswordControl" parent="WhiteBackgroundControl" instance=ExtResource("3_gv26s")]
+layout_mode = 0
 offset_left = 234.0
 offset_top = 496.0
-offset_right = 274.0
-offset_bottom = 536.0
+offset_right = 1087.0
+offset_bottom = 563.0
 
 [node name="ButtonControl" parent="WhiteBackgroundControl" instance=ExtResource("4_365j8")]
 layout_mode = 1
 offset_left = 238.0
-offset_top = 634.0
-offset_right = 238.0
-offset_bottom = 634.0
+offset_top = 646.0
+offset_right = 1089.0
+offset_bottom = 715.0
 
 [node name="GoRegister" type="Button" parent="WhiteBackgroundControl"]
 layout_mode = 0

@@ -1,17 +1,16 @@
-extends Control
+extends LineEdit
 
-@onready var line_edit = $LineEdit
 
 func _use_secret(flag):
-	line_edit.secret = flag 
+	secret = flag 
 	
 
 func _load_line_text():
-	return line_edit.text
+	return text
 	
 	
 func _set_placeholder(content):
-	line_edit.set_placeholder(content)
+	set_placeholder(content)
 
 
 # Called when the node enters the scene tree for the first time.

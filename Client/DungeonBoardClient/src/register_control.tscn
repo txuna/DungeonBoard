@@ -1,9 +1,14 @@
-[gd_scene load_steps=5 format=3 uid="uid://x4loknko3k2w"]
+[gd_scene load_steps=8 format=3 uid="uid://x4loknko3k2w"]
 
+[ext_resource type="Script" path="res://src/register_control.gd" id="1_4fdbm"]
 [ext_resource type="PackedScene" uid="uid://dikpf6jcbibsb" path="res://src/ui/white_background_control.tscn" id="1_6puvb"]
 [ext_resource type="PackedScene" uid="uid://diau4ti1wmj65" path="res://src/ui/logo_control.tscn" id="2_5fhvn"]
 [ext_resource type="PackedScene" uid="uid://crukg4ytchq1h" path="res://src/ui/LineEditControl.tscn" id="3_vdmvk"]
 [ext_resource type="PackedScene" uid="uid://bxthv8lq6x7sb" path="res://src/ui/button_control.tscn" id="4_3ujg1"]
+[ext_resource type="FontFile" uid="uid://b27bcx0yhecxo" path="res://assets/fonts/HSBombaram2.1.ttf" id="6_q7ksp"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_frf4c"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
 
 [node name="RegisterControl" type="Control"]
 layout_mode = 3
@@ -12,38 +17,57 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_4fdbm")
 
 [node name="WhiteBackgroundControl" parent="." instance=ExtResource("1_6puvb")]
-layout_mode = 0
-anchors_preset = 0
+layout_mode = 1
+grow_horizontal = 1
+grow_vertical = 1
 
 [node name="LogoControl" parent="WhiteBackgroundControl" instance=ExtResource("2_5fhvn")]
 offset_left = 179.0
-offset_top = -6.0
+offset_top = 3.0
 offset_right = 179.0
-offset_bottom = -6.0
+offset_bottom = 3.0
 
 [node name="Control" parent="WhiteBackgroundControl" instance=ExtResource("3_vdmvk")]
+layout_mode = 0
 offset_left = 242.0
 offset_top = 315.0
-offset_right = 282.0
-offset_bottom = 355.0
+offset_right = 1122.0
+offset_bottom = 382.0
 
 [node name="Control2" parent="WhiteBackgroundControl" instance=ExtResource("3_vdmvk")]
+layout_mode = 0
 offset_left = 243.0
 offset_top = 424.0
-offset_right = 283.0
-offset_bottom = 464.0
+offset_right = 1122.0
+offset_bottom = 491.0
 
 [node name="Control3" parent="WhiteBackgroundControl" instance=ExtResource("3_vdmvk")]
+layout_mode = 0
 offset_left = 244.0
 offset_top = 529.0
-offset_right = 284.0
-offset_bottom = 569.0
+offset_right = 1124.0
+offset_bottom = 596.0
 
 [node name="ButtonControl" parent="WhiteBackgroundControl" instance=ExtResource("4_3ujg1")]
 layout_mode = 1
 offset_left = 249.0
 offset_top = 641.0
-offset_right = 249.0
-offset_bottom = 641.0
+offset_right = 1126.0
+offset_bottom = 707.0
+
+[node name="Button" type="Button" parent="WhiteBackgroundControl"]
+layout_mode = 0
+offset_left = 1040.0
+offset_top = 725.0
+offset_right = 1126.0
+offset_bottom = 762.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("6_q7ksp")
+theme_override_font_sizes/font_size = 24
+theme_override_styles/normal = SubResource("StyleBoxFlat_frf4c")
+text = "로그인"
+
+[connection signal="pressed" from="WhiteBackgroundControl/Button" to="." method="_on_button_pressed"]

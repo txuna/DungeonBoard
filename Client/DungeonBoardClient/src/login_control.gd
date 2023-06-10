@@ -24,7 +24,9 @@ func _login():
 	var password_text = password_field._load_line_text() 
 	
 	if email_text == "" or password_text == "":
-		print("NO")
+		var alert = load("res://src/ui/alert_control.tscn").instantiate()
+		add_child(alert)
+		alert._set_text("이메일 또는 패스워드의 값이 비었습니다.")
 		return 
 	
 	print("LOGIN")

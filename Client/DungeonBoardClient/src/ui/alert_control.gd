@@ -1,9 +1,9 @@
-extends Button
+extends ColorRect
 
-signal btn_pressed
+@onready var content_field = $Label2
 
 func _set_text(_text):
-	text = _text 
+	content_field.text = _text
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -15,5 +15,5 @@ func _process(delta):
 	pass
 
 
-func _on_pressed():
-	emit_signal("btn_pressed")
+func _on_button_control_btn_pressed():
+	queue_free()
