@@ -43,7 +43,7 @@ public class LoadRoomFromIdController : Controller
         }
 
         int index = 0;
-        RoomPlayer[]? Players = new RoomPlayer[Room.Users.Length];
+        Player[]? Players = new Player[Room.Users.Length];
         foreach(var userId in Room.Users)
         {
             var (Error, p) = await LoadPlayer(userId);
@@ -57,22 +57,10 @@ public class LoadRoomFromIdController : Controller
                 };
             }
 
-            MasterClassInitStat? masterClassInitStat = LoadClassInfo(p.ClassId);
-            if(masterClassInitStat == null)
+            Players[index] = new Player
             {
-                return new LoadRoomFromIdResponse
-                {
-                    Result = ErrorCode.NoneExitClassId,
-                    Room = null,
-                    Player = null
-                };
-            }
-
-            Players[index] = new RoomPlayer
-            {
-                UserId = userId,
-                ClassId = p.ClassId,
-                ClassName = masterClassInitStat.ClassName,
+                UserId = p.UserId,
+                ClassId = p.ClassId
             };
         }
 
@@ -87,10 +75,5 @@ public class LoadRoomFromIdController : Controller
     async Task<(ErrorCode, Player?)> LoadPlayer(int userId)
     {
         return await _playerDB.LoadPlayerFromId(userId);
-    }
-
-    MasterClassInitStat? LoadClassInfo(int classId)
-    {
-        return _masterDB.LoadClassInitStat(classId);
     }
 }

@@ -19,6 +19,6 @@ namespace DungeonBoard.ReqResModels.Room
     {
         public ErrorCode Result { get; set; }
         public RedisRoom? Room { get; set; }
-        public RoomPlayer[]? Player { get; set; }
+        public Player[]? Player { get; set; }
     }
 }

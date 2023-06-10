@@ -1,5 +1,6 @@
-[gd_scene load_steps=4 format=3 uid="uid://cuheq8ljdds3u"]
+[gd_scene load_steps=5 format=3 uid="uid://cuheq8ljdds3u"]
 
+[ext_resource type="Script" path="res://src/ui/RoomElement.gd" id="1_au0t4"]
 [ext_resource type="FontFile" uid="uid://b27bcx0yhecxo" path="res://assets/fonts/HSBombaram2.1.ttf" id="1_yt1sb"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_b8chh"]
@@ -25,6 +26,7 @@ offset_bottom = -720.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_b8chh")
+script = ExtResource("1_au0t4")
 
 [node name="Button" type="Button" parent="."]
 custom_minimum_size = Vector2(100, 35)
@@ -53,9 +55,9 @@ vertical_alignment = 1
 
 [node name="Label3" type="Label" parent="."]
 layout_mode = 2
-offset_left = 370.0
+offset_left = 384.0
 offset_top = 26.0
-offset_right = 418.0
+offset_right = 432.0
 offset_bottom = 59.0
 theme_override_fonts/font = ExtResource("1_yt1sb")
 theme_override_font_sizes/font_size = 24
@@ -65,9 +67,9 @@ vertical_alignment = 1
 
 [node name="Label4" type="Label" parent="."]
 layout_mode = 2
-offset_left = 435.0
+offset_left = 440.0
 offset_top = 26.0
-offset_right = 512.0
+offset_right = 517.0
 offset_bottom = 59.0
 theme_override_fonts/font = ExtResource("1_yt1sb")
 theme_override_font_sizes/font_size = 24
@@ -75,11 +77,23 @@ text = "Ready"
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="Label5" type="Label" parent="."]
+layout_mode = 2
+offset_left = 277.0
+offset_top = 26.0
+offset_right = 381.0
+offset_bottom = 59.0
+theme_override_fonts/font = ExtResource("1_yt1sb")
+theme_override_font_sizes/font_size = 24
+text = "보스이름"
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [node name="ScrollContainer" type="ScrollContainer" parent="."]
 layout_mode = 0
-offset_left = 44.0
+offset_left = 35.0
 offset_top = 24.0
-offset_right = 363.0
+offset_right = 278.0
 offset_bottom = 66.0
 
 [node name="Label2" type="Label" parent="ScrollContainer"]
@@ -89,3 +103,5 @@ theme_override_font_sizes/font_size = 24
 text = "This is Room"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
