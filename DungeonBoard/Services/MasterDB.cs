@@ -14,11 +14,13 @@ namespace DungeonBoard.Services
     {
         MasterBossInfo? LoadMasterBossInfo(int bossId);
         MasterBossInfo[] LoadAllMasterBossInfo();
+        MasterClassInitStat? LoadClassInitStat(int classId);
     }
 
     public class MasterDB : IMasterDB
     {
-        MasterBossInfo[] masterBossInfo; 
+        MasterBossInfo[] masterBossInfo;
+        MasterClassInitStat[] masterClassInitStat;
 
         IOptions<DbConfig> _dbConfig;
         IDbConnection dbConnection;
@@ -41,12 +43,18 @@ namespace DungeonBoard.Services
             return masterBossInfo;
         }
 
+        public MasterClassInitStat? LoadClassInitStat(int classId)
+        {
+            return masterClassInitStat.First( e => e.ClassId == classId);
+        }
+
         void Load()
         {
             try
             {
                 // 보스 정보를 가지고 옴
                 masterBossInfo = (queryFactory.Query("master_boss_info").Get<MasterBossInfo>()).ToArray();
+                masterClassInitStat = (queryFactory.Query("master_class_init_stat").Get<MasterClassInitStat>()).ToArray();
             }
 
             catch(Exception ex)

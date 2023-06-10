@@ -1,16 +1,19 @@
 ﻿using DungeonBoard.Models;
+using DungeonBoard.Models.Player;
 using Microsoft.Extensions.Options;
 using MySqlConnector;
 using SqlKata.Compilers;
 using SqlKata.Execution;
 using System.Data;
+using System.Reflection.PortableExecutable;
 
 namespace DungeonBoard.Services
 {
     public interface IPlayerDB
     {
         Task<ErrorCode> CreatePlayerData(int userId);
-        Task<ErrorCode> UpdatePlayerClass(int classId);
+        Task<ErrorCode> UpdatePlayerClass(int userId, int classId);
+        Task<(ErrorCode, Player?)> LoadPlayerFromId(int userId);
     }
 
     public class PlayerDB : IPlayerDB
@@ -44,16 +47,43 @@ namespace DungeonBoard.Services
             }
         }
 
-        async public Task<ErrorCode> UpdatePlayerClass(int classId)
+        async public Task<ErrorCode> UpdatePlayerClass(int userId, int classId)
         {
             try
             {
+                int effectedRow = await _queryFactory.Query("players").Where("userId", userId).UpdateAsync(new {
+                    classId = classId
+                });
+
+                if(effectedRow != 1)
+                {
+                    return ErrorCode.FailedUpdateClass;
+                }
+
                 return ErrorCode.None;
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
                 return ErrorCode.CannotConnectServer;
+            }
+        }
+
+        async public Task<(ErrorCode, Player?)> LoadPlayerFromId(int userId)
+        {
+            try
+            {
+                var player = await _queryFactory.Query("players").Where("userId", userId).FirstOrDefault();
+                if(player == null)
+                {
+                    return (ErrorCode.NoneExistUserId, null);
+                }
+                return (ErrorCode.None, player); 
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return (ErrorCode.CannotConnectServer, null);
             }
         }
 

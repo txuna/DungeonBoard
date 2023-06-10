@@ -7,5 +7,4 @@ namespace DungeonBoard.Models.Player
         public int UserId { get; set; }
         public int ClassId { get; set; }
     }
-
 }

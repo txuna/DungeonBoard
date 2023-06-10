@@ -9,6 +9,8 @@ namespace DungeonBoard.ReqResModels.Class
         public int UserId { get; set; }
         [Required]
         public string AuthToken { get; set; }
+        [Required]
+        public int ClassId { get; set; }
         
     }
 

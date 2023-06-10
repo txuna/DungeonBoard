@@ -23,5 +23,12 @@
         InvalidBossId = 203, 
         InvalidHeadCount = 204,
         AlreadyFullRoom = 205,
+
+        /* MasterData  301 ~ 400 */
+        NoneExistClassId = 301,
+
+        /* Player  401 ~ 500 */
+        PlayerAlreadyHasClass = 401,
+        FailedUpdateClass = 402,
     }
 }
