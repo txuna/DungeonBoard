@@ -46,7 +46,26 @@ func _response_load_room(json):
 			room.users.size(), 
 			room.state
 		)
+		room_element.request_enter_room.connect(_on_request_enter_room)
 
 
 func _on_button_control_2_btn_pressed():
 	_request_load_room()
+
+
+func _on_request_enter_room(room_id):
+	var http = load("res://src/Network/http_request.tscn").instantiate()
+	add_child(http)
+	http._http_response.connect(_on_response_enter_room)
+	http._request("Room/Enter", true, {
+		"RoomId" : room_id
+	})
+	
+	
+func _on_response_enter_room(json):
+	if json.result != Global.NONE_ERROR:
+		return 	
+	
+	
+	
+	
