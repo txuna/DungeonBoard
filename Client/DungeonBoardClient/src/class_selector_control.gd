@@ -1,15 +1,15 @@
 extends Control
 
-func _request_load_room(class_id):	
+func _request_select_class(class_id):	
 	var http = load("res://src/Network/http_request.tscn").instantiate()
 	add_child(http)
-	http._http_response.connect(_response_load_room)
+	http._http_response.connect(_response_select_class)
 	http._request("Class/Select", true, {
 		"ClassId" : class_id
 	})
 	
 	
-func _response_load_room(json):
+func _response_select_class(json):
 	if json.result != Global.NONE_ERROR:
 		return 
 	
@@ -17,12 +17,12 @@ func _response_load_room(json):
 
 
 func _on_select_warrior_pressed():
-	_request_load_room(1)
+	_request_select_class(1)
 
 
 func _on_select_wizard_btn_pressed():
-	_request_load_room(2)
+	_request_select_class(2)
 
 
 func _on_select_archer_btn_pressed():
-	_request_load_room(3)
+	_request_select_class(3)

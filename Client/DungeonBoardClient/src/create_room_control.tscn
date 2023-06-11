@@ -200,4 +200,5 @@ texture_normal = ExtResource("5_2ugy5")
 texture_pressed = ExtResource("6_fkioh")
 texture_hover = ExtResource("6_fkioh")
 
+[connection signal="btn_pressed" from="Panel/ButtonControl" to="." method="_on_button_control_btn_pressed"]
 [connection signal="pressed" from="Panel/TextureButton" to="." method="_on_texture_button_pressed"]

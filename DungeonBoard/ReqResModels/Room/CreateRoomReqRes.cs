@@ -7,7 +7,7 @@ namespace DungeonBoard.ReqResModels.Room
     {
         [Required]
         public int UserId { get; set; }
-        [Required]
+        [Required]  
         public string AuthToken { get; set; }
         [Required]
         public string Title { get; set; }

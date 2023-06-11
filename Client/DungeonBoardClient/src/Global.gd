@@ -9,6 +9,8 @@ const error_code_msg = {
 	
 }
 
+const MAX_HEADCOUNT = 4
+
 enum ClassType{
 	NONE_CLASS = 0, 
 	WARRIOR = 1, 
@@ -42,8 +44,12 @@ const room_state_string = {
 
 # 보스 
 const boss_string = {
-	1 : "보스1",
-	2 : "보스2"
+	1 : {
+		"name" : "보스1"
+	},
+	2 : {
+		"name" : "보스2"
+	}
 }
 
 const skill_string = {

@@ -16,7 +16,7 @@ func _set_label(room_id:int, boss_id:int, room_title:String, room_headcount:int,
 		"room_id" : str(room_id)
 	})
 	room_title_label.text = room_title
-	room_boss_label.text = Global.boss_string[boss_id]
+	room_boss_label.text = Global.boss_string[boss_id].name
 	room_headcount_label.text = "[{c}/{m}]".format({
 		"c" : str(room_current_person),
 		"m" : str(room_headcount)
