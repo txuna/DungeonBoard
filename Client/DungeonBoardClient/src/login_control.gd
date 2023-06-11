@@ -29,10 +29,45 @@ func _login():
 		alert._set_text("이메일 또는 패스워드의 값이 비었습니다.")
 		return 
 	
-	print("LOGIN")
+	var http = load("res://src/Network/http_request.tscn").instantiate()
+	add_child(http)
+	http._http_response.connect(_on_response)
+	http._request("Login", false, {
+		"Email" : email_text, 
+		"Password" : password_text
+	})
 	
+	
+func _on_response(json):
+	if json.result != Global.NONE_ERROR:
+		return 
+		
+	print(json.userId)
+	print(json.authToken)
+	print(json.classId)
+	Global.user_id = json.userId 
+	Global.auth_token = json.authToken
+	
+	# 직업 선택 화면으로 
+	if json.classId == Global.ClassType.NONE_CLASS:
+		pass
+	
+	# 로비화면으로
+	else:
+		pass
+
 	
 func change_to_register():
 	get_tree().change_scene_to_file("res://src/register_control.tscn")
+
+
+
+
+
+
+
+
+
+
 
 

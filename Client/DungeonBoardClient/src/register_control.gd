@@ -37,9 +37,23 @@ func _register():
 		add_child(alert)
 		alert._set_text("패스워드가 일치하기 않습니다.")
 		return 
+
+	var http = load("res://src/Network/http_request.tscn").instantiate()
+	add_child(http)
+	http._http_response.connect(_on_response)
+	http._request("Register", false, {
+		"Email" : email_text, 
+		"Password" : password_text,
+		"ConfirmPassword" : confirm_password_text
+	})
+		
+
+
+func _on_response(json):
+	if json.result != Global.NONE_ERROR:
 		return 
 		
-	print("RE")
+	_on_button_pressed()
 
 
 func _on_button_pressed():

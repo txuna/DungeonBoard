@@ -1,15 +1,32 @@
 extends Node
 
+var auth_token = ""
+var user_id = 0
+
+const NONE_ERROR = 0
+
 const error_code_msg = {
 	
 }
 
+enum ClassType{
+	NONE_CLASS = 0, 
+	WARRIOR = 1, 
+	WIZARD = 2, 
+	ARCHER = 3, 
+}
+
+enum RoomStateType{
+	READY = 0, 
+	PLAYING = 1
+}
+
 # 직업 
 const class_string = {
-	0 : "초보자",
-	1 : "전사",
-	2 : "마법사",
-	3 : "궁수"
+	ClassType.NONE_CLASS : "초보자",
+	ClassType.WARRIOR : "전사",
+	ClassType.WIZARD : "마법사",
+	ClassType.ARCHER : "궁수"
 }
 
 # 아이템 
@@ -19,8 +36,8 @@ const item_string = {
 
 # 방 상태 
 const room_state_string = {
-	0 : "준비",
-	1 : "게임중"
+	RoomStateType.READY : "준비",
+	RoomStateType.PLAYING : "게임중"
 }
 
 # 보스 
@@ -32,3 +49,4 @@ const boss_string = {
 const skill_string = {
 	
 }
+

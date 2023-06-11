@@ -1,5 +1,6 @@
 ﻿using DungeonBoard.Models;
 using DungeonBoard.Models.Account;
+using DungeonBoard.Models.Player;
 using DungeonBoard.ReqResModels.Account;
 using DungeonBoard.Services;
 using DungeonBoard.Utilities;
@@ -12,10 +13,12 @@ public class LoginController : Controller
 {
     IAccountDB _accountDB;
     IMemoryDB _memoryDB;
-    public LoginController(IAccountDB accountDB, IMemoryDB memoryDB)
+    IPlayerDB _playerDB;
+    public LoginController(IAccountDB accountDB, IMemoryDB memoryDB, IPlayerDB playerDB)
     {
         _accountDB = accountDB;
         _memoryDB = memoryDB;
+        _playerDB = playerDB;
     }
 
     [Route("/Login")]
@@ -27,8 +30,7 @@ public class LoginController : Controller
         {
             return new LoginResponse
             {
-                Result = Result,
-                AuthToken = ""
+                Result = Result
             };
         }
 
@@ -36,8 +38,7 @@ public class LoginController : Controller
         {
             return new LoginResponse
             {
-                Result = ErrorCode.InvalidPassword,
-                AuthToken = ""
+                Result = ErrorCode.InvalidPassword
             };
         }
 
@@ -48,8 +49,18 @@ public class LoginController : Controller
         {
             return new LoginResponse
             {
-                Result = Result,
-                AuthToken = ""
+                Result = Result
+            };
+        }
+
+        Player? player;
+        (Result, player) = await _playerDB.LoadPlayerFromId(user.UserId);
+
+        if(Result != ErrorCode.None)
+        {
+            return new LoginResponse
+            {
+                Result = Result
             };
         }
 
@@ -57,7 +68,8 @@ public class LoginController : Controller
         {
             Result = ErrorCode.None,
             AuthToken = authToken,
-            UserId = user.Userid
+            UserId = user.UserId,
+            ClassId = player.ClassId
         };
     }
 

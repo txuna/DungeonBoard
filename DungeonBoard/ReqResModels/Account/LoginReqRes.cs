@@ -22,5 +22,6 @@ namespace DungeonBoard.ReqResModels.Account
         public ErrorCode Result { get; set; }
         public string AuthToken { get; set; }
         public int UserId { get; set; }
+        public int ClassId { get; set; }
     }
 }
