@@ -42,20 +42,19 @@ func _on_response(json):
 	if json.result != Global.NONE_ERROR:
 		return 
 		
-	print(json.userId)
-	print(json.authToken)
-	print(json.classId)
 	Global.user_id = json.userId 
 	Global.auth_token = json.authToken
 	
 	# 직업 선택 화면으로 
 	if json.classId == Global.ClassType.NONE_CLASS:
-		pass
-	
+		get_tree().change_scene_to_file("res://src/class_selector_control.tscn")
+		
 	# 로비화면으로
 	else:
-		pass
-
+		get_tree().change_scene_to_file("res://src/lobby_control.tscn")
+		
+	return 
+	
 	
 func change_to_register():
 	get_tree().change_scene_to_file("res://src/register_control.tscn")

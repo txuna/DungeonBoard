@@ -13,7 +13,7 @@ var _room_id = 0
 
 func _set_label(room_id:int, boss_id:int, room_title:String, room_headcount:int, room_current_person:int, room_state:int):
 	room_id_label.text = "[{room_id}]".format({
-		"rood_Id" : str(room_id)
+		"room_id" : str(room_id)
 	})
 	room_title_label.text = room_title
 	room_boss_label.text = Global.boss_string[boss_id]
@@ -23,7 +23,7 @@ func _set_label(room_id:int, boss_id:int, room_title:String, room_headcount:int,
 	})
 	room_state_label.text = Global.room_state_string[room_state]
 	_room_id = room_id
-	
+	custom_minimum_size = Vector2(650, 80)
 
 # Called when the node enters the scene tree for the first time.
 func _ready():

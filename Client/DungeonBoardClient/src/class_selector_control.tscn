@@ -1,0 +1,136 @@
+[gd_scene load_steps=6 format=3 uid="uid://doqdxeylb4btt"]
+
+[ext_resource type="Script" path="res://src/class_selector_control.gd" id="1_lgisi"]
+[ext_resource type="PackedScene" uid="uid://dikpf6jcbibsb" path="res://src/ui/white_background_control.tscn" id="2_xv4ba"]
+[ext_resource type="FontFile" uid="uid://b27bcx0yhecxo" path="res://assets/fonts/HSBombaram2.1.ttf" id="3_ymk4w"]
+[ext_resource type="PackedScene" uid="uid://bxthv8lq6x7sb" path="res://src/ui/button_control.tscn" id="4_4n42n"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kg17e"]
+bg_color = Color(0.890196, 0.890196, 0.890196, 1)
+border_width_left = 8
+border_width_top = 8
+border_width_right = 8
+border_width_bottom = 8
+border_color = Color(0.152941, 0.152941, 0.152941, 1)
+corner_radius_top_left = 24
+corner_radius_top_right = 24
+corner_radius_bottom_right = 24
+corner_radius_bottom_left = 24
+
+[node name="ClassSelectorControl" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_lgisi")
+
+[node name="WhiteBackgroundControl" parent="." instance=ExtResource("2_xv4ba")]
+layout_mode = 1
+
+[node name="Label" type="Label" parent="WhiteBackgroundControl"]
+layout_mode = 0
+offset_top = 21.0
+offset_right = 1280.0
+offset_bottom = 111.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("3_ymk4w")
+theme_override_font_sizes/font_size = 72
+text = "클래스 선택"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Panel" type="Panel" parent="WhiteBackgroundControl"]
+layout_mode = 0
+offset_left = 58.0
+offset_top = 136.0
+offset_right = 389.0
+offset_bottom = 637.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_kg17e")
+
+[node name="Label2" type="Label" parent="WhiteBackgroundControl/Panel"]
+layout_mode = 0
+offset_left = 69.0
+offset_top = 378.0
+offset_right = 257.0
+offset_bottom = 472.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("3_ymk4w")
+theme_override_font_sizes/font_size = 36
+text = "전사
+(Warrior)"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ButtonControl" parent="WhiteBackgroundControl/Panel" instance=ExtResource("4_4n42n")]
+layout_mode = 0
+offset_left = 5.0
+offset_top = 526.0
+offset_right = 327.0
+offset_bottom = 606.0
+text = "선택"
+
+[node name="Panel2" type="Panel" parent="WhiteBackgroundControl"]
+layout_mode = 0
+offset_left = 478.0
+offset_top = 136.0
+offset_right = 809.0
+offset_bottom = 637.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_kg17e")
+
+[node name="Label2" type="Label" parent="WhiteBackgroundControl/Panel2"]
+layout_mode = 0
+offset_left = 69.0
+offset_top = 378.0
+offset_right = 257.0
+offset_bottom = 472.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("3_ymk4w")
+theme_override_font_sizes/font_size = 36
+text = "마법사
+(Wizard)"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ButtonControl2" parent="WhiteBackgroundControl/Panel2" instance=ExtResource("4_4n42n")]
+layout_mode = 0
+offset_left = 6.0
+offset_top = 526.0
+offset_right = 328.0
+offset_bottom = 606.0
+text = "선택"
+
+[node name="Panel3" type="Panel" parent="WhiteBackgroundControl"]
+layout_mode = 0
+offset_left = 890.0
+offset_top = 136.0
+offset_right = 1221.0
+offset_bottom = 637.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_kg17e")
+
+[node name="Label2" type="Label" parent="WhiteBackgroundControl/Panel3"]
+layout_mode = 0
+offset_left = 69.0
+offset_top = 378.0
+offset_right = 257.0
+offset_bottom = 472.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("3_ymk4w")
+theme_override_font_sizes/font_size = 36
+text = "궁수
+(Archer)"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ButtonControl3" parent="WhiteBackgroundControl/Panel3" instance=ExtResource("4_4n42n")]
+layout_mode = 0
+offset_left = 6.0
+offset_top = 526.0
+offset_right = 328.0
+offset_bottom = 606.0
+text = "선택"
+
+[connection signal="btn_pressed" from="WhiteBackgroundControl/Panel/ButtonControl" to="." method="_on_select_warrior_pressed"]
+[connection signal="btn_pressed" from="WhiteBackgroundControl/Panel2/ButtonControl2" to="." method="_on_select_wizard_btn_pressed"]
+[connection signal="btn_pressed" from="WhiteBackgroundControl/Panel3/ButtonControl3" to="." method="_on_select_archer_btn_pressed"]

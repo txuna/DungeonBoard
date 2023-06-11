@@ -8,7 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://cal5rfa617788" path="res://src/create_room_control.tscn" id="5_xyw5w"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_52bvs"]
-bg_color = Color(0.933333, 0.933333, 0.933333, 1)
+bg_color = Color(0.917647, 0.917647, 0.917647, 1)
 border_width_left = 12
 border_width_top = 12
 border_width_right = 12
@@ -55,42 +55,6 @@ layout_mode = 2
 custom_minimum_size = Vector2(650, 80)
 layout_mode = 2
 
-[node name="Control2" parent="WhiteBackgroundControl/Panel/ScrollContainer/VBoxContainer" instance=ExtResource("2_me3wq")]
-custom_minimum_size = Vector2(650, 80)
-layout_mode = 2
-
-[node name="Control3" parent="WhiteBackgroundControl/Panel/ScrollContainer/VBoxContainer" instance=ExtResource("2_me3wq")]
-custom_minimum_size = Vector2(650, 80)
-layout_mode = 2
-
-[node name="Control4" parent="WhiteBackgroundControl/Panel/ScrollContainer/VBoxContainer" instance=ExtResource("2_me3wq")]
-custom_minimum_size = Vector2(650, 80)
-layout_mode = 2
-
-[node name="Control5" parent="WhiteBackgroundControl/Panel/ScrollContainer/VBoxContainer" instance=ExtResource("2_me3wq")]
-custom_minimum_size = Vector2(650, 80)
-layout_mode = 2
-
-[node name="Control6" parent="WhiteBackgroundControl/Panel/ScrollContainer/VBoxContainer" instance=ExtResource("2_me3wq")]
-custom_minimum_size = Vector2(650, 80)
-layout_mode = 2
-
-[node name="Control7" parent="WhiteBackgroundControl/Panel/ScrollContainer/VBoxContainer" instance=ExtResource("2_me3wq")]
-custom_minimum_size = Vector2(650, 80)
-layout_mode = 2
-
-[node name="Control8" parent="WhiteBackgroundControl/Panel/ScrollContainer/VBoxContainer" instance=ExtResource("2_me3wq")]
-custom_minimum_size = Vector2(650, 80)
-layout_mode = 2
-
-[node name="Control9" parent="WhiteBackgroundControl/Panel/ScrollContainer/VBoxContainer" instance=ExtResource("2_me3wq")]
-custom_minimum_size = Vector2(650, 80)
-layout_mode = 2
-
-[node name="Control10" parent="WhiteBackgroundControl/Panel/ScrollContainer/VBoxContainer" instance=ExtResource("2_me3wq")]
-custom_minimum_size = Vector2(650, 80)
-layout_mode = 2
-
 [node name="ButtonControl" parent="WhiteBackgroundControl" instance=ExtResource("2_tki1p")]
 layout_mode = 0
 offset_left = 738.0
@@ -102,7 +66,7 @@ text = "방 만들기"
 [node name="Label" type="Label" parent="WhiteBackgroundControl"]
 layout_mode = 0
 offset_top = 42.0
-offset_right = 715.0
+offset_right = 708.0
 offset_bottom = 132.0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_fonts/font = ExtResource("4_jyfyj")
@@ -111,6 +75,15 @@ text = "방 리스트"
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="ButtonControl2" parent="WhiteBackgroundControl" instance=ExtResource("2_tki1p")]
+layout_mode = 0
+offset_left = 541.0
+offset_top = 87.0
+offset_right = 710.0
+offset_bottom = 140.0
+theme_override_font_sizes/font_size = 24
+text = "새로고침"
+
 [node name="CreateRoomControl" parent="WhiteBackgroundControl" instance=ExtResource("5_xyw5w")]
 visible = false
 layout_mode = 1
@@ -118,3 +91,5 @@ offset_left = 54.0
 offset_top = 42.0
 offset_right = 54.0
 offset_bottom = 42.0
+
+[connection signal="btn_pressed" from="WhiteBackgroundControl/ButtonControl2" to="." method="_on_button_control_2_btn_pressed"]

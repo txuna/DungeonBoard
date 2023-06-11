@@ -1,10 +1,15 @@
-[gd_scene load_steps=5 format=3 uid="uid://cuheq8ljdds3u"]
+[gd_scene load_steps=7 format=3 uid="uid://cuheq8ljdds3u"]
 
 [ext_resource type="Script" path="res://src/ui/RoomElement.gd" id="1_au0t4"]
 [ext_resource type="FontFile" uid="uid://b27bcx0yhecxo" path="res://assets/fonts/HSBombaram2.1.ttf" id="1_yt1sb"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_b8chh"]
 bg_color = Color(0.152941, 0.152941, 0.152941, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.152941, 0.152941, 0.152941, 1)
 corner_radius_top_left = 12
 corner_radius_top_right = 12
 corner_radius_bottom_right = 12
@@ -17,14 +22,30 @@ corner_radius_top_right = 8
 corner_radius_bottom_right = 8
 corner_radius_bottom_left = 8
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_g01fs"]
+bg_color = Color(0.933333, 0.933333, 0.933333, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vj2jq"]
+bg_color = Color(0.933333, 0.933333, 0.933333, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
 [node name="Control" type="Panel"]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_right = -633.0
+offset_right = -630.0
 offset_bottom = -720.0
 grow_horizontal = 2
 grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
 theme_override_styles/panel = SubResource("StyleBoxFlat_b8chh")
 script = ExtResource("1_au0t4")
 
@@ -36,9 +57,17 @@ offset_top = 10.0
 offset_right = 641.0
 offset_bottom = 72.0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_colors/font_focus_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/font_disabled_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_fonts/font = ExtResource("1_yt1sb")
 theme_override_font_sizes/font_size = 24
 theme_override_styles/normal = SubResource("StyleBoxFlat_gtk22")
+theme_override_styles/hover = SubResource("StyleBoxFlat_g01fs")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_vj2jq")
 text = "입장"
 
 [node name="Label" type="Label" parent="."]

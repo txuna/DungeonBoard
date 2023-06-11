@@ -73,7 +73,7 @@ namespace DungeonBoard.Services
         {
             try
             {
-                var player = await _queryFactory.Query("players").Where("userId", userId).FirstOrDefault();
+                Player? player = await _queryFactory.Query("players").Where("userId", userId).FirstOrDefaultAsync<Player>();
                 if(player == null)
                 {
                     return (ErrorCode.NoneExistUserId, null);

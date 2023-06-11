@@ -56,7 +56,7 @@ public class LoginController : Controller
         Player? player;
         (Result, player) = await _playerDB.LoadPlayerFromId(user.UserId);
 
-        if(Result != ErrorCode.None)
+        if (Result != ErrorCode.None)
         {
             return new LoginResponse
             {
@@ -85,7 +85,7 @@ public class LoginController : Controller
 
     async Task<ErrorCode> StoreUserInfoInMemory(User user, string authToken)
     {
-        ErrorCode Result = await _memoryDB.StoreRedisUser(user.Userid, authToken, user.Email, UserState.Lobby);
+        ErrorCode Result = await _memoryDB.StoreRedisUser(user.UserId, authToken, user.Email, UserState.Lobby);
         return Result;
     }
 }
