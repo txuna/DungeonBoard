@@ -1,0 +1,236 @@
+[gd_scene load_steps=8 format=3 uid="uid://w1lkjemcslyg"]
+
+[ext_resource type="Script" path="res://src/in_game_control.gd" id="1_kvsgj"]
+[ext_resource type="PackedScene" uid="uid://dikpf6jcbibsb" path="res://src/ui/white_background_control.tscn" id="1_omxm7"]
+[ext_resource type="PackedScene" uid="uid://bi26h03dvbx3w" path="res://src/InGame/square_control.tscn" id="2_tlrvt"]
+[ext_resource type="PackedScene" uid="uid://bt5ilchk1naf" path="res://src/InGame/vertex_control.tscn" id="3_5g0g5"]
+[ext_resource type="PackedScene" uid="uid://bjmbe2nxuyned" path="res://src/InGame/player_control.tscn" id="4_0sbah"]
+[ext_resource type="PackedScene" uid="uid://bxthv8lq6x7sb" path="res://src/ui/button_control.tscn" id="5_c77ap"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pvfdv"]
+bg_color = Color(0.847059, 0.847059, 0.847059, 1)
+border_width_left = 8
+border_width_top = 8
+border_width_right = 8
+border_width_bottom = 8
+border_color = Color(0.152941, 0.152941, 0.152941, 1)
+corner_radius_top_left = 24
+corner_radius_top_right = 24
+corner_radius_bottom_right = 24
+corner_radius_bottom_left = 24
+
+[node name="InGameControl" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_kvsgj")
+
+[node name="WhiteBackgroundControl" parent="." instance=ExtResource("1_omxm7")]
+layout_mode = 1
+grow_horizontal = 1
+grow_vertical = 1
+
+[node name="Panel" type="Panel" parent="WhiteBackgroundControl"]
+layout_mode = 0
+offset_left = 31.0
+offset_top = 31.0
+offset_right = 834.0
+offset_bottom = 762.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_pvfdv")
+
+[node name="Control" type="Control" parent="WhiteBackgroundControl/Panel"]
+anchors_preset = 0
+offset_left = 24.0
+offset_top = 600.0
+offset_right = 64.0
+offset_bottom = 640.0
+
+[node name="SquareControl" parent="WhiteBackgroundControl/Panel/Control" instance=ExtResource("2_tlrvt")]
+layout_mode = 0
+offset_left = 95.0
+offset_right = 175.0
+
+[node name="SquareControl2" parent="WhiteBackgroundControl/Panel/Control" instance=ExtResource("2_tlrvt")]
+layout_mode = 0
+offset_left = 175.0
+offset_right = 255.0
+
+[node name="SquareControl3" parent="WhiteBackgroundControl/Panel/Control" instance=ExtResource("2_tlrvt")]
+layout_mode = 0
+offset_left = 255.0
+offset_right = 335.0
+
+[node name="SquareControl4" parent="WhiteBackgroundControl/Panel/Control" instance=ExtResource("2_tlrvt")]
+layout_mode = 0
+offset_left = 335.0
+offset_right = 415.0
+
+[node name="SquareControl5" parent="WhiteBackgroundControl/Panel/Control" instance=ExtResource("2_tlrvt")]
+layout_mode = 0
+offset_left = 415.0
+offset_right = 495.0
+
+[node name="SquareControl6" parent="WhiteBackgroundControl/Panel/Control" instance=ExtResource("2_tlrvt")]
+layout_mode = 0
+offset_left = 495.0
+offset_right = 575.0
+
+[node name="SquareControl7" parent="WhiteBackgroundControl/Panel/Control" instance=ExtResource("2_tlrvt")]
+layout_mode = 0
+offset_left = 575.0
+offset_right = 655.0
+
+[node name="VertexControl" parent="WhiteBackgroundControl/Panel/Control" instance=ExtResource("3_5g0g5")]
+layout_mode = 0
+
+[node name="VertexControl2" parent="WhiteBackgroundControl/Panel/Control" instance=ExtResource("3_5g0g5")]
+layout_mode = 0
+offset_left = 655.0
+offset_right = 750.0
+
+[node name="Control2" type="Control" parent="WhiteBackgroundControl/Panel"]
+anchors_preset = 0
+offset_left = 774.0
+offset_top = 120.0
+offset_right = 814.0
+offset_bottom = 160.0
+rotation = 3.14159
+
+[node name="SquareControl" parent="WhiteBackgroundControl/Panel/Control2" instance=ExtResource("2_tlrvt")]
+layout_mode = 0
+offset_left = 95.0
+offset_right = 175.0
+
+[node name="SquareControl2" parent="WhiteBackgroundControl/Panel/Control2" instance=ExtResource("2_tlrvt")]
+layout_mode = 0
+offset_left = 175.0
+offset_right = 255.0
+
+[node name="SquareControl3" parent="WhiteBackgroundControl/Panel/Control2" instance=ExtResource("2_tlrvt")]
+layout_mode = 0
+offset_left = 255.0
+offset_right = 335.0
+
+[node name="SquareControl4" parent="WhiteBackgroundControl/Panel/Control2" instance=ExtResource("2_tlrvt")]
+layout_mode = 0
+offset_left = 335.0
+offset_right = 415.0
+
+[node name="SquareControl5" parent="WhiteBackgroundControl/Panel/Control2" instance=ExtResource("2_tlrvt")]
+layout_mode = 0
+offset_left = 415.0
+offset_right = 495.0
+
+[node name="SquareControl6" parent="WhiteBackgroundControl/Panel/Control2" instance=ExtResource("2_tlrvt")]
+layout_mode = 0
+offset_left = 495.0
+offset_right = 575.0
+
+[node name="SquareControl7" parent="WhiteBackgroundControl/Panel/Control2" instance=ExtResource("2_tlrvt")]
+layout_mode = 0
+offset_left = 575.0
+offset_right = 655.0
+
+[node name="VertexControl" parent="WhiteBackgroundControl/Panel/Control2" instance=ExtResource("3_5g0g5")]
+layout_mode = 0
+
+[node name="VertexControl2" parent="WhiteBackgroundControl/Panel/Control2" instance=ExtResource("3_5g0g5")]
+layout_mode = 0
+offset_left = 655.0
+offset_right = 750.0
+
+[node name="Control3" type="Control" parent="WhiteBackgroundControl/Panel"]
+anchors_preset = 0
+offset_left = 119.0
+offset_top = -55.0
+offset_right = 159.0
+offset_bottom = -15.0
+rotation = 1.5708
+
+[node name="SquareControl2" parent="WhiteBackgroundControl/Panel/Control3" instance=ExtResource("2_tlrvt")]
+layout_mode = 0
+offset_left = 175.0
+offset_right = 255.0
+
+[node name="SquareControl3" parent="WhiteBackgroundControl/Panel/Control3" instance=ExtResource("2_tlrvt")]
+layout_mode = 0
+offset_left = 255.0
+offset_right = 335.0
+
+[node name="SquareControl4" parent="WhiteBackgroundControl/Panel/Control3" instance=ExtResource("2_tlrvt")]
+layout_mode = 0
+offset_left = 335.0
+offset_right = 415.0
+
+[node name="SquareControl5" parent="WhiteBackgroundControl/Panel/Control3" instance=ExtResource("2_tlrvt")]
+layout_mode = 0
+offset_left = 415.0
+offset_right = 495.0
+
+[node name="SquareControl6" parent="WhiteBackgroundControl/Panel/Control3" instance=ExtResource("2_tlrvt")]
+layout_mode = 0
+offset_left = 495.0
+offset_right = 575.0
+
+[node name="SquareControl7" parent="WhiteBackgroundControl/Panel/Control3" instance=ExtResource("2_tlrvt")]
+layout_mode = 0
+offset_left = 575.0
+offset_right = 655.0
+
+[node name="Control4" type="Control" parent="WhiteBackgroundControl/Panel"]
+anchors_preset = 0
+offset_left = 679.0
+offset_top = 775.0
+offset_right = 719.0
+offset_bottom = 815.0
+rotation = 4.71239
+
+[node name="SquareControl2" parent="WhiteBackgroundControl/Panel/Control4" instance=ExtResource("2_tlrvt")]
+layout_mode = 0
+offset_left = 175.0
+offset_right = 255.0
+
+[node name="SquareControl3" parent="WhiteBackgroundControl/Panel/Control4" instance=ExtResource("2_tlrvt")]
+layout_mode = 0
+offset_left = 255.0
+offset_right = 335.0
+
+[node name="SquareControl4" parent="WhiteBackgroundControl/Panel/Control4" instance=ExtResource("2_tlrvt")]
+layout_mode = 0
+offset_left = 335.0
+offset_right = 415.0
+
+[node name="SquareControl5" parent="WhiteBackgroundControl/Panel/Control4" instance=ExtResource("2_tlrvt")]
+layout_mode = 0
+offset_left = 415.0
+offset_right = 495.0
+
+[node name="SquareControl6" parent="WhiteBackgroundControl/Panel/Control4" instance=ExtResource("2_tlrvt")]
+layout_mode = 0
+offset_left = 495.0
+offset_right = 575.0
+
+[node name="SquareControl7" parent="WhiteBackgroundControl/Panel/Control4" instance=ExtResource("2_tlrvt")]
+layout_mode = 0
+offset_left = 575.0
+offset_right = 655.0
+
+[node name="PlayerControl" parent="WhiteBackgroundControl" instance=ExtResource("4_0sbah")]
+layout_mode = 0
+offset_left = 869.0
+offset_top = 34.0
+offset_right = 1235.0
+offset_bottom = 173.0
+
+[node name="ButtonControl" parent="WhiteBackgroundControl" instance=ExtResource("5_c77ap")]
+layout_mode = 0
+offset_left = 240.0
+offset_top = 530.0
+offset_right = 625.0
+offset_bottom = 610.0
+text = "게임시작"
+
+[connection signal="btn_pressed" from="WhiteBackgroundControl/ButtonControl" to="." method="_on_button_control_btn_pressed"]
