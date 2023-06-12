@@ -18,12 +18,13 @@ namespace DungeonBoard.Services
         Task<ErrorCode> DeleteAccount(int userId);
     }
 
-    public class AccountDB : IAccountDB
+    public class AccountDB : IAccountDB, IDisposable
     {
         IDbConnection dbConnection;
         MySqlCompiler compiler;
         QueryFactory _queryFactory;
         IOptions<DbConfig> _dbConfig;
+        private bool _disposed = false;
 
         public AccountDB(IOptions<DbConfig> dbConfig)
         {
@@ -96,17 +97,26 @@ namespace DungeonBoard.Services
                 return (ErrorCode.CannotConnectServer, null);
             }
         }
-
-        void Dispose()
+        protected virtual void Dispose(bool disposing)
         {
-            try
+            if (_disposed)
             {
+                return;
+            }
+
+            if (disposing)
+            {
+                // TODO: dispose managed state (managed objects).
                 dbConnection.Close();
             }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
+
+            _disposed = true;
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
         }
 
         void Open()

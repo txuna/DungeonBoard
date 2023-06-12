@@ -23,15 +23,11 @@ public class EnterRoomController : Controller
         RedisUser redisUser = (RedisUser)HttpContext.Items["Redis-User"];
         if (redisUser.State == UserState.Playing)
         {
-            Console.WriteLine("ALready In Lobby");
             return new EnterRoomResponse
             {
                 Result = ErrorCode.AlreadyInRoom
             };
         }
-
-        Console.WriteLine(redisUser.State);
-        Console.WriteLine("ENter room");
 
         // 해당 방의 상태 확인 PLAYING인지 READY인지 확인
         ErrorCode Result = await ChangeUserState(redisUser, UserState.Playing);

@@ -55,12 +55,15 @@ func _on_load_room_info_timer_timeout():
 	
 
 func _on_load_room_info_timer_response(json):
-	print(json.result)
 	if json.result != Global.NONE_ERROR:
+		print("Error...")
 		return 
 	
 	for node in player_container.get_children():
 		node.queue_free()
+		
+	if json.player == null:
+		return
 		
 	for player in json.player:
 		var node = load("res://src/InGame/player_control.tscn").instantiate() 
@@ -68,8 +71,3 @@ func _on_load_room_info_timer_response(json):
 		node._set_class_name(player.classId)
 		node._set_user_id(player.userId)
 		
-
-
-
-
-

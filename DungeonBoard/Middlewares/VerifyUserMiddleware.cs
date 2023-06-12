@@ -125,9 +125,11 @@ namespace DungeonBoard.Middlewares
             var errorJsonResponse = JsonConvert.SerializeObject(new MiddlewareResponse
             {
                 Result = Result
-            }); ;
-            var bytes = Encoding.UTF8.GetBytes(errorJsonResponse);
-            await context.Response.Body.WriteAsync(bytes, 0, bytes.Length);
+            });
+            var json = JsonConvert.SerializeObject(errorJsonResponse);
+            await context.Response.WriteAsync(json);
+            //var bytes = Encoding.UTF8.GetBytes(errorJsonResponse);
+            //await context.Response.Body.WriteAsync(bytes, 0, bytes.Length);
         }
     }
 

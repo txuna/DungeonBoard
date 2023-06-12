@@ -16,6 +16,7 @@
         InvalidAuthToken = 105,
         MissmatchPassword = 106,
         NoneExistUserId = 107,
+        CannotCreatePlayer = 108,
 
         /* ROOM  201 ~ 300 */
         AlreadyInRoom = 201,

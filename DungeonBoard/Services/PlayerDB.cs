@@ -16,12 +16,13 @@ namespace DungeonBoard.Services
         Task<(ErrorCode, Player?)> LoadPlayerFromId(int userId);
     }
 
-    public class PlayerDB : IPlayerDB
+    public class PlayerDB : IPlayerDB, IDisposable
     {
         IDbConnection dbConnection;
         MySqlCompiler compiler;
         QueryFactory _queryFactory;
         IOptions<DbConfig> _dbConfig;
+        private bool _disposed = false;
 
         public PlayerDB(IOptions<DbConfig> dbConfig)
         {
@@ -38,6 +39,12 @@ namespace DungeonBoard.Services
                     userId = userId,
                     classId = 0,
                 });
+
+                if (effectedRow != 1)
+                {
+                    return ErrorCode.CannotCreatePlayer;
+                }
+
                 return ErrorCode.None;
             }
             catch(Exception ex)
@@ -87,16 +94,26 @@ namespace DungeonBoard.Services
             }
         }
 
-        void Dispose()
+        protected virtual void Dispose(bool disposing)
         {
-            try
+            if (_disposed)
             {
+                return;
+            }
+
+            if (disposing)
+            {
+                // TODO: dispose managed state (managed objects).
                 dbConnection.Close();
             }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
+
+            _disposed = true;
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
         }
 
         void Open()

@@ -62,6 +62,7 @@ public class LoadRoomFromIdController : Controller
                 UserId = p.UserId,
                 ClassId = p.ClassId
             };
+            index++;
         }
 
         return new LoadRoomFromIdResponse
