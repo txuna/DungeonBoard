@@ -2,6 +2,7 @@ extends Node
 
 var auth_token = ""
 var user_id = 0
+var room_id = 0
 
 const NONE_ERROR = 0
 

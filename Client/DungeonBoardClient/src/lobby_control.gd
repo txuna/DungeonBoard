@@ -61,11 +61,13 @@ func _on_request_enter_room(room_id):
 		"RoomId" : room_id
 	})
 	
-	
+
+# Scene 변경
 func _on_response_enter_room(json):
 	if json.result != Global.NONE_ERROR:
 		return 	
 	
-	
+	Global.room_id = json.roomId
+	get_tree().change_scene_to_file("res://src/in_game_control.tscn")
 	
 	

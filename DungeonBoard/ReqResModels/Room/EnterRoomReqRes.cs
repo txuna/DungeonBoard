@@ -16,5 +16,6 @@ namespace DungeonBoard.ReqResModels.Room
     public class EnterRoomResponse
     {
         public ErrorCode Result { get; set; }
+        public int RoomId { get; set; }
     }
 }

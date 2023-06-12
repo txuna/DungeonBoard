@@ -21,6 +21,11 @@ public class LoginController : Controller
         _playerDB = playerDB;
     }
 
+    /**
+     * @TODO
+     * 로그인했을 시 해당 userId로 되어있는 key가 있을 떄 Stat 확인 있다면 이미 플레이중이므로 게임 화면으로 넘겨줌 (response에 추가)
+     * 단) 토큰은 새로 발급
+     */
     [Route("/Login")]
     [HttpPost]
     async public Task<LoginResponse> Login(LoginRequest loginRequest)

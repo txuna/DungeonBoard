@@ -218,13 +218,6 @@ layout_mode = 0
 offset_left = 575.0
 offset_right = 655.0
 
-[node name="PlayerControl" parent="WhiteBackgroundControl" instance=ExtResource("4_0sbah")]
-layout_mode = 0
-offset_left = 869.0
-offset_top = 34.0
-offset_right = 1235.0
-offset_bottom = 173.0
-
 [node name="ButtonControl" parent="WhiteBackgroundControl" instance=ExtResource("5_c77ap")]
 layout_mode = 0
 offset_left = 240.0
@@ -233,4 +226,25 @@ offset_right = 625.0
 offset_bottom = 610.0
 text = "게임시작"
 
+[node name="Players" type="VBoxContainer" parent="WhiteBackgroundControl"]
+layout_mode = 0
+offset_left = 871.0
+offset_top = 38.0
+offset_right = 1262.0
+offset_bottom = 753.0
+theme_override_constants/separation = 15
+
+[node name="PlayerControl" parent="WhiteBackgroundControl/Players" instance=ExtResource("4_0sbah")]
+custom_minimum_size = Vector2(370, 170)
+layout_mode = 2
+
+[node name="PlayerControl2" parent="WhiteBackgroundControl/Players" instance=ExtResource("4_0sbah")]
+custom_minimum_size = Vector2(370, 170)
+layout_mode = 2
+
+[node name="LoadRoomInfoTimer" type="Timer" parent="."]
+wait_time = 0.3
+autostart = true
+
 [connection signal="btn_pressed" from="WhiteBackgroundControl/ButtonControl" to="." method="_on_button_control_btn_pressed"]
+[connection signal="timeout" from="LoadRoomInfoTimer" to="." method="_on_load_room_info_timer_timeout"]

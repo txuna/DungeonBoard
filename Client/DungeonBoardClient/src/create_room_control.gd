@@ -48,6 +48,9 @@ func _response_create_room(json):
 		
 	# change to file -> Game SCENE
 	visible = false
+	Global.room_id = json.roomId
+	get_tree().change_scene_to_file("res://src/in_game_control.tscn")
+	
 
 func _on_button_control_btn_pressed():
 	_request_create_room()

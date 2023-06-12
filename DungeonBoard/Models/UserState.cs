@@ -2,7 +2,7 @@
 {
     public enum UserState
     {
-        Lobby, 
-        Playing, 
+        Lobby = 0, 
+        Playing = 1, 
     }
 }
