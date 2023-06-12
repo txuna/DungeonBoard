@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://w1lkjemcslyg"]
+[gd_scene load_steps=9 format=3 uid="uid://w1lkjemcslyg"]
 
 [ext_resource type="Script" path="res://src/in_game_control.gd" id="1_kvsgj"]
 [ext_resource type="PackedScene" uid="uid://dikpf6jcbibsb" path="res://src/ui/white_background_control.tscn" id="1_omxm7"]
@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://bt5ilchk1naf" path="res://src/InGame/vertex_control.tscn" id="3_5g0g5"]
 [ext_resource type="PackedScene" uid="uid://bjmbe2nxuyned" path="res://src/InGame/player_control.tscn" id="4_0sbah"]
 [ext_resource type="PackedScene" uid="uid://bxthv8lq6x7sb" path="res://src/ui/button_control.tscn" id="5_c77ap"]
+[ext_resource type="FontFile" uid="uid://b27bcx0yhecxo" path="res://assets/fonts/HSBombaram2.1.ttf" id="7_v5omo"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pvfdv"]
 bg_color = Color(0.847059, 0.847059, 0.847059, 1)
@@ -36,9 +37,9 @@ grow_vertical = 1
 [node name="Panel" type="Panel" parent="WhiteBackgroundControl"]
 layout_mode = 0
 offset_left = 31.0
-offset_top = 31.0
+offset_top = 45.0
 offset_right = 834.0
-offset_bottom = 762.0
+offset_bottom = 776.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_pvfdv")
 
 [node name="Control" type="Control" parent="WhiteBackgroundControl/Panel"]
@@ -229,9 +230,9 @@ text = "게임시작"
 [node name="Players" type="VBoxContainer" parent="WhiteBackgroundControl"]
 layout_mode = 0
 offset_left = 871.0
-offset_top = 38.0
+offset_top = 48.0
 offset_right = 1262.0
-offset_bottom = 753.0
+offset_bottom = 763.0
 theme_override_constants/separation = 15
 
 [node name="PlayerControl" parent="WhiteBackgroundControl/Players" instance=ExtResource("4_0sbah")]
@@ -242,9 +243,31 @@ layout_mode = 2
 custom_minimum_size = Vector2(370, 170)
 layout_mode = 2
 
+[node name="ButtonControl2" parent="WhiteBackgroundControl" instance=ExtResource("5_c77ap")]
+layout_mode = 0
+offset_left = 242.0
+offset_top = 435.0
+offset_right = 623.0
+offset_bottom = 515.0
+text = "나가기"
+
 [node name="LoadRoomInfoTimer" type="Timer" parent="."]
 wait_time = 0.3
 autostart = true
 
+[node name="HostLabel" type="Label" parent="."]
+layout_mode = 0
+offset_left = 40.0
+offset_top = 9.0
+offset_right = 123.0
+offset_bottom = 42.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("7_v5omo")
+theme_override_font_sizes/font_size = 24
+text = "호스트!"
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [connection signal="btn_pressed" from="WhiteBackgroundControl/ButtonControl" to="." method="_on_button_control_btn_pressed"]
+[connection signal="btn_pressed" from="WhiteBackgroundControl/ButtonControl2" to="." method="_on_button_control_2_btn_pressed"]
 [connection signal="timeout" from="LoadRoomInfoTimer" to="." method="_on_load_room_info_timer_timeout"]

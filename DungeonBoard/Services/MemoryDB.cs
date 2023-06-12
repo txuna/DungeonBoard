@@ -4,6 +4,7 @@ using DungeonBoard.Models;
 using DungeonBoard.Models.Account;
 using DungeonBoard.Models.Room;
 using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
 using StackExchange.Redis;
 
 namespace DungeonBoard.Services
@@ -18,8 +19,8 @@ namespace DungeonBoard.Services
         Task<ErrorCode> EnterRoom(int userId, int roomId);
         Task<(ErrorCode, RedisRoom[]?)> LoadAllRoom();
         Task<(ErrorCode, RedisRoom?)> LoadRoomFromId(int roomId);
-        //Task<ErrorCode> DeleteRoomFromRoomId(int roomId);
-        //Task<ErrorCode> DeleteRoomFromUserId(int userId);
+        Task<ErrorCode> DeleteRedisRoom(int roomId);
+        Task<ErrorCode> UpdateRedisRoom(RedisRoom room);
     }
     public class MemoryDB : IMemoryDB
     {
@@ -240,14 +241,64 @@ return roomId
                 return (ErrorCode.CannotConnectServer, -1);
             }
         }
-        //async public Task<ErrorCode> DeleteRoomFromRoomId(int roomId)
-        //{
 
-        //}
+        async public Task<ErrorCode> DeleteRedisRoom(int roomId)
+        {
+            try
+            {
+                var script =
+@"
+local rooms = redis.call('SMEMBERS', KEYS[1])
+for _, member in ipairs(rooms) do 
+    local obj = cjson.decode(member)
+    if tonumber(obj.RoomId) == tonumber(ARGV[1]) then 
+        redis.call('SREM', KEYS[1], member)
+    end
+end 
+";
 
-        //async public Task<ErrorCode> DeleteRoomFromUserId(int userId)
-        //{
+                var redis = new RedisLua(_redisConn, "ROOMS");
+                var keys = new RedisKey[] { "ROOMS" };
+                var values = new RedisValue[] { roomId };
+                var result = await redis.ScriptEvaluateAsync<int>(script, keys, values);
+                return ErrorCode.None;
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return ErrorCode.CannotConnectServer;
+            }
+        }
 
-        //}
+        // 제거와 삽입을 원자적으로 하지 않으면 중간 폴링(방 정보 로드)에서 문제 발생할 수 있음
+        async public Task<ErrorCode> UpdateRedisRoom(RedisRoom room)
+        {
+            try
+            {
+                var script =
+@"
+local rooms = redis.call('SMEMBERS', KEYS[1])
+for _, member in ipairs(rooms) do 
+    local obj = cjson.decode(member)
+    if tonumber(obj.RoomId) == tonumber(ARGV[1]) then 
+        redis.call('SREM', KEYS[1], member)
+        redis.call('SADD', KEYS[1], ARGV[2])
+    end
+end 
+";
+
+                var redis = new RedisLua(_redisConn, "ROOMS");
+                var keys = new RedisKey[] { "ROOMS" };
+                var values = new RedisValue[] { room.RoomId, JsonConvert.SerializeObject(room) };
+                var result = await redis.ScriptEvaluateAsync<int>(script, keys, values);
+
+                return ErrorCode.None;
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return ErrorCode.CannotConnectServer;
+            }
+        }
     }
 }

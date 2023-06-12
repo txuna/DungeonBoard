@@ -2,7 +2,8 @@ extends Control
 
 @onready var game_start_btn = $WhiteBackgroundControl/ButtonControl
 @onready var player_container = $WhiteBackgroundControl/Players
-
+@onready var host_label = $HostLabel
+@onready var exit_btn = $WhiteBackgroundControl/ButtonControl2
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -56,7 +57,6 @@ func _on_load_room_info_timer_timeout():
 
 func _on_load_room_info_timer_response(json):
 	if json.result != Global.NONE_ERROR:
-		print("Error...")
 		return 
 	
 	for node in player_container.get_children():
@@ -65,9 +65,37 @@ func _on_load_room_info_timer_response(json):
 	if json.player == null:
 		return
 		
+	if json.room.state == Global.RoomStateType.READY:
+		exit_btn.visible = true 
+	else:
+		exit_btn.visible = false
+		
 	for player in json.player:
 		var node = load("res://src/InGame/player_control.tscn").instantiate() 
 		player_container.add_child(node)
 		node._set_class_name(player.classId)
 		node._set_user_id(player.userId)
 		
+	if json.room.hostUserId == Global.user_id:
+		game_start_btn.visible = true 
+		host_label.visible = true
+	else:
+		game_start_btn.visible = false
+		host_label.visible = false
+
+
+func _on_button_control_2_btn_pressed():
+	var http = load("res://src/Network/http_request.tscn").instantiate()
+	add_child(http)
+	http._http_response.connect(_on_response_exit_room)
+	http._request("Room/Exit", true, {
+		"RoomId" : Global.room_id
+	})
+
+func _on_response_exit_room(json):
+	if json.result != Global.NONE_ERROR:
+		return 
+	
+	Global.room_id = 0
+	get_tree().change_scene_to_file("res://src/lobby_control.tscn")
+

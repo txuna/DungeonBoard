@@ -32,7 +32,8 @@ public class LoadRoomFromIdController : Controller
     {
         var (Result, Room) = await _memoryDB.LoadRoomFromId(loadRoomFromIdRequest.RoomId);
 
-        if(Result != ErrorCode.None)
+        //NoneExistRoom에러가 반환될 시 해당 플레이어는 로비로 씬 변경 
+        if (Result != ErrorCode.None)
         {
             return new LoadRoomFromIdResponse
             {
