@@ -23,5 +23,8 @@ namespace DungeonBoard.Models.Game
     {
         public int GameId { get; set; }
         public MasterBossInfo? BossInfo { get; set; }
+        public GamePlayer[]? Players { get; set; }
+        public int WhoIsTurn { get; set; }
+        public int Round { get; set; }
     }
 }

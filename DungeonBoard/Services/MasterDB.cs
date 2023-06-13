@@ -38,7 +38,7 @@ namespace DungeonBoard.Services
 
         public MasterBossInfo? LoadMasterBossInfo(int bossId)
         {
-            return masterBossInfo.First( e => e.BossId == bossId);
+            return masterBossInfo.FirstOrDefault( e => e.BossId == bossId);
         }
 
         public MasterBossInfo[] LoadAllMasterBossInfo()
@@ -48,7 +48,7 @@ namespace DungeonBoard.Services
 
         public MasterClassInitStat? LoadClassInitStat(int classId)
         {
-            return masterClassInitStat.First( e => e.ClassId == classId);
+            return masterClassInitStat.FirstOrDefault( e => e.ClassId == classId);
         }
 
         void Load()

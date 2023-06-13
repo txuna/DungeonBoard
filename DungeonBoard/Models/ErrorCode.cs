@@ -36,6 +36,9 @@
         PlayerAlreadyHasClass = 401,
         FailedUpdateClass = 402,
         PlayerIsNotInRoom = 403,
+
+        /* Game 501 ~ 600 */ 
+        FailedStoreGameInfoInMemory = 501,
         
     }
 }

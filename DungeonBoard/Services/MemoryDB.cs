@@ -2,6 +2,7 @@
 using CloudStructures.Structures;
 using DungeonBoard.Models;
 using DungeonBoard.Models.Account;
+using DungeonBoard.Models.Game;
 using DungeonBoard.Models.Room;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
@@ -21,6 +22,8 @@ namespace DungeonBoard.Services
         Task<(ErrorCode, RedisRoom?)> LoadRoomFromId(int roomId);
         Task<ErrorCode> DeleteRedisRoom(int roomId);
         Task<ErrorCode> UpdateRedisRoom(RedisRoom room);
+        Task<ErrorCode> StoreRedisGame(RedisGame game);
+        Task<(ErrorCode, RedisGame?)> LoadRedisGame(int gameId);
     }
     public class MemoryDB : IMemoryDB
     {
@@ -298,6 +301,46 @@ end
             {
                 Console.WriteLine(ex.Message);
                 return ErrorCode.CannotConnectServer;
+            }
+        }
+
+        async public Task<ErrorCode> StoreRedisGame(RedisGame game)
+        {
+            try
+            {
+                TimeSpan expiration = TimeSpan.FromMinutes(60);
+                var redis = new RedisString<RedisGame>(_redisConn, game.GameId + _dbConfig.Value.RedisGameKey, expiration);
+                if (await redis.SetAsync(game, expiration) == false)
+                {
+                    return ErrorCode.CannotConnectServer;
+                }
+
+                return ErrorCode.None;
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return ErrorCode.CannotConnectServer;
+            }
+        }
+
+        async public Task<(ErrorCode, RedisGame?)> LoadRedisGame(int gameId)
+        {
+            try
+            {
+                var key = Convert.ToString(gameId) + _dbConfig.Value.RedisGameKey;
+                var redis = new RedisString<RedisGame>(_redisConn, key, null);
+                var redisGame = await redis.GetAsync();
+                if(!redisGame.HasValue)
+                {
+                    return (ErrorCode.None, null);
+                }
+                return (ErrorCode.None, redisGame.Value);
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return (ErrorCode.CannotConnectServer, null);
             }
         }
     }

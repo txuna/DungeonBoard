@@ -7,5 +7,6 @@
         public string RedisUserKey { get; set; }
         public string RedisRoomKey { get; set; }
         public string RedisUniqueRoomKey { get; set; }
+        public string RedisGameKey { get; set; }
     }
 }

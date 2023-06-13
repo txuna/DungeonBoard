@@ -1,5 +1,6 @@
 ﻿using DungeonBoard.Models;
 using DungeonBoard.Models.Account;
+using DungeonBoard.Models.Game;
 using DungeonBoard.Models.Room;
 using DungeonBoard.ReqResModels.Game;
 using DungeonBoard.Services;
@@ -41,10 +42,20 @@ namespace DungeonBoard.Controllers.GameController
             }
 
             // Load Game Info
+            RedisGame? redisGame;
+            (Result, redisGame) = await _memoryDB.LoadRedisGame(redisRoom.RoomId);
+            if(Result != ErrorCode.None)
+            {
+                return new LoadGameInfoResponse
+                {
+                    Result = Result
+                };
+            }
 
             return new LoadGameInfoResponse
             {
-                Result = ErrorCode.None
+                Result = ErrorCode.None,
+                GameInfo = redisGame
             };
         }
     }

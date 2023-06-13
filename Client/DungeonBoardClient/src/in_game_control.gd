@@ -45,24 +45,48 @@ func _on_request_game_start():
 	
 func _on_response_game_start(json):
 	if json.result != Global.NONE_ERROR:
+		print(json.result)
 		return 
+
 	
-	game_start_btn.visible = false
-	exit_btn.visible = false
-	load_game_info_timer.start()
-	boss_control.visible = true 
+	# 보스는 한번만 셋업 (체력만 여러번)
 	#boss_control._set_boss()
 
 #/Game/Info
 # Player List, Player Icon등 생성
 func _on_load_game_info_timer_timeout():
-	pass # Replace with function body.
+	var http = load("res://src/Network/http_request.tscn").instantiate()
+	add_child(http)
+	http._http_response.connect(_on_load_game_info_timer_response)
+	http._request("Game/Info", true, {
+		"GameId" : Global.room_id
+	})
 	
-	
+'''
+{ 
+	"result": 0, 
+	"gameInfo": { 
+		"gameId": 1, 
+		"bossInfo": { "bossId": 1, "name": "보스1", "hp": 5000, "attack": 35, "magic": 35, "defence": 100, "skillSet1": 1, "skillSet2": 2 }, 
+		"players": [{ "userId": 9, "classId": 1, "hp": 500, "maxHp": 500, "mp": 100, "maxMp": 100, "attack": 25, "defence": 40, "magic": 0, "level": 1, "positionCard": 0 }], 
+		"whoIsTurn": 0, 
+		"round": 0 
+	} 
+}
+
+'''
 func _on_load_game_info_timer_response(json):
 	if json.result != Global.NONE_ERROR:
 		return 
 
+	# player 프로및 및 각 카드 포지션에 플레이에 아이콘 생성 
+	for player in json.gameInfo.players: 
+		pass
+	
+	# boss 세팅 - Image는 처음만 설정	
+	#boss_control._set_boss(json.gameInfo.bossInfo)
+	
+	# WhoIsTurn을 보고 주사위 오픈
 	
 
 func _on_load_room_info_timer_timeout():
@@ -92,9 +116,12 @@ func _on_load_room_info_timer_response(json):
 		else:
 			game_start_btn.visible = false 
 			host_label.visible = false
+	# 게임 시작 상태로 바뀐다면
 	else:
 		exit_btn.visible = false
 		game_start_btn.visible = false
+		boss_control.visible = true
+		load_game_info_timer.start()
 		
 	for player in json.player:
 		var node = load("res://src/InGame/player_control.tscn").instantiate() 
