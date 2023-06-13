@@ -313,6 +313,10 @@ text = "호스트!"
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="LoadGameInfoTimer" type="Timer" parent="."]
+wait_time = 0.3
+
 [connection signal="btn_pressed" from="WhiteBackgroundControl/ButtonControl" to="." method="_on_button_control_btn_pressed"]
 [connection signal="btn_pressed" from="WhiteBackgroundControl/ButtonControl2" to="." method="_on_button_control_2_btn_pressed"]
 [connection signal="timeout" from="LoadRoomInfoTimer" to="." method="_on_load_room_info_timer_timeout"]
+[connection signal="timeout" from="LoadGameInfoTimer" to="." method="_on_load_game_info_timer_timeout"]

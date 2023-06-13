@@ -27,6 +27,7 @@
         AlreadyPlayRoom = 206,
         NoneHostThisRoom = 207,
         NoneExistInThisRoom = 208,
+        IsNotPlayingThisRoom = 209,
 
         /* MasterData  301 ~ 400 */
         NoneExistClassId = 301,

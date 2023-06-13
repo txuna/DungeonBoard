@@ -7,6 +7,9 @@ extends Control
 
 @onready var card_control_containter = $WhiteBackgroundControl/Panel
 
+@onready var load_game_info_timer = $LoadGameInfoTimer
+@onready var load_room_info_timer = $LoadRoomInfoTimer
+
 var is_running_game = false
 
 # Called when the node enters the scene tree for the first time.
@@ -26,7 +29,7 @@ func _set_card():
 
 # 게임시작 request 
 func _on_button_control_btn_pressed():
-	pass # Replace with function body.
+	_on_request_game_start()
 
 
 func _on_request_game_start():
@@ -41,21 +44,40 @@ func _on_request_game_start():
 func _on_response_game_start(json):
 	if json.result != Global.NONE_ERROR:
 		return 
-		
-	game_start_btn.visible = false
+	
 	is_running_game = true
+	game_start_btn.visible = false
+	exit_btn.visible = false
+	load_game_info_timer.start()
+	load_room_info_timer.stop()
+
+#/Game/Info
+# Player List, Player Icon등 생성
+func _on_load_game_info_timer_timeout():
+	pass # Replace with function body.
+	
+	
+func _on_load_game_info_timer_response(json):
+	if json.result != Global.NONE_ERROR:
+		return 
+
 	
 
 func _on_load_room_info_timer_timeout():
+	if is_running_game:
+		return 
 	var http = load("res://src/Network/http_request.tscn").instantiate()
 	add_child(http)
 	http._http_response.connect(_on_load_room_info_timer_response)
 	http._request("Room/Load", true, {
 		"RoomId" : Global.room_id
 	})
-	
+
 
 func _on_load_room_info_timer_response(json):
+	if is_running_game:
+		return 
+		
 	if json.result != Global.NONE_ERROR:
 		return 
 	
@@ -75,9 +97,6 @@ func _on_load_room_info_timer_response(json):
 		player_container.add_child(node)
 		node._set_class_name(player.classId)
 		node._set_user_id(player.userId)
-	
-	if is_running_game:
-		return 
 
 	if json.room.hostUserId == Global.user_id:
 		game_start_btn.visible = true 
@@ -101,4 +120,5 @@ func _on_response_exit_room(json):
 	
 	Global.room_id = 0
 	get_tree().change_scene_to_file("res://src/lobby_control.tscn")
+
 
