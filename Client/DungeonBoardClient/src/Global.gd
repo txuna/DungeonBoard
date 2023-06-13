@@ -89,7 +89,7 @@ const room_state_string = {
 
 
 # 보스 
-const boss_string = {
+var boss_string = {
 	1 : {
 		"name" : "보스1",
 		"hp" : 5000, 
@@ -97,7 +97,8 @@ const boss_string = {
 		"magic" : 35, 
 		"defence" : 100, 
 		"skillSet1" : 1, 
-		"skillSet2" : 2
+		"skillSet2" : 2,
+		"image" : load("res://assets/abor.png")
 	},
 	2 : {
 		"name" : "보스2",
@@ -106,11 +107,12 @@ const boss_string = {
 		"magic" : 50, 
 		"defence" : 200, 
 		"skill_set1" : 1, 
-		"skill_set2" : 2
+		"skill_set2" : 2,
+		"image" : load("res://assets/mushroom_fill.png")
 	}
 }
 
-const skill_string = {
+var skill_string = {
 	1 : {
 		"name" : "화염1", 
 		"type" : SkillType.Physic, 

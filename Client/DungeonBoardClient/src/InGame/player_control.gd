@@ -13,13 +13,14 @@ extends Panel
 @onready var item_container = $Control
 
 var user_id = 0
+var class_id = 0
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	custom_minimum_size = Vector2(370, 170)
 	_set_hp(0, 100)
 	_set_mp(0, 100)
-	_set_class_name(0)
+	_set_name(0, 0)
 	_set_stat(0, 0, 0)
 	_set_items()
 
@@ -38,12 +39,13 @@ func _response_load_player_info(json):
 		return 
 
 
-func _set_user_id(_user_id:int):
+func _set_name(_class_id:int, _user_id:int):
 	user_id = _user_id
-
-
-func _set_class_name(class_id:int):
-	class_name_label.text = Global.class_string[class_id].name
+	class_id = _class_id
+	class_name_label.text = "({n}){c}".format({
+		"n" : str(user_id), 
+		"c" : Global.class_string[class_id].name
+	})
 
 
 func _set_hp(value, max):

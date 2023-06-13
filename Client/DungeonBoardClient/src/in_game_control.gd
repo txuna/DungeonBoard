@@ -10,11 +10,13 @@ extends Control
 @onready var load_game_info_timer = $LoadGameInfoTimer
 @onready var load_room_info_timer = $LoadRoomInfoTimer
 
-var is_running_game = false
+@onready var boss_control = $WhiteBackgroundControl/BossControl
+
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	_set_card()
+	boss_control.visible = false
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -45,11 +47,11 @@ func _on_response_game_start(json):
 	if json.result != Global.NONE_ERROR:
 		return 
 	
-	is_running_game = true
 	game_start_btn.visible = false
 	exit_btn.visible = false
 	load_game_info_timer.start()
-	load_room_info_timer.stop()
+	boss_control.visible = true 
+	#boss_control._set_boss()
 
 #/Game/Info
 # Player List, Player Icon등 생성
@@ -64,8 +66,6 @@ func _on_load_game_info_timer_response(json):
 	
 
 func _on_load_room_info_timer_timeout():
-	if is_running_game:
-		return 
 	var http = load("res://src/Network/http_request.tscn").instantiate()
 	add_child(http)
 	http._http_response.connect(_on_load_room_info_timer_response)
@@ -75,9 +75,6 @@ func _on_load_room_info_timer_timeout():
 
 
 func _on_load_room_info_timer_response(json):
-	if is_running_game:
-		return 
-		
 	if json.result != Global.NONE_ERROR:
 		return 
 	
@@ -89,21 +86,20 @@ func _on_load_room_info_timer_response(json):
 		
 	if json.room.state == Global.RoomStateType.READY:
 		exit_btn.visible = true 
+		if json.room.hostUserId == Global.user_id:
+			game_start_btn.visible = true 
+			host_label.visible = true 
+		else:
+			game_start_btn.visible = false 
+			host_label.visible = false
 	else:
 		exit_btn.visible = false
+		game_start_btn.visible = false
 		
 	for player in json.player:
 		var node = load("res://src/InGame/player_control.tscn").instantiate() 
 		player_container.add_child(node)
-		node._set_class_name(player.classId)
-		node._set_user_id(player.userId)
-
-	if json.room.hostUserId == Global.user_id:
-		game_start_btn.visible = true 
-		host_label.visible = true
-	else:
-		game_start_btn.visible = false
-		host_label.visible = false
+		node._set_name(player.classId, player.userId)
 
 
 func _on_button_control_2_btn_pressed():

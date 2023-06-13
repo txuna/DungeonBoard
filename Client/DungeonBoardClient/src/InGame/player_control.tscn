@@ -74,8 +74,8 @@ offset_right = 72.0
 offset_bottom = 67.0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_fonts/font = ExtResource("1_6tmeq")
-theme_override_font_sizes/font_size = 16
-text = "전사"
+theme_override_font_sizes/font_size = 12
+text = "(30) 마법사"
 horizontal_alignment = 1
 vertical_alignment = 1
 

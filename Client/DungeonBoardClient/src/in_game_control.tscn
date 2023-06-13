@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://w1lkjemcslyg"]
+[gd_scene load_steps=10 format=3 uid="uid://w1lkjemcslyg"]
 
 [ext_resource type="Script" path="res://src/in_game_control.gd" id="1_kvsgj"]
 [ext_resource type="PackedScene" uid="uid://dikpf6jcbibsb" path="res://src/ui/white_background_control.tscn" id="1_omxm7"]
@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://bt5ilchk1naf" path="res://src/InGame/vertex_control.tscn" id="3_5g0g5"]
 [ext_resource type="PackedScene" uid="uid://bjmbe2nxuyned" path="res://src/InGame/player_control.tscn" id="4_0sbah"]
 [ext_resource type="PackedScene" uid="uid://bxthv8lq6x7sb" path="res://src/ui/button_control.tscn" id="5_c77ap"]
+[ext_resource type="PackedScene" uid="uid://bpj0aw8wrubxs" path="res://src/boss_control.tscn" id="7_mjfql"]
 [ext_resource type="FontFile" uid="uid://b27bcx0yhecxo" path="res://assets/fonts/HSBombaram2.1.ttf" id="7_v5omo"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pvfdv"]
@@ -295,6 +296,14 @@ offset_top = 435.0
 offset_right = 623.0
 offset_bottom = 515.0
 text = "나가기"
+
+[node name="BossControl" parent="WhiteBackgroundControl" instance=ExtResource("7_mjfql")]
+visible = false
+layout_mode = 1
+offset_left = 250.0
+offset_top = 177.0
+offset_right = 250.0
+offset_bottom = 177.0
 
 [node name="LoadRoomInfoTimer" type="Timer" parent="."]
 wait_time = 0.3

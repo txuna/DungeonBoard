@@ -1,0 +1,69 @@
+[gd_scene load_steps=6 format=3 uid="uid://bpj0aw8wrubxs"]
+
+[ext_resource type="Texture2D" uid="uid://dlfe77mcm5w7a" path="res://assets/abor.png" id="1_22c05"]
+[ext_resource type="Script" path="res://src/boss_control.gd" id="1_uiq1q"]
+[ext_resource type="FontFile" uid="uid://b27bcx0yhecxo" path="res://assets/fonts/HSBombaram2.1.ttf" id="2_7ac4e"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_u6dek"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.933333, 0.933333, 0.933333, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_sklf0"]
+bg_color = Color(1, 0, 0.607843, 0.541176)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.933333, 0.933333, 0.933333, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[node name="BossControl" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_uiq1q")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 0
+offset_right = 350.0
+offset_bottom = 350.0
+texture = ExtResource("1_22c05")
+
+[node name="ProgressBar" type="ProgressBar" parent="."]
+layout_mode = 0
+offset_left = -64.0
+offset_top = 395.0
+offset_right = 383.0
+offset_bottom = 446.0
+theme_override_fonts/font = ExtResource("2_7ac4e")
+theme_override_font_sizes/font_size = 26
+theme_override_styles/background = SubResource("StyleBoxFlat_u6dek")
+theme_override_styles/fill = SubResource("StyleBoxFlat_sklf0")
+value = 30.0
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 0
+offset_left = 73.0
+offset_top = 356.0
+offset_right = 251.0
+offset_bottom = 389.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("2_7ac4e")
+theme_override_font_sizes/font_size = 24
+text = "보스1"
+horizontal_alignment = 1
+vertical_alignment = 1
