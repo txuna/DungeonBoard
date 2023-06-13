@@ -21,6 +21,9 @@ namespace DungeonBoard.Services
     {
         MasterBossInfo[] masterBossInfo;
         MasterClassInitStat[] masterClassInitStat;
+        MasterClassLevelupStat masterClassLevelupStat;
+        MasterClassSkillInfo[] masterClassSkillInfo;
+        MasterSkillInfo[] masterSkillInfo;
 
         IOptions<DbConfig> _dbConfig;
         IDbConnection dbConnection;
@@ -55,6 +58,9 @@ namespace DungeonBoard.Services
                 // 보스 정보를 가지고 옴
                 masterBossInfo = (queryFactory.Query("master_boss_info").Get<MasterBossInfo>()).ToArray();
                 masterClassInitStat = (queryFactory.Query("master_class_init_stat").Get<MasterClassInitStat>()).ToArray();
+                masterClassLevelupStat = queryFactory.Query("master_class_levelup_stat").FirstOrDefault<MasterClassLevelupStat>();
+                masterClassSkillInfo = (queryFactory.Query("master_class_skill_info").Get<MasterClassSkillInfo>()).ToArray();
+                masterSkillInfo = (queryFactory.Query("master_skill_info").Get<MasterSkillInfo>()).ToArray();
             }
 
             catch(Exception ex)

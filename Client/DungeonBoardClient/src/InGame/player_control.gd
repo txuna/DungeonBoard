@@ -43,7 +43,7 @@ func _set_user_id(_user_id:int):
 
 
 func _set_class_name(class_id:int):
-	class_name_label.text = Global.class_string[class_id]
+	class_name_label.text = Global.class_string[class_id].name
 
 
 func _set_hp(value, max):

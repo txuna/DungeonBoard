@@ -17,13 +17,11 @@ namespace DungeonBoard.Models.Game
         public int Magic { get; set; }
         public int Level { get; set; }
         public int PositionCard { get; set; }
-        public MasterItemInfo[] Items { get; set; }
     }
 
     public class RedisGame
     {
         public int GameId { get; set; }
-        public int BossId { get; set; }
-        public int BossHp { get; set; }
+        public MasterBossInfo? BossInfo { get; set; }
     }
 }
