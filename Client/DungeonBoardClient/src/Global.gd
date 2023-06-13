@@ -12,6 +12,32 @@ const error_code_msg = {
 
 const MAX_HEADCOUNT = 4
 
+enum CardType {
+	SkillCard = 0, 
+	LevelupCard = 1, 
+	ShopCard = 2, 
+	SpecialCard = 3
+}
+
+const card_string = {
+	CardType.SkillCard : {
+		"name" : "스킬", 
+		"color" : Color.DARK_CYAN
+	},
+	CardType.LevelupCard : {
+		"name" : "레벨업",
+		"color" : Color.DARK_GREEN
+	},
+	CardType.ShopCard : {
+		"name" : "상점",
+		"color" : Color.BLUE_VIOLET
+	},
+	CardType.SpecialCard : {
+		"name" : "특수카드", 
+		"color" : Color.DARK_ORANGE
+	}
+}
+
 enum ClassType{
 	NONE_CLASS = 0, 
 	WARRIOR = 1, 

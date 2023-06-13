@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DungeonBoard.Controllers.GameController;
 
+[ApiController]
 public class StartGameController : Controller
 {
     IMemoryDB _memoryDB;
@@ -14,6 +15,8 @@ public class StartGameController : Controller
         _memoryDB = memoryDB;
     }
 
+    [Route("/Game/Start")]
+    [HttpPost]
     async public Task<StartGameResponse> StartGame(StartGameRequest startGameRequest)
     {
         // 방에 참여하고 있는지 확인 
@@ -53,9 +56,13 @@ public class StartGameController : Controller
             };
         }
 
+        // 해당 방의 상태 변경 
+        room.State = RoomState.Playing;
+        Result = await _memoryDB.UpdateRedisRoom(room);
+
         return new StartGameResponse
         {
-            Result = ErrorCode.None
+            Result = Result
         };
     }
 }

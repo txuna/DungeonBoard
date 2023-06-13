@@ -3,8 +3,7 @@
 [ext_resource type="Script" path="res://src/InGame/vertex_control.gd" id="1_lqbgg"]
 [ext_resource type="FontFile" uid="uid://b27bcx0yhecxo" path="res://assets/fonts/HSBombaram2.1.ttf" id="1_qkytb"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jmnlb"]
-bg_color = Color(0.152941, 0.152941, 0.152941, 1)
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_e1wqj"]
 corner_radius_top_left = 4
 corner_radius_top_right = 4
 
@@ -17,7 +16,7 @@ script = ExtResource("1_lqbgg")
 layout_mode = 0
 offset_right = 95.0
 offset_bottom = 30.0
-theme_override_styles/panel = SubResource("StyleBoxFlat_jmnlb")
+theme_override_styles/panel = SubResource("StyleBoxFlat_e1wqj")
 
 [node name="Label" type="Label" parent="."]
 layout_mode = 0

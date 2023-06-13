@@ -53,44 +53,57 @@ offset_bottom = 640.0
 layout_mode = 0
 offset_left = 95.0
 offset_right = 175.0
+card_number = 7
+card_type = 1
 
 [node name="SquareControl2" parent="WhiteBackgroundControl/Panel/Control" instance=ExtResource("2_tlrvt")]
 layout_mode = 0
 offset_left = 175.0
 offset_right = 255.0
+card_number = 6
 
 [node name="SquareControl3" parent="WhiteBackgroundControl/Panel/Control" instance=ExtResource("2_tlrvt")]
 layout_mode = 0
 offset_left = 255.0
 offset_right = 335.0
+card_number = 5
 
 [node name="SquareControl4" parent="WhiteBackgroundControl/Panel/Control" instance=ExtResource("2_tlrvt")]
 layout_mode = 0
 offset_left = 335.0
 offset_right = 415.0
+card_number = 4
+card_type = 2
 
 [node name="SquareControl5" parent="WhiteBackgroundControl/Panel/Control" instance=ExtResource("2_tlrvt")]
 layout_mode = 0
 offset_left = 415.0
 offset_right = 495.0
+card_number = 3
+card_type = 1
 
 [node name="SquareControl6" parent="WhiteBackgroundControl/Panel/Control" instance=ExtResource("2_tlrvt")]
 layout_mode = 0
 offset_left = 495.0
 offset_right = 575.0
+card_number = 2
 
 [node name="SquareControl7" parent="WhiteBackgroundControl/Panel/Control" instance=ExtResource("2_tlrvt")]
 layout_mode = 0
 offset_left = 575.0
 offset_right = 655.0
+card_number = 1
 
 [node name="VertexControl" parent="WhiteBackgroundControl/Panel/Control" instance=ExtResource("3_5g0g5")]
 layout_mode = 0
+card_number = 8
+card_type = 3
 
 [node name="VertexControl2" parent="WhiteBackgroundControl/Panel/Control" instance=ExtResource("3_5g0g5")]
 layout_mode = 0
 offset_left = 655.0
 offset_right = 750.0
+card_type = 3
 
 [node name="Control2" type="Control" parent="WhiteBackgroundControl/Panel"]
 anchors_preset = 0
@@ -104,44 +117,58 @@ rotation = 3.14159
 layout_mode = 0
 offset_left = 95.0
 offset_right = 175.0
+card_number = 22
 
 [node name="SquareControl2" parent="WhiteBackgroundControl/Panel/Control2" instance=ExtResource("2_tlrvt")]
 layout_mode = 0
 offset_left = 175.0
 offset_right = 255.0
+card_number = 21
 
 [node name="SquareControl3" parent="WhiteBackgroundControl/Panel/Control2" instance=ExtResource("2_tlrvt")]
 layout_mode = 0
 offset_left = 255.0
 offset_right = 335.0
+card_number = 20
+card_type = 2
 
 [node name="SquareControl4" parent="WhiteBackgroundControl/Panel/Control2" instance=ExtResource("2_tlrvt")]
 layout_mode = 0
 offset_left = 335.0
 offset_right = 415.0
+card_number = 19
+card_type = 1
 
 [node name="SquareControl5" parent="WhiteBackgroundControl/Panel/Control2" instance=ExtResource("2_tlrvt")]
 layout_mode = 0
 offset_left = 415.0
 offset_right = 495.0
+card_number = 18
+card_type = 1
 
 [node name="SquareControl6" parent="WhiteBackgroundControl/Panel/Control2" instance=ExtResource("2_tlrvt")]
 layout_mode = 0
 offset_left = 495.0
 offset_right = 575.0
+card_number = 17
 
 [node name="SquareControl7" parent="WhiteBackgroundControl/Panel/Control2" instance=ExtResource("2_tlrvt")]
 layout_mode = 0
 offset_left = 575.0
 offset_right = 655.0
+card_number = 16
 
 [node name="VertexControl" parent="WhiteBackgroundControl/Panel/Control2" instance=ExtResource("3_5g0g5")]
 layout_mode = 0
+card_number = 23
+card_type = 3
 
 [node name="VertexControl2" parent="WhiteBackgroundControl/Panel/Control2" instance=ExtResource("3_5g0g5")]
 layout_mode = 0
 offset_left = 655.0
 offset_right = 750.0
+card_number = 15
+card_type = 3
 
 [node name="Control3" type="Control" parent="WhiteBackgroundControl/Panel"]
 anchors_preset = 0
@@ -155,31 +182,40 @@ rotation = 1.5708
 layout_mode = 0
 offset_left = 175.0
 offset_right = 255.0
+card_number = 14
 
 [node name="SquareControl3" parent="WhiteBackgroundControl/Panel/Control3" instance=ExtResource("2_tlrvt")]
 layout_mode = 0
 offset_left = 255.0
 offset_right = 335.0
+card_number = 13
+card_type = 1
 
 [node name="SquareControl4" parent="WhiteBackgroundControl/Panel/Control3" instance=ExtResource("2_tlrvt")]
 layout_mode = 0
 offset_left = 335.0
 offset_right = 415.0
+card_number = 12
+card_type = 1
 
 [node name="SquareControl5" parent="WhiteBackgroundControl/Panel/Control3" instance=ExtResource("2_tlrvt")]
 layout_mode = 0
 offset_left = 415.0
 offset_right = 495.0
+card_number = 11
 
 [node name="SquareControl6" parent="WhiteBackgroundControl/Panel/Control3" instance=ExtResource("2_tlrvt")]
 layout_mode = 0
 offset_left = 495.0
 offset_right = 575.0
+card_number = 10
+card_type = 2
 
 [node name="SquareControl7" parent="WhiteBackgroundControl/Panel/Control3" instance=ExtResource("2_tlrvt")]
 layout_mode = 0
 offset_left = 575.0
 offset_right = 655.0
+card_number = 9
 
 [node name="Control4" type="Control" parent="WhiteBackgroundControl/Panel"]
 anchors_preset = 0
@@ -193,31 +229,40 @@ rotation = 4.71239
 layout_mode = 0
 offset_left = 175.0
 offset_right = 255.0
+card_number = 29
 
 [node name="SquareControl3" parent="WhiteBackgroundControl/Panel/Control4" instance=ExtResource("2_tlrvt")]
 layout_mode = 0
 offset_left = 255.0
 offset_right = 335.0
+card_number = 28
+card_type = 1
 
 [node name="SquareControl4" parent="WhiteBackgroundControl/Panel/Control4" instance=ExtResource("2_tlrvt")]
 layout_mode = 0
 offset_left = 335.0
 offset_right = 415.0
+card_number = 27
 
 [node name="SquareControl5" parent="WhiteBackgroundControl/Panel/Control4" instance=ExtResource("2_tlrvt")]
 layout_mode = 0
 offset_left = 415.0
 offset_right = 495.0
+card_number = 26
 
 [node name="SquareControl6" parent="WhiteBackgroundControl/Panel/Control4" instance=ExtResource("2_tlrvt")]
 layout_mode = 0
 offset_left = 495.0
 offset_right = 575.0
+card_number = 25
+card_type = 2
 
 [node name="SquareControl7" parent="WhiteBackgroundControl/Panel/Control4" instance=ExtResource("2_tlrvt")]
 layout_mode = 0
 offset_left = 575.0
 offset_right = 655.0
+card_number = 24
+card_type = 2
 
 [node name="ButtonControl" parent="WhiteBackgroundControl" instance=ExtResource("5_c77ap")]
 layout_mode = 0

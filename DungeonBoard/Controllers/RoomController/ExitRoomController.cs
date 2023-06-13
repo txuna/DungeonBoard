@@ -21,6 +21,7 @@ public class ExitRoomController : Controller
     async public Task<ExitRoomResponse> ExitRoom(ExitRoomRequest exitRoomRequest)
     {
         RedisUser redisUser = (RedisUser)HttpContext.Items["Redis-User"];
+
         // 플레이어의 상태 확인 -> PLAYING상태인가
         if(redisUser.State != UserState.Playing)
         {

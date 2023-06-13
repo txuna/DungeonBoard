@@ -5,9 +5,13 @@ extends Control
 @onready var host_label = $HostLabel
 @onready var exit_btn = $WhiteBackgroundControl/ButtonControl2
 
+@onready var card_control_containter = $WhiteBackgroundControl/Panel
+
+var is_running_game = false
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	pass # Replace with function body.
+	_set_card()
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -15,15 +19,10 @@ func _process(delta):
 	pass
 
 
-func _on_request_load_room_info():
-	pass
-	
-
-func _on_response_load_room_info(json):
-	if json.result != Global.NONE_ERROR:
-		return
-
-
+func _set_card():
+	for control in card_control_containter.get_children():
+		for card_node in control.get_children():
+			card_node._set_card()
 
 # 게임시작 request 
 func _on_button_control_btn_pressed():
@@ -44,6 +43,7 @@ func _on_response_game_start(json):
 		return 
 		
 	game_start_btn.visible = false
+	is_running_game = true
 	
 
 func _on_load_room_info_timer_timeout():
@@ -75,7 +75,10 @@ func _on_load_room_info_timer_response(json):
 		player_container.add_child(node)
 		node._set_class_name(player.classId)
 		node._set_user_id(player.userId)
-		
+	
+	if is_running_game:
+		return 
+
 	if json.room.hostUserId == Global.user_id:
 		game_start_btn.visible = true 
 		host_label.visible = true

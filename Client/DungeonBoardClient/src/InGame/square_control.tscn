@@ -4,7 +4,6 @@
 [ext_resource type="FontFile" uid="uid://b27bcx0yhecxo" path="res://assets/fonts/HSBombaram2.1.ttf" id="2_78fgo"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wiuu7"]
-bg_color = Color(0.152941, 0.152941, 0.152941, 1)
 corner_radius_top_left = 4
 corner_radius_top_right = 4
 
