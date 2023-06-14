@@ -19,12 +19,18 @@ namespace DungeonBoard.Models.Game
         public int PositionCard { get; set; }
     }
 
+    public class WhoIsTurn
+    {
+        public int Index { get; set; }
+        public int UserId { get; set; }
+    }
+
     public class RedisGame
     {
         public int GameId { get; set; }
         public MasterBossInfo? BossInfo { get; set; }
         public GamePlayer[]? Players { get; set; }
-        public int WhoIsTurn { get; set; }
+        public WhoIsTurn? WhoIsTurn { get; set; }
         public int Round { get; set; }
     }
 }

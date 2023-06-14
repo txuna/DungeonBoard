@@ -24,7 +24,7 @@ namespace DungeonBoard.Controllers.GameController
             RedisUser redisUser = (RedisUser)HttpContext.Items["Redis-User"];
             
             // GameId == RoomId 
-            var (Result, redisRoom) = await _memoryDB.LoadRoomFromId(loadGameInfoRequest.GameId); 
+            var (Result, redisRoom) = await _memoryDB.LoadRoomFromId(loadGameInfoRequest.GameId);
             if(Result != ErrorCode.None)
             {
                 return new LoadGameInfoResponse
@@ -32,8 +32,7 @@ namespace DungeonBoard.Controllers.GameController
                     Result = Result
                 };
             }
-
-            if(redisRoom.State != RoomState.Playing)
+            if (redisRoom.State != RoomState.Playing)
             {
                 return new LoadGameInfoResponse
                 {

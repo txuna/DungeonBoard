@@ -99,7 +99,11 @@ public class StartGameController : Controller
         var redisGame = new RedisGame();
         // GameId 세팅 
         redisGame.GameId = redisRoom.RoomId;
-        redisGame.WhoIsTurn = 0;
+        redisGame.WhoIsTurn = new WhoIsTurn
+        {
+            Index = 0,
+            UserId = redisRoom.Users[0]
+        };
         redisGame.Round = 0;
 
         // 보스 세팅 

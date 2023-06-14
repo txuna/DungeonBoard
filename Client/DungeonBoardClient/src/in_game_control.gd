@@ -88,14 +88,20 @@ func _on_load_game_info_timer_response(json):
 		# 이동의 변화가 있었는지 확인
 		move_player_icon(json.gameInfo.players)
 			
-	# 프로필 설정
+	# 프로필 설정 - WhoIsTurn의 UserId와 같다면 세팅
+	# Room이랑 겹칠 수 도 있음
+	for node in player_container.get_children():
+		node.queue_free()
+			
 	for player in json.gameInfo.players: 
-		pass
+		var node = load("res://src/InGame/player_control.tscn").instantiate() 
+		player_container.add_child(node)
+		node._set_name(player.classId, player.userId)
 	
 	# boss 세팅 - Image는 처음만 설정	
 	boss_control._update_boss(json.gameInfo.bossInfo)
 	# WhoIsTurn을 보고 주사위 오픈
-	if json.gameInfo.whoIsTurn == Global.user_id:
+	if json.gameInfo.whoIsTurn.userId == Global.user_id:
 		dice_control.visible = true 
 	else:
 		dice_control.visible = false
@@ -111,24 +117,30 @@ func _on_load_room_info_timer_timeout():
 
 
 func _on_load_room_info_timer_response(json):
-	print(json)
 	if json.result != Global.NONE_ERROR:
 		return 
-	
-	for node in player_container.get_children():
-		node.queue_free()
 		
 	if json.player == null:
 		return
 		
 	if json.room.state == Global.RoomStateType.READY:
+		for node in player_container.get_children():
+			node.queue_free()
+		
 		exit_btn.visible = true 
+		
 		if json.room.hostUserId == Global.user_id:
 			game_start_btn.visible = true 
 			host_label.visible = true 
 		else:
 			game_start_btn.visible = false 
 			host_label.visible = false
+		
+		# Ready일 때 세팅하고 Game 진행되면 다시 생성
+		for player in json.player:
+			var node = load("res://src/InGame/player_control.tscn").instantiate() 
+			player_container.add_child(node)
+			node._set_name(player.classId, player.userId)
 	# 게임 시작 상태로 바뀐다면
 	else:
 		if not is_game_setup:
@@ -138,11 +150,6 @@ func _on_load_room_info_timer_response(json):
 			dice_control.visible = true
 			load_game_info_timer.start()
 			is_game_setup = true
-	
-	for player in json.player:
-		var node = load("res://src/InGame/player_control.tscn").instantiate() 
-		player_container.add_child(node)
-		node._set_name(player.classId, player.userId)
 
 
 func create_player_icon(player_info):

@@ -67,11 +67,12 @@ namespace DungeonBoard.Controllers.GameController
                 };
             }
 
-            // Position Update - 업데이트시 최대값 29이상이 될시 0으로 
+            // Position Update 
+            Result = await UpdatePlayerPosition(redisGame, diceGameRequest.UserId, diceGameRequest.DiceNumber);
 
             return new DiceGameResponse
             {
-                Result = ErrorCode.None
+                Result = Result
             };
         }
 
@@ -87,6 +88,23 @@ namespace DungeonBoard.Controllers.GameController
 
         async Task<ErrorCode> UpdatePlayerPosition(RedisGame redisGame, int userId, int dice)
         {
+            for(int i=0; i<redisGame.Players.Length; i++)
+            {
+                if (redisGame.Players[i].UserId == userId)
+                {
+                    if (redisGame.Players[i].PositionCard + dice > 29)
+                    {
+                        int v = redisGame.Players[i].PositionCard + dice - 30;
+                        redisGame.Players[i].PositionCard = v;
+                    }
+                    else
+                    {
+                        redisGame.Players[i].PositionCard += dice;
+                    }
+                    break; 
+                }
+            }
+
             return await _memoryDB.StoreRedisGame(redisGame);
         }
 
