@@ -19,8 +19,6 @@ namespace DungeonBoard.Middlewares
         private readonly Services.IMemoryDB _memoryDB;
         private readonly string[] exclusivePaths = { "/Login", "/Register" };
 
-        int userId;
-        string authToken;
         public VerifyUserMiddleware(RequestDelegate next, Services.IMemoryDB memoryDB)
         {
             _next = next;
@@ -45,7 +43,10 @@ namespace DungeonBoard.Middlewares
                 if (CheckExclusivePath(httpContext) == false)
                 {
                     var document = JsonDocument.Parse(bodyStr);
-                    if (IsInvalidJsonFormatThenSendError(document, out userId, out authToken) == false)
+
+                    var (result, userId, authToken) = IsInvalidJsonFormatThenSendError(document);
+                    
+                    if (result == false)
                     {
                         await WriteResponse(httpContext, ErrorCode.InvalidJsonFormat);
                         return;
@@ -58,8 +59,9 @@ namespace DungeonBoard.Middlewares
                         return;
                     }
 
-                    if (VerifyAccount(redisUser) == false)
+                    if (VerifyAccount(redisUser, authToken) == false)
                     {
+                        //Console.WriteLine($"Invalid Token [{redisUser.UserId}][{redisUser.AuthToken}] - [{userId}][{authToken}]");
                         await WriteResponse(httpContext, ErrorCode.InvalidAuthToken);
                         return;
                     }
@@ -72,23 +74,25 @@ namespace DungeonBoard.Middlewares
             await _next(httpContext);
         }
 
-        private bool IsInvalidJsonFormatThenSendError(JsonDocument document, out int userId, out string authToken)
+        private (bool, int, string) IsInvalidJsonFormatThenSendError(JsonDocument document)
         {
+            int userId;
+            string authToken; 
             try
             {
                 userId = document.RootElement.GetProperty("UserId").GetInt32();
                 authToken = document.RootElement.GetProperty("AuthToken").GetString();
 
-                return true;
+                return (true, userId, authToken);
             }
             catch
             {
                 userId = -1; authToken = "";
-                return false;
+                return (false, userId, authToken);
             }
         }
 
-        private bool VerifyAccount(RedisUser redisUser)
+        private bool VerifyAccount(RedisUser redisUser, string authToken)
         {
             if(redisUser.AuthToken != authToken)
             {
@@ -126,8 +130,8 @@ namespace DungeonBoard.Middlewares
             {
                 Result = Result
             });
-            var json = JsonConvert.SerializeObject(errorJsonResponse);
-            await context.Response.WriteAsync(json);
+            //var json = JsonConvert.SerializeObject(errorJsonResponse);
+            await context.Response.WriteAsJsonAsync(errorJsonResponse);
             //var bytes = Encoding.UTF8.GetBytes(errorJsonResponse);
             //await context.Response.Body.WriteAsync(bytes, 0, bytes.Length);
         }
