@@ -44,6 +44,12 @@ func _on_response(json):
 		
 	Global.user_id = json.userId 
 	Global.auth_token = json.authToken
+		
+	# 게임중이였다면
+	if json.state == Global.PlayerStateType.PLAYING:
+		Global.room_id = json.roomId
+		get_tree().change_scene_to_file("res://src/in_game_control.tscn")
+		return 
 	
 	# 직업 선택 화면으로 
 	if json.classId == Global.ClassType.NONE_CLASS:

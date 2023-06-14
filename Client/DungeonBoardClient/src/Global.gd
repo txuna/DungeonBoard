@@ -56,6 +56,11 @@ enum RoomStateType{
 	PLAYING = 1
 }
 
+enum PlayerStateType{
+	Lobby = 0, 
+	PLAYING = 1
+}
+
 # 직업 
 const class_string = {
 	ClassType.NONE_CLASS : {

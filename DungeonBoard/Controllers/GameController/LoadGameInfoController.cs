@@ -22,8 +22,6 @@ namespace DungeonBoard.Controllers.GameController
         async public Task<LoadGameInfoResponse> LoadGameInfo(LoadGameInfoRequest loadGameInfoRequest)
         {
             RedisUser redisUser = (RedisUser)HttpContext.Items["Redis-User"];
-
-            Console.WriteLine("RE1");
             
             // GameId == RoomId 
             var (Result, redisRoom) = await _memoryDB.LoadRoomFromId(loadGameInfoRequest.GameId); 
@@ -53,8 +51,6 @@ namespace DungeonBoard.Controllers.GameController
                     Result = Result
                 };
             }
-
-            Console.WriteLine("RE2");
 
             return new LoadGameInfoResponse
             {

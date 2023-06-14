@@ -23,3 +23,7 @@ Global="*res://src/Global.gd"
 
 window/size/viewport_width=1280
 window/size/viewport_height=800
+
+[dotnet]
+
+project/assembly_name="DungeonBoardClient"

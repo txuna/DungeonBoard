@@ -1,6 +1,7 @@
 ﻿using DungeonBoard.Models;
 using DungeonBoard.Models.Account;
 using DungeonBoard.Models.Player;
+using DungeonBoard.Models.Room;
 using DungeonBoard.ReqResModels.Account;
 using DungeonBoard.Services;
 using DungeonBoard.Utilities;
@@ -49,7 +50,32 @@ public class LoginController : Controller
 
         var authToken = Security.CreateAuthToken();
 
-        Result = await StoreUserInfoInMemory(user, authToken);
+        // 이미 플레이어가 Redis에 있는지 확인 -> State 보존후 새로 저장 
+        RedisUser redisUser;
+        (Result, redisUser) = await _memoryDB.LoadRedisUser(user.UserId);
+        int roomId = 0; 
+        UserState state = UserState.Lobby;
+        // 플레이어가 있다면 
+        if (Result == ErrorCode.None)
+        {
+            state = redisUser.State;
+            if(state == UserState.Playing)
+            {
+                RedisRoom redisRoom;
+                (Result, redisRoom) = await _memoryDB.LoadRoomFromUserId(user.UserId); 
+                if(Result  == ErrorCode.None)
+                {
+                    roomId = redisRoom.RoomId;
+                }
+                // 만약 방이 파괴되었다면 
+                else
+                {
+                    state = UserState.Lobby;
+                }
+            }
+        }
+
+        Result = await StoreUserInfoInMemory(user, authToken, state);
         if(Result != ErrorCode.None)
         {
             return new LoginResponse
@@ -74,7 +100,9 @@ public class LoginController : Controller
             Result = ErrorCode.None,
             AuthToken = authToken,
             UserId = user.UserId,
-            ClassId = player.ClassId
+            ClassId = player.ClassId,
+            State = state,
+            RoomId = roomId 
         };
     }
 
@@ -88,9 +116,9 @@ public class LoginController : Controller
         return true;
     }
 
-    async Task<ErrorCode> StoreUserInfoInMemory(User user, string authToken)
+    async Task<ErrorCode> StoreUserInfoInMemory(User user, string authToken, UserState state)
     {
-        ErrorCode Result = await _memoryDB.StoreRedisUser(user.UserId, authToken, user.Email, UserState.Lobby);
+        ErrorCode Result = await _memoryDB.StoreRedisUser(user.UserId, authToken, user.Email, state);
         return Result;
     }
 }

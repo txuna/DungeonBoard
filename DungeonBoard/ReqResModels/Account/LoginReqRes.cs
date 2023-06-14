@@ -23,5 +23,7 @@ namespace DungeonBoard.ReqResModels.Account
         public string AuthToken { get; set; }
         public int UserId { get; set; }
         public int ClassId { get; set; }
+        public UserState State { get; set; }
+        public int RoomId { get; set; }
     }
 }

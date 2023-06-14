@@ -95,7 +95,7 @@ func _on_load_game_info_timer_response(json):
 	# boss 세팅 - Image는 처음만 설정	
 	boss_control._update_boss(json.gameInfo.bossInfo)
 	# WhoIsTurn을 보고 주사위 오픈
-	if json.gameInfo.WhoisTurn == Global.user_id:
+	if json.gameInfo.whoIsTurn == Global.user_id:
 		dice_control.visible = true 
 	else:
 		dice_control.visible = false
@@ -111,6 +111,7 @@ func _on_load_room_info_timer_timeout():
 
 
 func _on_load_room_info_timer_response(json):
+	print(json)
 	if json.result != Global.NONE_ERROR:
 		return 
 	
