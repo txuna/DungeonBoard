@@ -3,6 +3,7 @@
 [ext_resource type="Script" path="res://src/Network/http_request.gd" id="1_1nrr6"]
 
 [node name="HTTPRequest" type="HTTPRequest"]
+use_threads = true
 script = ExtResource("1_1nrr6")
 
 [connection signal="request_completed" from="." to="." method="_on_request_completed"]

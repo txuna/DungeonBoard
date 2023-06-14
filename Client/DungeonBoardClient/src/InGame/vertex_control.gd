@@ -2,9 +2,11 @@ extends Panel
 
 @onready var name_label = $Label
 @onready var card_panel = $Panel
+@onready var player_position = $Marker2D
 
 @export var card_number = 0
 @export var card_type = Global.CardType.SkillCard
+
 
 # 스킬, 레벨업, 상점칸마다 색갈 다르게
 func _set_card():
@@ -21,3 +23,7 @@ func _ready():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	pass
+
+
+func _load_player_position():
+	return player_position.global_position

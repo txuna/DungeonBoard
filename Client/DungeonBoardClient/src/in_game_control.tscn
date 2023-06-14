@@ -308,6 +308,11 @@ offset_top = 405.0
 offset_right = 261.0
 offset_bottom = 405.0
 
+[node name="PlayerIcon" type="Control" parent="WhiteBackgroundControl"]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
 [node name="LoadRoomInfoTimer" type="Timer" parent="."]
 wait_time = 0.3
 autostart = true

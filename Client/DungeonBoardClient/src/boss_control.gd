@@ -18,10 +18,10 @@ func _ready():
 func _update_boss(boss_info:Dictionary):
 	# 처음 세팅
 	if is_complete == false:
-		name_label.text = Global.boss_string[boss_info.bossId].name 
-		hp.max_value = Global.boss_string[boss_info.bossId].hp
+		name_label.text = Global.boss_string[int(boss_info.bossId)].name 
+		hp.max_value = Global.boss_string[int(boss_info.bossId)].hp
 		hp.value = hp.max_value
-		texture.texture = Global.boss_string[boss_info.bossId].image
+		texture.texture = Global.boss_string[int(boss_info.bossId)].image
 		
 	hp.value = boss_info.hp 
 	attack_label.text = "공격력 : {v}".format({

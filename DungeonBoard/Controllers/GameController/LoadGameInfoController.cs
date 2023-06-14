@@ -23,6 +23,8 @@ namespace DungeonBoard.Controllers.GameController
         {
             RedisUser redisUser = (RedisUser)HttpContext.Items["Redis-User"];
 
+            Console.WriteLine("RE1");
+            
             // GameId == RoomId 
             var (Result, redisRoom) = await _memoryDB.LoadRoomFromId(loadGameInfoRequest.GameId); 
             if(Result != ErrorCode.None)
@@ -51,6 +53,8 @@ namespace DungeonBoard.Controllers.GameController
                     Result = Result
                 };
             }
+
+            Console.WriteLine("RE2");
 
             return new LoadGameInfoResponse
             {
