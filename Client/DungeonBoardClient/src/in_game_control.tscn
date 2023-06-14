@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://w1lkjemcslyg"]
+[gd_scene load_steps=11 format=3 uid="uid://w1lkjemcslyg"]
 
 [ext_resource type="Script" path="res://src/in_game_control.gd" id="1_kvsgj"]
 [ext_resource type="PackedScene" uid="uid://dikpf6jcbibsb" path="res://src/ui/white_background_control.tscn" id="1_omxm7"]
@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://bxthv8lq6x7sb" path="res://src/ui/button_control.tscn" id="5_c77ap"]
 [ext_resource type="PackedScene" uid="uid://bpj0aw8wrubxs" path="res://src/boss_control.tscn" id="7_mjfql"]
 [ext_resource type="FontFile" uid="uid://b27bcx0yhecxo" path="res://assets/fonts/HSBombaram2.1.ttf" id="7_v5omo"]
+[ext_resource type="PackedScene" uid="uid://bab86st6u4bko" path="res://src/dice_control.tscn" id="8_wnxo4"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pvfdv"]
 bg_color = Color(0.847059, 0.847059, 0.847059, 1)
@@ -262,10 +263,10 @@ card_number = 24
 
 [node name="ButtonControl" parent="WhiteBackgroundControl" instance=ExtResource("5_c77ap")]
 layout_mode = 0
-offset_left = 240.0
-offset_top = 530.0
-offset_right = 625.0
-offset_bottom = 610.0
+offset_left = 439.0
+offset_top = 548.0
+offset_right = 695.0
+offset_bottom = 628.0
 text = "게임시작"
 
 [node name="Players" type="VBoxContainer" parent="WhiteBackgroundControl"]
@@ -286,19 +287,26 @@ layout_mode = 2
 
 [node name="ButtonControl2" parent="WhiteBackgroundControl" instance=ExtResource("5_c77ap")]
 layout_mode = 0
-offset_left = 242.0
-offset_top = 435.0
-offset_right = 623.0
-offset_bottom = 515.0
+offset_left = 167.0
+offset_top = 547.0
+offset_right = 424.0
+offset_bottom = 627.0
 text = "나가기"
 
 [node name="BossControl" parent="WhiteBackgroundControl" instance=ExtResource("7_mjfql")]
+layout_mode = 1
+offset_left = 161.0
+offset_top = 178.0
+offset_right = 161.0
+offset_bottom = 178.0
+
+[node name="DiceControl" parent="WhiteBackgroundControl" instance=ExtResource("8_wnxo4")]
 visible = false
 layout_mode = 1
-offset_left = 250.0
-offset_top = 177.0
-offset_right = 250.0
-offset_bottom = 177.0
+offset_left = 261.0
+offset_top = 405.0
+offset_right = 261.0
+offset_bottom = 405.0
 
 [node name="LoadRoomInfoTimer" type="Timer" parent="."]
 wait_time = 0.3
@@ -322,5 +330,6 @@ wait_time = 0.3
 
 [connection signal="btn_pressed" from="WhiteBackgroundControl/ButtonControl" to="." method="_on_button_control_btn_pressed"]
 [connection signal="btn_pressed" from="WhiteBackgroundControl/ButtonControl2" to="." method="_on_button_control_2_btn_pressed"]
+[connection signal="get_dice" from="WhiteBackgroundControl/DiceControl" to="." method="_on_dice_control_get_dice"]
 [connection signal="timeout" from="LoadRoomInfoTimer" to="." method="_on_load_room_info_timer_timeout"]
 [connection signal="timeout" from="LoadGameInfoTimer" to="." method="_on_load_game_info_timer_timeout"]

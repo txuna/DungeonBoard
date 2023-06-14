@@ -12,11 +12,14 @@ extends Control
 
 @onready var boss_control = $WhiteBackgroundControl/BossControl
 
+@onready var dice_control = $WhiteBackgroundControl/DiceControl
+
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	_set_card()
 	boss_control.visible = false
+	dice_control.visible = false
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -48,9 +51,6 @@ func _on_response_game_start(json):
 		print(json.result)
 		return 
 
-	
-	# 보스는 한번만 셋업 (체력만 여러번)
-	#boss_control._set_boss()
 
 #/Game/Info
 # Player List, Player Icon등 생성
@@ -84,7 +84,7 @@ func _on_load_game_info_timer_response(json):
 		pass
 	
 	# boss 세팅 - Image는 처음만 설정	
-	#boss_control._set_boss(json.gameInfo.bossInfo)
+	boss_control._update_boss(json.gameInfo.bossInfo)
 	
 	# WhoIsTurn을 보고 주사위 오픈
 	
@@ -121,6 +121,7 @@ func _on_load_room_info_timer_response(json):
 		exit_btn.visible = false
 		game_start_btn.visible = false
 		boss_control.visible = true
+		dice_control.visible = true
 		load_game_info_timer.start()
 		
 	for player in json.player:
@@ -145,3 +146,18 @@ func _on_response_exit_room(json):
 	get_tree().change_scene_to_file("res://src/lobby_control.tscn")
 
 
+# 주사위 돌림 - 마이턴일 떄
+func _on_dice_control_get_dice(dice_number):
+	var http = load("res://src/Network/http_request.tscn").instantiate()
+	add_child(http)
+	http._http_response.connect(_on_response_exit_room)
+	http._request("Game/Dice", true, {
+		"DiceNumber" : dice_number
+	})
+	
+	
+func _on_dice_response(json):
+	if json.result != Global.NONE_ERROR:
+		return 
+		
+		
