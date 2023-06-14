@@ -75,11 +75,11 @@ func _on_load_game_info_timer_timeout():
 	})
 
 
+# WhoIsTurn에 대해서 표시하기 ( DiceOpen 도 ) 
 func _on_load_game_info_timer_response(json):
 	if json.result != Global.NONE_ERROR:
 		return 
 	
-	print("RE1")
 	# player 프로및 및 각 카드 포지션에 플레이에 아이콘 생성 
 	# player 생성도 처음만
 	if not is_create_player_icon:
@@ -95,7 +95,10 @@ func _on_load_game_info_timer_response(json):
 	# boss 세팅 - Image는 처음만 설정	
 	boss_control._update_boss(json.gameInfo.bossInfo)
 	# WhoIsTurn을 보고 주사위 오픈
-	print("RE2")
+	if json.gameInfo.WhoisTurn == Global.user_id:
+		dice_control.visible = true 
+	else:
+		dice_control.visible = false
 	
 
 func _on_load_room_info_timer_timeout():

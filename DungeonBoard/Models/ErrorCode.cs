@@ -36,9 +36,11 @@
         PlayerAlreadyHasClass = 401,
         FailedUpdateClass = 402,
         PlayerIsNotInRoom = 403,
+        PlayerIsNotPlaying = 404,
 
         /* Game 501 ~ 600 */ 
         FailedStoreGameInfoInMemory = 501,
+        InvalidDiceNumber = 502,
         
     }
 }

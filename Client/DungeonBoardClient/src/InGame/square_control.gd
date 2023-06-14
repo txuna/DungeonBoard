@@ -13,8 +13,7 @@ func _set_card():
 	var cstylebox = StyleBoxFlat.new() 
 	cstylebox.bg_color = Global.card_string[card_type].color
 	card_panel.add_theme_stylebox_override("panel", cstylebox)
-	#card_panel.add_theme_color_override("bg_color", Color.BLACK)
-	#card_panel.add_theme_color_override("bg_color", Global.card_string[card_type].color)
+
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
