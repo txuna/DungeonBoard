@@ -199,8 +199,9 @@ func _on_response_exit_room(json):
 func _on_dice_control_get_dice(dice_number):
 	var http = load("res://src/Network/http_request.tscn").instantiate()
 	add_child(http)
-	http._http_response.connect(_on_response_exit_room)
+	http._http_response.connect(_on_dice_response)
 	http._request("Game/Dice", true, {
+		"GameId" : Global.room_id,
 		"DiceNumber" : dice_number
 	})
 	

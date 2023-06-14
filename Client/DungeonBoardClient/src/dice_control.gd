@@ -29,7 +29,7 @@ func _on_button_control_btn_pressed():
 
 func _dice_callback(value):
 	var rng = RandomNumberGenerator.new()
-	dice_number =  rng.randi_range(1, 6)
+	dice_number =  rng.randi_range(1, 4)
 	dice_label.text = str(dice_number)
 	
 func _dice_finished():

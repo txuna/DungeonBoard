@@ -78,7 +78,7 @@ namespace DungeonBoard.Controllers.GameController
 
         bool VerifyDiceNumber(int dice)
         {
-            if(dice >= 1 && dice <= 6)
+            if(dice >= 1 && dice <= 4)
             {
                 return true;
             }
@@ -104,6 +104,18 @@ namespace DungeonBoard.Controllers.GameController
                     break; 
                 }
             }
+
+            // Set WhoIsTurn 
+            if(redisGame.WhoIsTurn.Index + 1 >= redisGame.Players.Length)
+            {
+                redisGame.WhoIsTurn.Index = 0;
+            }
+            else
+            {
+                redisGame.WhoIsTurn.Index += 1;
+            }
+
+            redisGame.WhoIsTurn.UserId = redisGame.Players[redisGame.WhoIsTurn.Index].UserId;
 
             return await _memoryDB.StoreRedisGame(redisGame);
         }
