@@ -1,0 +1,45 @@
+[gd_scene load_steps=4 format=3 uid="uid://byvmhsj5o3su7"]
+
+[ext_resource type="Script" path="res://src/ui/skill_select_control.gd" id="1_4dcj8"]
+[ext_resource type="FontFile" uid="uid://b27bcx0yhecxo" path="res://assets/fonts/HSBombaram2.1.ttf" id="2_7w8gu"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_r6qdo"]
+bg_color = Color(0.152941, 0.152941, 0.152941, 0.65098)
+corner_radius_top_left = 24
+corner_radius_top_right = 24
+corner_radius_bottom_right = 24
+corner_radius_bottom_left = 24
+
+[node name="SkillSelectControl" type="Panel"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 283.0
+offset_top = 123.0
+offset_right = -277.0
+offset_bottom = -157.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_r6qdo")
+script = ExtResource("1_4dcj8")
+
+[node name="ScrollContainer" type="ScrollContainer" parent="."]
+layout_mode = 0
+offset_left = 22.0
+offset_top = 150.0
+offset_right = 693.0
+offset_bottom = 500.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer"]
+layout_mode = 2
+theme_override_constants/separation = 30
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 0
+offset_right = 720.0
+offset_bottom = 100.0
+theme_override_fonts/font = ExtResource("2_7w8gu")
+theme_override_font_sizes/font_size = 48
+text = "스킬 선택(전사)"
+horizontal_alignment = 1
+vertical_alignment = 1

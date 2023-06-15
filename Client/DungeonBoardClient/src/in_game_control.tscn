@@ -9,6 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://bpj0aw8wrubxs" path="res://src/boss_control.tscn" id="7_mjfql"]
 [ext_resource type="FontFile" uid="uid://b27bcx0yhecxo" path="res://assets/fonts/HSBombaram2.1.ttf" id="7_v5omo"]
 [ext_resource type="PackedScene" uid="uid://bab86st6u4bko" path="res://src/dice_control.tscn" id="8_wnxo4"]
+[ext_resource type="PackedScene" uid="uid://byvmhsj5o3su7" path="res://src/ui/skill_select_control.tscn" id="9_8hsks"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pvfdv"]
 bg_color = Color(0.847059, 0.847059, 0.847059, 1)
@@ -21,18 +22,6 @@ corner_radius_top_left = 24
 corner_radius_top_right = 24
 corner_radius_bottom_right = 24
 corner_radius_bottom_left = 24
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_olcbj"]
-bg_color = Color(0.152941, 0.152941, 0.152941, 0.831373)
-border_width_left = 4
-border_width_top = 4
-border_width_right = 4
-border_width_bottom = 4
-border_color = Color(0.933333, 0.933333, 0.933333, 1)
-corner_radius_top_left = 8
-corner_radius_top_right = 8
-corner_radius_bottom_right = 8
-corner_radius_bottom_left = 8
 
 [node name="InGameControl" type="Control"]
 layout_mode = 3
@@ -110,13 +99,11 @@ card_number = 1
 [node name="VertexControl" parent="WhiteBackgroundControl/Panel/Control" instance=ExtResource("3_5g0g5")]
 layout_mode = 0
 card_number = 8
-card_type = 3
 
 [node name="VertexControl2" parent="WhiteBackgroundControl/Panel/Control" instance=ExtResource("3_5g0g5")]
 layout_mode = 0
 offset_left = 655.0
 offset_right = 750.0
-card_type = 3
 
 [node name="Control2" type="Control" parent="WhiteBackgroundControl/Panel"]
 anchors_preset = 0
@@ -173,14 +160,14 @@ card_number = 16
 [node name="VertexControl" parent="WhiteBackgroundControl/Panel/Control2" instance=ExtResource("3_5g0g5")]
 layout_mode = 0
 card_number = 23
-card_type = 3
+card_type = 1
 
 [node name="VertexControl2" parent="WhiteBackgroundControl/Panel/Control2" instance=ExtResource("3_5g0g5")]
 layout_mode = 0
 offset_left = 655.0
 offset_right = 750.0
 card_number = 15
-card_type = 3
+card_type = 1
 
 [node name="Control3" type="Control" parent="WhiteBackgroundControl/Panel"]
 anchors_preset = 0
@@ -314,33 +301,15 @@ offset_bottom = 178.0
 
 [node name="DiceControl" parent="WhiteBackgroundControl" instance=ExtResource("8_wnxo4")]
 layout_mode = 1
-offset_left = 165.0
-offset_top = 405.0
-offset_right = 165.0
-offset_bottom = 405.0
+offset_left = 229.0
+offset_top = 406.0
+offset_right = 229.0
+offset_bottom = 406.0
 
 [node name="PlayerIcon" type="Control" parent="WhiteBackgroundControl"]
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
-
-[node name="LogPanel" type="Panel" parent="WhiteBackgroundControl"]
-layout_mode = 0
-offset_left = 474.0
-offset_top = 400.0
-offset_right = 693.0
-offset_bottom = 633.0
-theme_override_styles/panel = SubResource("StyleBoxFlat_olcbj")
-
-[node name="ScrollContainer" type="ScrollContainer" parent="WhiteBackgroundControl/LogPanel"]
-layout_mode = 0
-offset_left = 12.0
-offset_top = 11.0
-offset_right = 207.0
-offset_bottom = 222.0
-
-[node name="VBoxContainer" type="VBoxContainer" parent="WhiteBackgroundControl/LogPanel/ScrollContainer"]
-layout_mode = 2
 
 [node name="LevelupMarker" type="Marker2D" parent="WhiteBackgroundControl"]
 position = Vector2(421, 403)
@@ -365,9 +334,23 @@ vertical_alignment = 1
 [node name="LoadGameInfoTimer" type="Timer" parent="."]
 wait_time = 0.3
 
+[node name="SkillSelectControl" parent="." instance=ExtResource("9_8hsks")]
+custom_minimum_size = Vector2(720, 520)
+layout_mode = 0
+anchors_preset = 0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_left = 253.0
+offset_top = 146.0
+offset_right = 973.0
+offset_bottom = 666.0
+grow_horizontal = 1
+grow_vertical = 1
+
 [connection signal="btn_pressed" from="WhiteBackgroundControl/ButtonControl" to="." method="_on_button_control_btn_pressed"]
 [connection signal="btn_pressed" from="WhiteBackgroundControl/ButtonControl2" to="." method="_on_button_control_2_btn_pressed"]
 [connection signal="get_dice" from="WhiteBackgroundControl/DiceControl" to="." method="_on_dice_control_get_dice"]
 [connection signal="pressed_dice" from="WhiteBackgroundControl/DiceControl" to="." method="_on_dice_control_pressed_dice"]
 [connection signal="timeout" from="LoadRoomInfoTimer" to="." method="_on_load_room_info_timer_timeout"]
 [connection signal="timeout" from="LoadGameInfoTimer" to="." method="_on_load_game_info_timer_timeout"]
+[connection signal="select_skill" from="SkillSelectControl" to="." method="_on_skill_select_control_select_skill"]

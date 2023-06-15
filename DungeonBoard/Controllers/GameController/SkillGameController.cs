@@ -4,6 +4,7 @@ using DungeonBoard.Models;
 using DungeonBoard.ReqResModels.Game;
 using DungeonBoard.Services;
 using Microsoft.AspNetCore.Mvc;
+using DungeonBoard.Models.Master;
 
 namespace DungeonBoard.Controllers.GameController
 {
@@ -11,9 +12,11 @@ namespace DungeonBoard.Controllers.GameController
     public class SkillGameController : Controller
     {
         IMemoryDB _memoryDB; 
-        public SkillGameController(IMemoryDB memoryDB)
+        IMasterDB _masterDB;
+        public SkillGameController(IMemoryDB memoryDB, IMasterDB masterDB)
         {
             _memoryDB = memoryDB;
+            _masterDB = masterDB;
         }
 
         [Route("/Game/Skill")]
@@ -65,7 +68,7 @@ namespace DungeonBoard.Controllers.GameController
                 };
             }
 
-            Result = await UpdateRedisGame(redisGame, skillGameRequest.UserId);
+            Result = await UpdateRedisGame(redisGame, skillGameRequest.UserId, skillGameRequest.SkillId);
 
             return new SkillGameResponse
             {
@@ -73,13 +76,35 @@ namespace DungeonBoard.Controllers.GameController
             };
         }
 
-        async Task<ErrorCode> UpdateRedisGame(RedisGame redisGame, int userId)
+        async Task<ErrorCode> UpdateRedisGame(RedisGame redisGame, int userId, int skillId)
         {
             // Backup 덮기
             for (int i = 0; i < redisGame.Players.Length; i++)
             {
                 if (redisGame.Players[i].UserId == userId)
                 {
+                    // 유효성 검사 
+                    if (_masterDB.CheckClassSkill(redisGame.Players[i].ClassId, skillId) == false)
+                    {
+                        return ErrorCode.InvalidSkill;
+                    }
+
+                    MasterSkillInfo? masterSkillInfo = _masterDB.LoadSkillInfo(skillId); 
+                    if(masterSkillInfo == null)
+                    {
+                        return ErrorCode.NoneExistSkill;
+                    }
+
+                    // 마나 체크 
+                    if (redisGame.Players[i].Mp < masterSkillInfo.Mp)
+                    {
+                        return ErrorCode.NotEnoughMp;
+                    }
+
+                    // 물리피해, 고정피해, 힐 체크 
+
+
+
                     break;
                 }
             }

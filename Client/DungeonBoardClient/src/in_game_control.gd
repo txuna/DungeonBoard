@@ -20,6 +20,8 @@ extends Control
 
 @onready var levelup_marker = $WhiteBackgroundControl/LevelupMarker
 
+@onready var skill_select_control = $SkillSelectControl
+
 var is_create_player_icon = false
 var is_game_setup = false
 var is_simulate = false 
@@ -233,14 +235,16 @@ func _finised_player_icon_move(tween_user_id, tween_card_type):
 			is_simulate = false 
 			return 
 			
-		_request_skill_card()
-		
+		open_skill_card()
+	
+'''	
 	elif tween_card_type == Global.CardType.SpecialCard:
 		if tween_user_id != Global.user_id:
 			is_simulate = false 
 			return 
 			
 		_request_skill_card()
+'''
 
 
 func _request_levelup_card():
@@ -259,16 +263,16 @@ func _response_levelup_card(json):
 	is_simulate = false
 
 
-func _request_skill_card():
+func _request_skill_card(skill_id):
 	var http = load("res://src/Network/http_request.tscn").instantiate()
 	add_child(http)
 	http._http_response.connect(_response_levelup_card)
 	http._request("Game/Skill", true, {
 		"GameId" : Global.room_id,
-		"SkillId" : 0
+		"SkillId" : skill_id
 	})
 	
-	
+
 func _response_skill_card(json):
 	if json.result != Global.NONE_ERROR:
 		return 
@@ -277,8 +281,12 @@ func _response_skill_card(json):
 	
 	
 func open_skill_card():
-	pass
-
+	skill_select_control.visible = true 
+	skill_select_control._load_skill(Global.class_id)
+	
+	
+func _on_skill_select_control_select_skill(skill_id):
+	_request_skill_card(skill_id)
 
 
 func _on_button_control_2_btn_pressed():

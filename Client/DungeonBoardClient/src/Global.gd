@@ -3,6 +3,7 @@ extends Node
 var auth_token = ""
 var user_id = 0
 var room_id = 0
+var class_id = 0
 
 const NONE_ERROR = 0
 
@@ -127,7 +128,8 @@ var skill_string = {
 		"attack" : 10,
 		"magic" : 10, 
 		"defence" : 0,
-		"comment" : "(보스)(물리피해)모든 적을 불태운다."
+		"comment" : "(보스)(물리피해)모든 적을 불태운다.",
+		"mp" : 0
 	},
 	2 : {
 		"name" : "화염2", 
@@ -136,7 +138,8 @@ var skill_string = {
 		"attack" : 10,
 		"magic" : 10, 
 		"defence" : 0,
-		"comment" : "(보스)(고정피해)모든 적을 강하게 불태운다."
+		"comment" : "(보스)(고정피해)모든 적을 강하게 불태운다.",
+		"mp" : 0
 	},
 	3 : {
 		"name" : "돌진1", 
@@ -145,7 +148,8 @@ var skill_string = {
 		"attack" : 30,
 		"magic" : 0, 
 		"defence" : 50,
-		"comment" : "(물리피해)적으로 돌진한다."
+		"comment" : "(물리피해)적으로 돌진한다.",
+		"mp" : 10
 	},
 	4 : {
 		"name" : "회복1", 
@@ -154,7 +158,8 @@ var skill_string = {
 		"attack" : 0,
 		"magic" : 20, 
 		"defence" : 0,
-		"comment" : "(힐)팀원 모두를 일정수치만큼 회복시킨다."
+		"comment" : "(힐)팀원 모두를 일정수치만큼 회복시킨다.",
+		"mp" : 20
 	},
 	5 : {
 		"name" : "더블샷", 
@@ -163,7 +168,8 @@ var skill_string = {
 		"attack" : 50,
 		"magic" : 0, 
 		"defence" : 0,
-		"comment" : "(물리피해)적에게 2개의 화살을 발사한다."
+		"comment" : "(물리피해)적에게 2개의 화살을 발사한다.",
+		"mp" : 10
 	}
 }
 

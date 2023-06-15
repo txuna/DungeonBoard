@@ -16,6 +16,8 @@ namespace DungeonBoard.Services
         MasterBossInfo[] LoadAllMasterBossInfo();
         MasterClassInitStat? LoadClassInitStat(int classId);
         MasterClassLevelupStat? LoadClassLevelupStat(int classId);
+        MasterSkillInfo? LoadSkillInfo(int skillId);
+        bool CheckClassSkill(int classId, int skillId);
     }
 
     public class MasterDB : IMasterDB
@@ -35,6 +37,16 @@ namespace DungeonBoard.Services
             _dbConfig = dbConfig;
             Open();
             Load();
+        }
+
+        public bool CheckClassSkill(int classId, int skillId)
+        {
+            return masterClassSkillInfo.Any( e => e.ClassId == classId && e.SkillId == skillId );
+        }
+
+        public MasterSkillInfo? LoadSkillInfo(int skillId)
+        {
+            return masterSkillInfo.FirstOrDefault( e => e.SkillId == skillId);
         }
 
         public MasterBossInfo? LoadMasterBossInfo(int bossId)

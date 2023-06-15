@@ -44,6 +44,7 @@ func _on_response(json):
 		
 	Global.user_id = json.userId 
 	Global.auth_token = json.authToken
+	Global.class_id = json.classId
 		
 	# 게임중이였다면
 	if json.state == Global.PlayerStateType.PLAYING:

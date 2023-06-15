@@ -42,6 +42,9 @@
         FailedStoreGameInfoInMemory = 501,
         InvalidDiceNumber = 502,
         IsNotDiceTurn = 503,
+        NoneExistSkill = 504,
+        InvalidSkill = 505,
+        NotEnoughMp = 506,
         
     }
 }

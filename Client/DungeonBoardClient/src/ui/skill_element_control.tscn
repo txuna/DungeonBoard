@@ -1,0 +1,70 @@
+[gd_scene load_steps=5 format=3 uid="uid://bb5ayoefec1d4"]
+
+[ext_resource type="FontFile" uid="uid://b27bcx0yhecxo" path="res://assets/fonts/HSBombaram2.1.ttf" id="1_6x3ha"]
+[ext_resource type="Script" path="res://src/ui/skill_element_control.gd" id="1_o5yp6"]
+[ext_resource type="PackedScene" uid="uid://bxthv8lq6x7sb" path="res://src/ui/button_control.tscn" id="3_d3h1y"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tftli"]
+bg_color = Color(0.933333, 0.933333, 0.933333, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.356863, 0.356863, 0.356863, 1)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+
+[node name="SkillElementControl" type="Panel"]
+offset_right = 650.0
+offset_bottom = 100.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_tftli")
+script = ExtResource("1_o5yp6")
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 0
+offset_left = 5.0
+offset_right = 99.0
+offset_bottom = 99.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("1_6x3ha")
+theme_override_font_sizes/font_size = 48
+text = "돌진"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Label2" type="Label" parent="."]
+layout_mode = 0
+offset_left = 130.0
+offset_top = 7.0
+offset_right = 518.0
+offset_bottom = 51.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("1_6x3ha")
+theme_override_font_sizes/font_size = 20
+text = "30 + 공격력(30%) + 방어력(50%)"
+vertical_alignment = 1
+
+[node name="Label3" type="Label" parent="."]
+layout_mode = 0
+offset_left = 130.0
+offset_top = 50.0
+offset_right = 530.0
+offset_bottom = 97.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("1_6x3ha")
+theme_override_font_sizes/font_size = 20
+text = "(물리피해)적들을 향해 돌진한다."
+vertical_alignment = 1
+
+[node name="ButtonControl" parent="." instance=ExtResource("3_d3h1y")]
+layout_mode = 0
+offset_left = 543.0
+offset_top = 9.0
+offset_right = 641.0
+offset_bottom = 90.0
+theme_override_font_sizes/font_size = 32
+text = "선택"
+
+[connection signal="btn_pressed" from="ButtonControl" to="." method="_on_button_control_btn_pressed"]
