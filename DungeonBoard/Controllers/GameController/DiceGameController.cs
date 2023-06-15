@@ -67,6 +67,14 @@ namespace DungeonBoard.Controllers.GameController
                 };
             }
 
+            if(redisGame.WhoIsTurn.UserId != diceGameRequest.UserId)
+            {
+                return new DiceGameResponse
+                {
+                    Result = ErrorCode.IsNotDiceTurn
+                };
+            }
+
             // Position Update 
             Result = await UpdatePlayerPosition(redisGame, diceGameRequest.UserId, diceGameRequest.DiceNumber);
 
@@ -93,30 +101,18 @@ namespace DungeonBoard.Controllers.GameController
             {
                 if (redisGame.Players[i].UserId == userId)
                 {
-                    if (redisGame.Players[i].BackupPositionCard + dice > 29)
+                    if (redisGame.Players[i].PositionCard + dice > 29)
                     {
-                        int v = redisGame.Players[i].BackupPositionCard + dice - 30;
-                        redisGame.Players[i].BackupPositionCard = v;
+                        int v = redisGame.Players[i].PositionCard + dice - 30;
+                        redisGame.Players[i].PositionCard = v;
                     }
                     else
                     {
-                        redisGame.Players[i].BackupPositionCard += dice;
+                        redisGame.Players[i].PositionCard += dice;
                     }
                     break; 
                 }
             }
-
-            // Set WhoIsTurn 
-            if(redisGame.WhoIsTurn.Index + 1 >= redisGame.Players.Length)
-            {
-                redisGame.WhoIsTurn.Index = 0;
-            }
-            else
-            {
-                redisGame.WhoIsTurn.Index += 1;
-            }
-
-            redisGame.WhoIsTurn.UserId = redisGame.Players[redisGame.WhoIsTurn.Index].UserId;
 
             return await _memoryDB.StoreRedisGame(redisGame);
         }

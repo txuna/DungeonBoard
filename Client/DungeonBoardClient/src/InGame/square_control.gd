@@ -26,3 +26,7 @@ func _process(delta):
 	
 func _load_player_position():
 	return player_position.global_position
+
+
+func _load_card_type():
+	return card_type

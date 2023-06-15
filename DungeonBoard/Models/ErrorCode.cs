@@ -41,6 +41,7 @@
         /* Game 501 ~ 600 */ 
         FailedStoreGameInfoInMemory = 501,
         InvalidDiceNumber = 502,
+        IsNotDiceTurn = 503,
         
     }
 }

@@ -18,6 +18,8 @@ extends Control
 
 @onready var log_container = $WhiteBackgroundControl/LogPanel/ScrollContainer/VBoxContainer
 
+@onready var levelup_marker = $WhiteBackgroundControl/LevelupMarker
+
 var is_create_player_icon = false
 var is_game_setup = false
 var is_simulate = false 
@@ -52,7 +54,7 @@ func _get_card(n):
 	for control in card_control_containter.get_children():
 		for card_node in control.get_children():
 			if card_node.card_number == n:
-				return card_node._load_player_position()
+				return card_node
 
 
 # 게임시작 request 
@@ -110,7 +112,7 @@ func _on_load_game_info_timer_response(json):
 		node._set_name(player.classId, player.userId)
 		node._set_hp(player.hp, player.maxHp)
 		node._set_mp(player.mp, player.maxMp)
-		node._set_stat(player.attack, player.magic, player.defence, player.level)
+		node._set_stat(player.attack, player.defence, player.magic, player.level)
 		Global.player_stat = player
 	
 	# boss 세팅 - Image는 처음만 설정	
@@ -175,7 +177,7 @@ func create_player_icon(player_info):
 		var node = load("res://src/player_icon.tscn").instantiate() 
 		player_icon_container.add_child(node)
 		node._init_player_icon(player.userId, player.positionCard, player.classId)
-		node.global_position = _get_card(player.positionCard)
+		node.global_position = _get_card(player.positionCard)._load_player_position()
 
 
 # 움직임의 변화 확인 
@@ -189,21 +191,94 @@ func move_player_icon(player_info):
 			if tween:
 				tween.kill() 
 			
+			var card_node = _get_card(player.positionCard)
 			tween = create_tween().set_parallel(true)
-			tween.tween_property(icon, "global_position", _get_card(player.positionCard), 0.5)
-			tween.finished.connect(_finised_player_icon_move)
-			#icon.global_position = _get_card(player.positionCard)
+			tween.tween_property(icon, "global_position", card_node._load_player_position(), 0.5)
+			tween.finished.connect(_finised_player_icon_move.bind(player.userId, card_node._load_card_type()))
 			icon.update_card_number(player.positionCard)
 		
-		
+			
 func get_player_icon(user_id):
 	for player in player_icon_container.get_children():
 		if player.user_id == user_id:
 			return player
 
 
-func _finised_player_icon_move():
+func _animation_finished():
+	pass
+
+# 움직인 후 도착 칸에 따른 카드 request
+# 여기서 서버 응답 전에 시뮬레이션할거 진행 -> 스킬샷 or 레벨업
+func _finised_player_icon_move(tween_user_id, tween_card_type):	
+	# request - response 응답이 와야 is_simulate = false  
+	if tween_card_type == Global.CardType.LevelupCard:
+		# 해당 유저 위치에서 레벨업 에니메이션 플레이
+		# CODE
+		var node = load("res://src/ui/levelup_label.tscn").instantiate() 
+		add_child(node)
+		node.global_position = levelup_marker.global_position
+		node.animation_fin.connect(_animation_finished)
+		node._play()
+		
+		if tween_user_id != Global.user_id:
+			is_simulate = false 
+			return 
+		
+		_request_levelup_card()
+	
+	elif tween_card_type == Global.CardType.SkillCard:
+		# 해당 유저 위치에서 스킬 샷 에니메이션 플레이
+		# CODE
+		if tween_user_id != Global.user_id:
+			is_simulate = false 
+			return 
+			
+		_request_skill_card()
+		
+	elif tween_card_type == Global.CardType.SpecialCard:
+		if tween_user_id != Global.user_id:
+			is_simulate = false 
+			return 
+			
+		_request_skill_card()
+
+
+func _request_levelup_card():
+	var http = load("res://src/Network/http_request.tscn").instantiate()
+	add_child(http)
+	http._http_response.connect(_response_levelup_card)
+	http._request("Game/Levelup", true, {
+		"GameId" : Global.room_id
+	})
+
+# 레벨업 시뮬레이션 진행하고 is_simulate = false 
+func _response_levelup_card(json):
+	if json.result != Global.NONE_ERROR:
+		return 
+	
 	is_simulate = false
+
+
+func _request_skill_card():
+	var http = load("res://src/Network/http_request.tscn").instantiate()
+	add_child(http)
+	http._http_response.connect(_response_levelup_card)
+	http._request("Game/Skill", true, {
+		"GameId" : Global.room_id,
+		"SkillId" : 0
+	})
+	
+	
+func _response_skill_card(json):
+	if json.result != Global.NONE_ERROR:
+		return 
+	
+	is_simulate = false
+	
+	
+func open_skill_card():
+	pass
+
 
 
 func _on_button_control_2_btn_pressed():

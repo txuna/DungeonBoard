@@ -17,7 +17,6 @@ namespace DungeonBoard.Models.Game
         public int Magic { get; set; }
         public int Level { get; set; }
         public int PositionCard { get; set; }
-        public int BackupPositionCard { get; set; }
     }
 
     public class WhoIsTurn

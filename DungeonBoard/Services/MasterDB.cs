@@ -15,13 +15,14 @@ namespace DungeonBoard.Services
         MasterBossInfo? LoadMasterBossInfo(int bossId);
         MasterBossInfo[] LoadAllMasterBossInfo();
         MasterClassInitStat? LoadClassInitStat(int classId);
+        MasterClassLevelupStat? LoadClassLevelupStat(int classId);
     }
 
     public class MasterDB : IMasterDB
     {
         MasterBossInfo[] masterBossInfo;
         MasterClassInitStat[] masterClassInitStat;
-        MasterClassLevelupStat masterClassLevelupStat;
+        MasterClassLevelupStat[] masterClassLevelupStat;
         MasterClassSkillInfo[] masterClassSkillInfo;
         MasterSkillInfo[] masterSkillInfo;
 
@@ -51,6 +52,11 @@ namespace DungeonBoard.Services
             return masterClassInitStat.FirstOrDefault( e => e.ClassId == classId);
         }
 
+        public MasterClassLevelupStat? LoadClassLevelupStat(int classId)
+        {
+            return masterClassLevelupStat.FirstOrDefault( e => e.ClassId == classId);
+        }
+
         void Load()
         {
             try
@@ -58,7 +64,7 @@ namespace DungeonBoard.Services
                 // 보스 정보를 가지고 옴
                 masterBossInfo = (queryFactory.Query("master_boss_info").Get<MasterBossInfo>()).ToArray();
                 masterClassInitStat = (queryFactory.Query("master_class_init_stat").Get<MasterClassInitStat>()).ToArray();
-                masterClassLevelupStat = queryFactory.Query("master_class_levelup_stat").FirstOrDefault<MasterClassLevelupStat>();
+                masterClassLevelupStat = (queryFactory.Query("master_class_levelup_stat").Get<MasterClassLevelupStat>()).ToArray();
                 masterClassSkillInfo = (queryFactory.Query("master_class_skill_info").Get<MasterClassSkillInfo>()).ToArray();
                 masterSkillInfo = (queryFactory.Query("master_skill_info").Get<MasterSkillInfo>()).ToArray();
             }

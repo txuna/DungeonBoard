@@ -152,7 +152,7 @@ theme_override_styles/background = SubResource("StyleBoxFlat_4xp24")
 theme_override_styles/fill = SubResource("StyleBoxFlat_7cof2")
 value = 30.0
 
-[node name="MpLabel" type="Label" parent="."]
+[node name="HpLabel" type="Label" parent="."]
 layout_mode = 0
 offset_left = 285.0
 offset_top = 15.0
@@ -164,7 +164,7 @@ text = "[100/100]"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="HpLabel" type="Label" parent="."]
+[node name="MpLabel" type="Label" parent="."]
 layout_mode = 0
 offset_left = 285.0
 offset_top = 50.0
