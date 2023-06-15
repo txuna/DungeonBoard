@@ -76,6 +76,19 @@ namespace DungeonBoard.Controllers.GameController
             };
         }
 
+        int CalculateDamage(GamePlayer player, MasterSkillInfo skill)
+        {
+            int damage = skill.BaseValue + (int)(player.Attack * (skill.Attack / 100)) + (int)(player.Defence * (skill.Defence / 100)) + (int)(player.Magic * (skill.Magic / 100));
+            return damage;
+        }
+
+        int CalculateDefence(int defence, int damage)
+        {
+            int final = (int)(damage * ( 1 - (defence / (defence + 100))));
+            Console.WriteLine(final);
+            return final;
+        }
+
         async Task<ErrorCode> UpdateRedisGame(RedisGame redisGame, int userId, int skillId)
         {
             // Backup 덮기
@@ -84,7 +97,8 @@ namespace DungeonBoard.Controllers.GameController
                 if (redisGame.Players[i].UserId == userId)
                 {
                     // 유효성 검사 
-                    if (_masterDB.CheckClassSkill(redisGame.Players[i].ClassId, skillId) == false)
+                    MasterClassSkillInfo? masterClassSkillInfo = _masterDB.LoadClassSkillInfo(redisGame.Players[i].ClassId, skillId);
+                    if (masterClassSkillInfo == null)
                     {
                         return ErrorCode.InvalidSkill;
                     }
@@ -100,11 +114,34 @@ namespace DungeonBoard.Controllers.GameController
                     {
                         return ErrorCode.NotEnoughMp;
                     }
+                    redisGame.Players[i].Mp -= masterSkillInfo.Mp;
 
                     // 물리피해, 고정피해, 힐 체크 
+                    int damage = CalculateDamage(redisGame.Players[i], masterSkillInfo);
+                    if (masterSkillInfo.Type == SkillType.Fixed)
+                    {
+                        redisGame.BossInfo.Hp -= damage;
+                    }
 
+                    else if(masterSkillInfo.Type == SkillType.Physic)
+                    {
+                        redisGame.BossInfo.Hp -= CalculateDefence(redisGame.BossInfo.Defence, damage);
+                    }
 
-
+                    else if(masterSkillInfo.Type == SkillType.Heal)
+                    {
+                        for(int heal_indx=0; heal_indx<redisGame.Players.Length; heal_indx++)
+                        {
+                            if(redisGame.Players[heal_indx].Hp + damage > redisGame.Players[heal_indx].MaxHp)
+                            {
+                                redisGame.Players[heal_indx].Hp += damage;
+                            }
+                            else
+                            {
+                                redisGame.Players[heal_indx].Hp = redisGame.Players[heal_indx].MaxHp;
+                            }
+                        }
+                    }
                     break;
                 }
             }

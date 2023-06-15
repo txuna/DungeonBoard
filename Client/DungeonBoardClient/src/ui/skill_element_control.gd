@@ -1,8 +1,8 @@
 extends Panel
 
 @onready var skill_name = $Label
-@onready var skill_effect = $label2
-@onready var skill_comment = $Label3
+@onready var skill_effect = $ScrollContainer/Label2
+@onready var skill_comment = $ScrollContainer2/Label3
 
 signal skill_select(skill_id)
 

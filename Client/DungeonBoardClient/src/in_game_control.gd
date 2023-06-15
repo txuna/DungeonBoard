@@ -4,22 +4,13 @@ extends Control
 @onready var player_container = $WhiteBackgroundControl/Players
 @onready var host_label = $HostLabel
 @onready var exit_btn = $WhiteBackgroundControl/ButtonControl2
-
 @onready var card_control_containter = $WhiteBackgroundControl/Panel
-
 @onready var load_game_info_timer = $LoadGameInfoTimer
 @onready var load_room_info_timer = $LoadRoomInfoTimer
-
 @onready var boss_control = $WhiteBackgroundControl/BossControl
-
 @onready var dice_control = $WhiteBackgroundControl/DiceControl
-
 @onready var player_icon_container = $WhiteBackgroundControl/PlayerIcon
-
-@onready var log_container = $WhiteBackgroundControl/LogPanel/ScrollContainer/VBoxContainer
-
 @onready var levelup_marker = $WhiteBackgroundControl/LevelupMarker
-
 @onready var skill_select_control = $SkillSelectControl
 
 var is_create_player_icon = false
@@ -257,13 +248,14 @@ func _request_levelup_card():
 
 # 레벨업 시뮬레이션 진행하고 is_simulate = false 
 func _response_levelup_card(json):
+	is_simulate = false
+	
 	if json.result != Global.NONE_ERROR:
 		return 
 	
-	is_simulate = false
-
-
+	
 func _request_skill_card(skill_id):
+	print(skill_id)
 	var http = load("res://src/Network/http_request.tscn").instantiate()
 	add_child(http)
 	http._http_response.connect(_response_levelup_card)
@@ -274,10 +266,11 @@ func _request_skill_card(skill_id):
 	
 
 func _response_skill_card(json):
+	is_simulate = false
+	
 	if json.result != Global.NONE_ERROR:
 		return 
 	
-	is_simulate = false
 	
 	
 func open_skill_card():
@@ -286,6 +279,7 @@ func open_skill_card():
 	
 	
 func _on_skill_select_control_select_skill(skill_id):
+	skill_select_control.visible = false
 	_request_skill_card(skill_id)
 
 
@@ -325,12 +319,4 @@ func _on_dice_response(json):
 	if json.result != Global.NONE_ERROR:
 		return 
 		
-		
-func add_log(msg:String):
-	var label = Label.new() 
-	label.text = msg 
-	label.add_theme_font_override("font", load("res://assets/fonts/HSBombaram2.1.ttf"))
-	log_container.add_child(label)
-
-
 

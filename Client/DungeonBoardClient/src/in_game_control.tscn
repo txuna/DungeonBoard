@@ -335,6 +335,7 @@ vertical_alignment = 1
 wait_time = 0.3
 
 [node name="SkillSelectControl" parent="." instance=ExtResource("9_8hsks")]
+visible = false
 custom_minimum_size = Vector2(720, 520)
 layout_mode = 0
 anchors_preset = 0

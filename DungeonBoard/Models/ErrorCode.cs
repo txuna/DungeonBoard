@@ -45,6 +45,7 @@
         NoneExistSkill = 504,
         InvalidSkill = 505,
         NotEnoughMp = 506,
+        NotExceedLevel = 507,
         
     }
 }

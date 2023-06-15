@@ -90,6 +90,11 @@ namespace DungeonBoard.Controllers.GameController
                         return ErrorCode.NoneExistClassId;
                     }
 
+                    if (redisGame.Players[i].Level + 1 > 18)
+                    {
+                        return ErrorCode.NotExceedLevel;
+                    }
+
                     redisGame.Players[i].MaxHp += masterClassLevelupStat.Hp;
                     redisGame.Players[i].MaxMp += masterClassLevelupStat.Mp;
                     redisGame.Players[i].Attack += masterClassLevelupStat.Attack;
