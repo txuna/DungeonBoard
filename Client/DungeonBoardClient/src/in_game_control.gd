@@ -100,6 +100,9 @@ func _on_load_game_info_timer_response(json):
 		node.queue_free()
 			
 	for player in json.gameInfo.players: 
+		if player.userId == Global.user_id:
+			Global.class_id = player.classId 
+			
 		var node = load("res://src/InGame/player_control.tscn").instantiate() 
 		player_container.add_child(node)
 		node._set_name(player.classId, player.userId)
@@ -150,6 +153,8 @@ func _on_load_room_info_timer_response(json):
 		
 		# Ready일 때 세팅하고 Game 진행되면 다시 생성
 		for player in json.player:
+			if player.userId == Global.user_id:
+				Global.class_id = player.classId 
 			var node = load("res://src/InGame/player_control.tscn").instantiate() 
 			player_container.add_child(node)
 			node._set_name(player.classId, player.userId)
