@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://w1lkjemcslyg"]
+[gd_scene load_steps=12 format=3 uid="uid://w1lkjemcslyg"]
 
 [ext_resource type="Script" path="res://src/in_game_control.gd" id="1_kvsgj"]
 [ext_resource type="PackedScene" uid="uid://dikpf6jcbibsb" path="res://src/ui/white_background_control.tscn" id="1_omxm7"]
@@ -21,6 +21,18 @@ corner_radius_top_left = 24
 corner_radius_top_right = 24
 corner_radius_bottom_right = 24
 corner_radius_bottom_left = 24
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_olcbj"]
+bg_color = Color(0.152941, 0.152941, 0.152941, 0.831373)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.933333, 0.933333, 0.933333, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
 
 [node name="InGameControl" type="Control"]
 layout_mode = 3
@@ -301,17 +313,34 @@ offset_right = 161.0
 offset_bottom = 178.0
 
 [node name="DiceControl" parent="WhiteBackgroundControl" instance=ExtResource("8_wnxo4")]
-visible = false
 layout_mode = 1
-offset_left = 261.0
+offset_left = 165.0
 offset_top = 405.0
-offset_right = 261.0
+offset_right = 165.0
 offset_bottom = 405.0
 
 [node name="PlayerIcon" type="Control" parent="WhiteBackgroundControl"]
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
+
+[node name="LogPanel" type="Panel" parent="WhiteBackgroundControl"]
+layout_mode = 0
+offset_left = 474.0
+offset_top = 400.0
+offset_right = 693.0
+offset_bottom = 633.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_olcbj")
+
+[node name="ScrollContainer" type="ScrollContainer" parent="WhiteBackgroundControl/LogPanel"]
+layout_mode = 0
+offset_left = 12.0
+offset_top = 11.0
+offset_right = 207.0
+offset_bottom = 222.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="WhiteBackgroundControl/LogPanel/ScrollContainer"]
+layout_mode = 2
 
 [node name="LoadRoomInfoTimer" type="Timer" parent="."]
 wait_time = 0.3
@@ -336,5 +365,6 @@ wait_time = 0.3
 [connection signal="btn_pressed" from="WhiteBackgroundControl/ButtonControl" to="." method="_on_button_control_btn_pressed"]
 [connection signal="btn_pressed" from="WhiteBackgroundControl/ButtonControl2" to="." method="_on_button_control_2_btn_pressed"]
 [connection signal="get_dice" from="WhiteBackgroundControl/DiceControl" to="." method="_on_dice_control_get_dice"]
+[connection signal="pressed_dice" from="WhiteBackgroundControl/DiceControl" to="." method="_on_dice_control_pressed_dice"]
 [connection signal="timeout" from="LoadRoomInfoTimer" to="." method="_on_load_room_info_timer_timeout"]
 [connection signal="timeout" from="LoadGameInfoTimer" to="." method="_on_load_game_info_timer_timeout"]

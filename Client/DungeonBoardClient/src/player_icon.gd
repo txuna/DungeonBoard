@@ -1,6 +1,7 @@
-extends TextureRect
+extends Control
 
-@onready var name_label = $Label
+@onready var name_label = $PlayerIcon/Label
+@onready var player_icon = $PlayerIcon
 
 var current_card_number = 0
 var user_id

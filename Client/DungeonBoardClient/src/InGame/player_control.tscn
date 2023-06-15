@@ -115,6 +115,19 @@ text = "마법력 : 15"
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="Label5" type="Label" parent="ClassPanel"]
+layout_mode = 0
+offset_left = 1.0
+offset_top = 43.0
+offset_right = 72.0
+offset_bottom = 66.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("1_6tmeq")
+theme_override_font_sizes/font_size = 16
+text = "레벨 : 32"
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [node name="HpBar" type="ProgressBar" parent="."]
 layout_mode = 0
 offset_left = 87.0
@@ -164,6 +177,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Control" type="Control" parent="."]
+visible = false
 anchors_preset = 0
 offset_left = -13.0
 offset_top = -11.0

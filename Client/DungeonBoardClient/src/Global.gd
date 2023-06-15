@@ -6,6 +6,8 @@ var room_id = 0
 
 const NONE_ERROR = 0
 
+var player_stat = {}
+
 const error_code_msg = {
 	
 }

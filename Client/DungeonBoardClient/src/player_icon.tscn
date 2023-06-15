@@ -4,18 +4,18 @@
 [ext_resource type="Script" path="res://src/player_icon.gd" id="1_sj52o"]
 [ext_resource type="FontFile" uid="uid://b27bcx0yhecxo" path="res://assets/fonts/HSBombaram2.1.ttf" id="2_1yu2g"]
 
-[node name="PlayerIcon" type="TextureRect"]
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_right = -1240.0
-offset_bottom = -760.0
-grow_horizontal = 2
-grow_vertical = 2
-texture = ExtResource("1_on0k2")
+[node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 0
 script = ExtResource("1_sj52o")
 
-[node name="Label" type="Label" parent="."]
+[node name="PlayerIcon" type="TextureRect" parent="."]
+offset_left = -16.0
+offset_top = -32.0
+offset_right = 16.0
+texture = ExtResource("1_on0k2")
+
+[node name="Label" type="Label" parent="PlayerIcon"]
 layout_mode = 0
 offset_left = -9.0
 offset_top = 37.0

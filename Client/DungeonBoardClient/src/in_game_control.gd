@@ -16,8 +16,19 @@ extends Control
 
 @onready var player_icon_container = $WhiteBackgroundControl/PlayerIcon
 
+@onready var log_container = $WhiteBackgroundControl/LogPanel/ScrollContainer/VBoxContainer
+
 var is_create_player_icon = false
 var is_game_setup = false
+var is_simulate = false 
+
+var tween 
+
+# 플레이어들의 행동 저장 - 행동을 레디스에서 받아오는 과정에서 한번만 처리하기 위해
+# ex) 플레이어가 주사위를 던졌을 때 행동인덱스 : 1, 행위(주사위, 1) 하면 최근 스택에서 1번 행동이 있었는지 확인하고 없다면 
+# 행위 보여줌 ( 주사위 1만큼 나온것을 보여줌 ) 
+# 상대의 시뮬레이션 중에는 주사위 굴리기 금지
+var act_stack = []
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -97,14 +108,20 @@ func _on_load_game_info_timer_response(json):
 		var node = load("res://src/InGame/player_control.tscn").instantiate() 
 		player_container.add_child(node)
 		node._set_name(player.classId, player.userId)
+		node._set_hp(player.hp, player.maxHp)
+		node._set_mp(player.mp, player.maxMp)
+		node._set_stat(player.attack, player.magic, player.defence, player.level)
+		Global.player_stat = player
 	
 	# boss 세팅 - Image는 처음만 설정	
 	boss_control._update_boss(json.gameInfo.bossInfo)
 	# WhoIsTurn을 보고 주사위 오픈
 	if json.gameInfo.whoIsTurn.userId == Global.user_id:
-		dice_control.visible = true 
+		if is_simulate:
+			return 
+		dice_control._set_disabled_button(false)
 	else:
-		dice_control.visible = false
+		dice_control._set_disabled_button(true)
 	
 
 func _on_load_room_info_timer_timeout():
@@ -166,10 +183,16 @@ func move_player_icon(player_info):
 	for player in player_info:
 		var icon = get_player_icon(player.userId)
 		if icon.get_card_number() == player.positionCard:
-			print("[{u}] 변화 없음".format({"u" : player.userId}))
 			continue 
 		else:
-			icon.global_position = _get_card(player.positionCard)
+			# 상대가 얼마큼 움직였는지 표시하기 - log_container 
+			if tween:
+				tween.kill() 
+			
+			tween = create_tween().set_parallel(true)
+			tween.tween_property(icon, "global_position", _get_card(player.positionCard), 0.5)
+			tween.finished.connect(_finised_player_icon_move)
+			#icon.global_position = _get_card(player.positionCard)
 			icon.update_card_number(player.positionCard)
 		
 		
@@ -177,6 +200,10 @@ func get_player_icon(user_id):
 	for player in player_icon_container.get_children():
 		if player.user_id == user_id:
 			return player
+
+
+func _finised_player_icon_move():
+	is_simulate = false
 
 
 func _on_button_control_2_btn_pressed():
@@ -195,6 +222,11 @@ func _on_response_exit_room(json):
 	get_tree().change_scene_to_file("res://src/lobby_control.tscn")
 
 
+func _on_dice_control_pressed_dice():
+	is_simulate = true
+	dice_control._set_disabled_button(true)
+
+
 # 주사위 돌림 - 마이턴일 떄
 func _on_dice_control_get_dice(dice_number):
 	var http = load("res://src/Network/http_request.tscn").instantiate()
@@ -211,3 +243,11 @@ func _on_dice_response(json):
 		return 
 		
 		
+func add_log(msg:String):
+	var label = Label.new() 
+	label.text = msg 
+	label.add_theme_font_override("font", load("res://assets/fonts/HSBombaram2.1.ttf"))
+	log_container.add_child(label)
+
+
+

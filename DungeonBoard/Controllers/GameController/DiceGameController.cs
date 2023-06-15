@@ -86,20 +86,21 @@ namespace DungeonBoard.Controllers.GameController
             return false;
         }
 
+        // Dice 굴린 후에는 BackupPositionCard에 설정하고 스킬 이나 레벨업 컨트롤러에서 Backup값을 PositionCard에 대입
         async Task<ErrorCode> UpdatePlayerPosition(RedisGame redisGame, int userId, int dice)
         {
             for(int i=0; i<redisGame.Players.Length; i++)
             {
                 if (redisGame.Players[i].UserId == userId)
                 {
-                    if (redisGame.Players[i].PositionCard + dice > 29)
+                    if (redisGame.Players[i].BackupPositionCard + dice > 29)
                     {
-                        int v = redisGame.Players[i].PositionCard + dice - 30;
-                        redisGame.Players[i].PositionCard = v;
+                        int v = redisGame.Players[i].BackupPositionCard + dice - 30;
+                        redisGame.Players[i].BackupPositionCard = v;
                     }
                     else
                     {
-                        redisGame.Players[i].PositionCard += dice;
+                        redisGame.Players[i].BackupPositionCard += dice;
                     }
                     break; 
                 }

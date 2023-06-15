@@ -4,6 +4,7 @@ extends Panel
 @onready var attack_label = $ClassPanel/Label2
 @onready var defence_label = $ClassPanel/Label3
 @onready var magic_label = $ClassPanel/Label4
+@onready var level_label = $ClassPanel/Label5
 
 @onready var hp_bar = $HpBar
 @onready var mp_bar = $MpBar
@@ -21,8 +22,8 @@ func _ready():
 	_set_hp(0, 100)
 	_set_mp(0, 100)
 	_set_name(0, 0)
-	_set_stat(0, 0, 0)
-	_set_items()
+	_set_stat(0, 0, 0, 1)
+	#_set_items()
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -66,7 +67,7 @@ func _set_mp(value, max):
 	})
 
 
-func _set_stat(atk, def, mag):
+func _set_stat(atk, def, mag, level):
 	attack_label.text = "공격력 : {v}".format({
 		"v" : atk
 	})
@@ -75,6 +76,9 @@ func _set_stat(atk, def, mag):
 	})
 	magic_label.text = "마법력 : {v}".format({
 		"v" : mag
+	})
+	level_label.text = "레벨 : {v}".format({
+		"v" : level
 	})
 
 
