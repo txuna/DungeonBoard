@@ -68,7 +68,22 @@ namespace DungeonBoard.Controllers.GameController
                 };
             }
 
-            Result = await UpdateRedisGame(redisGame, skillGameRequest.UserId, skillGameRequest.SkillId);
+            GameResult gameResult;
+            (Result, gameResult) = await UpdateRedisGame(redisGame, skillGameRequest.UserId, skillGameRequest.SkillId);
+
+            if (Result != ErrorCode.None)
+            {
+                return new SkillGameResponse
+                {
+                    Result = Result
+                };
+            }
+
+            if (gameResult != GameResult.GameProceeding)
+            {
+                redisRoom.State = RoomState.Ready;
+                Result = await _memoryDB.UpdateRedisRoom(redisRoom);
+            }
 
             return new SkillGameResponse
             {
@@ -76,20 +91,52 @@ namespace DungeonBoard.Controllers.GameController
             };
         }
 
-        int CalculateDamage(GamePlayer player, MasterSkillInfo skill)
+        int CalculateDamage(int attack, int defence, int magic, MasterSkillInfo skill)
         {
-            int damage = skill.BaseValue + (int)(player.Attack * (skill.Attack / 100)) + (int)(player.Defence * (skill.Defence / 100)) + (int)(player.Magic * (skill.Magic / 100));
+            int damage = skill.BaseValue + (int)(attack * (skill.Attack / 100)) + (int)(defence * (skill.Defence / 100)) + (int)(magic * (skill.Magic / 100));
             return damage;
         }
 
         int CalculateDefence(int defence, int damage)
         {
             int final = (int)(damage * ( 1 - (defence / (defence + 100))));
-            Console.WriteLine(final);
             return final;
         }
 
-        async Task<ErrorCode> UpdateRedisGame(RedisGame redisGame, int userId, int skillId)
+        RedisGame UpdateBossSkill(RedisGame redisGame)
+        {
+            MasterSkillInfo? masterSkillInfo = _masterDB.LoadSkillInfo(redisGame.BossInfo.SkillSet1);
+            if (masterSkillInfo == null)
+            {
+                return redisGame;
+            }
+
+            int damage = CalculateDamage(redisGame.BossInfo.Attack, redisGame.BossInfo.Defence, redisGame.BossInfo.Magic, masterSkillInfo);
+
+            for (int i = 0; i < redisGame.Players.Length; i++)
+            {
+                if (masterSkillInfo.Type == SkillType.Physic)
+                {
+                    damage = CalculateDefence(redisGame.Players[i].Defence, damage);
+                }
+
+                // 플레이어 사망
+                if (IsDead(redisGame.Players[i].Hp, damage) == true)
+                {
+                    redisGame.Players[i].Hp = 0;
+                    redisGame.GameResult = GameResult.GameDefeat;
+                    break;
+                }
+                else
+                {
+                    redisGame.Players[i].Hp -= damage;
+                }
+            }
+
+            return redisGame;
+        }
+
+        async Task<(ErrorCode, GameResult)> UpdateRedisGame(RedisGame redisGame, int userId, int skillId)
         {
             // Backup 덮기
             for (int i = 0; i < redisGame.Players.Length; i++)
@@ -100,35 +147,43 @@ namespace DungeonBoard.Controllers.GameController
                     MasterClassSkillInfo? masterClassSkillInfo = _masterDB.LoadClassSkillInfo(redisGame.Players[i].ClassId, skillId);
                     if (masterClassSkillInfo == null)
                     {
-                        return ErrorCode.InvalidSkill;
+                        return (ErrorCode.NoneExistClassId, redisGame.GameResult);
                     }
 
                     MasterSkillInfo? masterSkillInfo = _masterDB.LoadSkillInfo(skillId); 
                     if(masterSkillInfo == null)
                     {
-                        return ErrorCode.NoneExistSkill;
+                        return (ErrorCode.NoneExistSkill, redisGame.GameResult);
                     }
 
                     // 마나 체크 
                     if (redisGame.Players[i].Mp < masterSkillInfo.Mp)
                     {
-                        return ErrorCode.NotEnoughMp;
+                        return (ErrorCode.NotEnoughMp, redisGame.GameResult);
                     }
                     redisGame.Players[i].Mp -= masterSkillInfo.Mp;
 
                     // 물리피해, 고정피해, 힐 체크 
-                    int damage = CalculateDamage(redisGame.Players[i], masterSkillInfo);
-                    if (masterSkillInfo.Type == SkillType.Fixed)
-                    {
-                        redisGame.BossInfo.Hp -= damage;
-                    }
+                    int damage = CalculateDamage(redisGame.Players[i].Attack, redisGame.Players[i].Defence, redisGame.Players[i].Magic, masterSkillInfo);
 
-                    else if(masterSkillInfo.Type == SkillType.Physic)
+                    if(masterSkillInfo.Type != SkillType.Heal)
                     {
-                        redisGame.BossInfo.Hp -= CalculateDefence(redisGame.BossInfo.Defence, damage);
+                        if(masterSkillInfo.Type == SkillType.Physic)
+                        {
+                            damage = CalculateDefence(redisGame.BossInfo.Defence, damage);
+                        }
+                        if(IsDead(redisGame.BossInfo.Hp, damage) == true)
+                        {
+                            redisGame.GameResult = GameResult.GameWin;
+                            redisGame.BossInfo.Hp = 0;
+                            break; 
+                        }
+                        else
+                        {
+                            redisGame.BossInfo.Hp -= damage;
+                        }
                     }
-
-                    else if(masterSkillInfo.Type == SkillType.Heal)
+                    else
                     {
                         for(int heal_indx=0; heal_indx<redisGame.Players.Length; heal_indx++)
                         {
@@ -150,6 +205,8 @@ namespace DungeonBoard.Controllers.GameController
             if (redisGame.WhoIsTurn.Index + 1 >= redisGame.Players.Length)
             {
                 redisGame.WhoIsTurn.Index = 0;
+                redisGame.Round += 1;
+                redisGame = UpdateBossSkill(redisGame);
             }
             else
             {
@@ -158,7 +215,18 @@ namespace DungeonBoard.Controllers.GameController
 
             redisGame.WhoIsTurn.UserId = redisGame.Players[redisGame.WhoIsTurn.Index].UserId;
 
-            return await _memoryDB.StoreRedisGame(redisGame);
+            var Result = await _memoryDB.StoreRedisGame(redisGame);
+            return (Result, redisGame.GameResult);
+        }
+
+        bool IsDead(int hp, int damage)
+        {
+            if (hp - damage <= 0)
+            {
+                return true;
+            }
+
+            return false;
         }
     }
 }

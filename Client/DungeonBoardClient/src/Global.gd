@@ -22,6 +22,12 @@ enum CardType {
 	SpecialCard = 3
 }
 
+enum GameResult{
+	GameWin = 0, 
+	GameDefeat = 1,
+	GameProceeding = 2
+}
+
 const card_string = {
 	CardType.SkillCard : {
 		"name" : "스킬", 
@@ -144,7 +150,7 @@ var skill_string = {
 	3 : {
 		"name" : "돌진1", 
 		"type" : SkillType.Physic, 
-		"base_value" : 25, 
+		"base_value" : 500, 
 		"attack" : 30,
 		"magic" : 0, 
 		"defence" : 50,

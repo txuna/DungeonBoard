@@ -16,6 +16,7 @@ extends Control
 var is_create_player_icon = false
 var is_game_setup = false
 var is_simulate = false 
+var is_play_game = false
 
 var tween 
 
@@ -66,7 +67,6 @@ func _on_request_game_start():
 	
 func _on_response_game_start(json):
 	if json.result != Global.NONE_ERROR:
-		print(json.result)
 		return 
 
 
@@ -81,11 +81,21 @@ func _on_load_game_info_timer_timeout():
 	})
 
 
+func _fin_game():
+	load_game_info_timer.stop()
+	is_create_player_icon = false 
+	is_game_setup = false 
+	is_play_game = false
+	
+
 # WhoIsTurn에 대해서 표시하기 ( DiceOpen 도 ) 
 func _on_load_game_info_timer_response(json):
 	if json.result != Global.NONE_ERROR:
 		return 
-	
+		
+	if not is_play_game:
+		return
+
 	# player 프로및 및 각 카드 포지션에 플레이에 아이콘 생성 
 	# player 생성도 처음만
 	if not is_create_player_icon:
@@ -139,6 +149,13 @@ func _on_load_room_info_timer_response(json):
 		return
 		
 	if json.room.state == Global.RoomStateType.READY:
+		
+		if is_play_game:
+			_fin_game()
+		
+		boss_control.visible = false 
+		dice_control.visible = false
+		
 		for node in player_container.get_children():
 			node.queue_free()
 		
@@ -167,10 +184,13 @@ func _on_load_room_info_timer_response(json):
 			dice_control.visible = true
 			load_game_info_timer.start()
 			is_game_setup = true
-
+			is_play_game = true
 
 func create_player_icon(player_info):
 	is_create_player_icon = true 
+	for node in player_icon_container.get_children():
+		node.queue_free()
+	
 	for player in player_info:
 		var node = load("res://src/player_icon.tscn").instantiate() 
 		player_icon_container.add_child(node)
@@ -260,7 +280,6 @@ func _response_levelup_card(json):
 	
 	
 func _request_skill_card(skill_id):
-	print(skill_id)
 	var http = load("res://src/Network/http_request.tscn").instantiate()
 	add_child(http)
 	http._http_response.connect(_response_levelup_card)

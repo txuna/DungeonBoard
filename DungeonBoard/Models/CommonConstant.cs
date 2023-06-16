@@ -13,4 +13,11 @@
         WizardClass = 2, 
         ArcherClass = 3, 
     }
+
+    public enum GameResult
+    {
+        GameWin = 0, 
+        GameDefeat = 1,
+        GameProceeding = 2
+    }
 }

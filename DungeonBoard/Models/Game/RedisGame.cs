@@ -32,5 +32,6 @@ namespace DungeonBoard.Models.Game
         public GamePlayer[]? Players { get; set; }
         public WhoIsTurn? WhoIsTurn { get; set; }
         public int Round { get; set; }
+        public GameResult GameResult { get; set; }
     }
 }

@@ -113,6 +113,7 @@ public class StartGameController : Controller
             return null;
         }
         redisGame.BossInfo = bossInfo;
+        redisGame.GameResult = GameResult.GameProceeding;
 
         // 플레이어 세팅 
         redisGame.Players = new GamePlayer[redisRoom.Users.Length];

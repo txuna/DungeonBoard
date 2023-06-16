@@ -30,7 +30,24 @@ public class EnterRoomController : Controller
         }
 
         // 해당 방의 상태 확인 PLAYING인지 READY인지 확인
-        ErrorCode Result = await ChangeUserState(redisUser, UserState.Playing);
+        var (Result, redisRoom) = await _memoryDB.LoadRoomFromId(enterRoomRequest.RoomId);
+        if(Result != ErrorCode.None)
+        {
+            return new EnterRoomResponse
+            {
+                Result = Result
+            };
+        }
+
+        if(redisRoom.State == RoomState.Playing)
+        {
+            return new EnterRoomResponse
+            {
+                Result = ErrorCode.AlreadyPlayRoom
+            };
+        }
+
+        Result = await ChangeUserState(redisUser, UserState.Playing);
         if(Result != ErrorCode.None)
         {
             return new EnterRoomResponse
