@@ -31,16 +31,16 @@ public class CreateRoomController : Controller
                 Result = ErrorCode.AlreadyInRoom
             };
         }
-        
-        //if(VerifyBossId(createRoomRequest.BossId) == false)
-        //{
-        //    return new CreateRoomResponse
-        //    {
-        //        Result = ErrorCode.InvalidBossId
-        //    };
-        //}
 
-        if(VerifyHeadCount(createRoomRequest.HeadCount) == false)
+        if (VerifyBossId(createRoomRequest.BossId) == false)
+        {
+            return new CreateRoomResponse
+            {
+                Result = ErrorCode.InvalidBossId
+            };
+        }
+
+        if (VerifyHeadCount(createRoomRequest.HeadCount) == false)
         {
             return new CreateRoomResponse
             {
